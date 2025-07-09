@@ -102,6 +102,7 @@
       }]);
 
     if (error) {
+       console.error("Insert error:", error);  // <-- shows detailed message in DevTools
       imageResult.textContent = 'Error: ' + error.message;
     } else {
       imageResult.textContent = 'Success! Image record added.';
