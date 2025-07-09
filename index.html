@@ -84,7 +84,7 @@
       .from('image')
       .insert([{
   image_id: parseInt(document.getElementById('image_id').value),
-  date_scanned: document.getElementById('date_scanned').value,
+  date_scanned: document.getElementById('date_scanned').value || null,
   resolution: parseInt(document.getElementById('resolution').value),
   v_pixel: parseInt(document.getElementById('v_pixel').value),
   h_pixel: parseInt(document.getElementById('h_pixel').value),
