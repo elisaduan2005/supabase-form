@@ -83,7 +83,7 @@
     const { data, error } = await client
       .from('image')
       .insert([{
-  image_id: document.getElementById('image_id').value,
+  image_id: parseInt(document.getElementById('image_id').value),
   date_scanned: document.getElementById('date_scanned').value,
   resolution: parseInt(document.getElementById('resolution').value),
   v_pixel: parseInt(document.getElementById('v_pixel').value),
