@@ -65,34 +65,6 @@
 <p id="imageResult"></p>
 
   <script>
-    const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
-    // created a Supabase client with your project URL and anon key
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const form = document.getElementById('dataForm');
-    const result = document.getElementById('result');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const age = parseInt(document.getElementById('age').value);
-
-      const { data, error } = await supabase
-        .from('your_table_name') // 👈 replace with your table
-        .insert([{ name, age }]);
-
-      if (error) {
-        result.textContent = 'Error: ' + error.message;
-      } else {
-        result.textContent = 'Success! Data inserted.';
-        form.reset();
-      }
-    });
-  </script>
-
-  <script>
   const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
  // created a Supabase client with your project URL and anon key
@@ -107,13 +79,27 @@
     const { data, error } = await supabase
       .from('Image')
       .insert([{
-        // all the fields...
+  date_scanned: document.getElementById('date_scanned').value,
+  resolution: parseInt(document.getElementById('resolution').value),
+  v_pixel: parseInt(document.getElementById('v_pixel').value),
+  h_pixel: parseInt(document.getElementById('h_pixel').value),
+  format: document.getElementById('format').value,
+  size: parseInt(document.getElementById('size').value),
+  length: parseFloat(document.getElementById('length').value),
+  color_depth: document.getElementById('color_depth').value,
+  phase_markings: document.getElementById('phase_markings').value === 'true',
+  bulletin: document.getElementById('bulletin').value,
+  occlusions: document.getElementById('occlusions').value === 'true',
+  recording_type: document.getElementById('recording_type').value,
+  notes: document.getElementById('notes').value,
+  owner_contact: document.getElementById('owner_contact').value,
+  creator: document.getElementById('creator').value
       }]);
 
     if (error) {
-      imageResult.textContent = '❌ Error: ' + error.message;
+      imageResult.textContent = 'Error: ' + error.message;
     } else {
-      imageResult.textContent = '✅ Success! Image record added.';
+      imageResult.textContent = 'Success! Image record added.';
       imageForm.reset();
     }
   });
