@@ -8,6 +8,8 @@
   <h1>Data Manual Import</h1>
    <h1>Add New Image</h1>
 <form id="imageForm">
+  <label>Image_id:</label><br>
+  <input type="number" id="image_id"><br><br>
   <label>Date Scanned:</label><br>
   <input type="date" id="date_scanned"><br><br>
 
@@ -81,6 +83,7 @@
     const { data, error } = await client
       .from('image')
       .insert([{
+  image_id: document.getElementById('image_id').value,
   date_scanned: document.getElementById('date_scanned').value,
   resolution: parseInt(document.getElementById('resolution').value),
   v_pixel: parseInt(document.getElementById('v_pixel').value),
