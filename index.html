@@ -79,7 +79,7 @@
     console.log("Submitting form...");
 
     const { data, error } = await client
-      .from('Image')
+      .from('image')
       .insert([{
   date_scanned: document.getElementById('date_scanned').value,
   resolution: parseInt(document.getElementById('resolution').value),
