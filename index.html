@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Supabase Form</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <h1>Submit Your Data</h1>
+  <form id="dataForm">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"><br><br>
+
+    <label for="age">Age:</label><br>
+    <input type="number" id="age" name="age"><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById('dataForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const age = parseInt(document.getElementById('age').value);
+
+      const { data, error } = await supabase
+        .from('your_table_name') // 👈 replace with your table
+        .insert([{ name, age }]);
+
+      if (error) {
+        result.textContent = 'Error: ' + error.message;
+      } else {
+        result.textContent = 'Success! Data inserted.';
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
