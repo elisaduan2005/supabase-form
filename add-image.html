@@ -87,7 +87,7 @@
   <option value="Beniof">Beniof</option>
   <option value="other">Other</option>
   </select>
-  <input type="varchar" id="sensor" placeholder="Enter custom value" style="display:none;"><br><br>
+  <input type="varchar" id="custom_sensor" placeholder="Enter custom value" style="display:none;"><br><br>
   <!-- SENSOR SERIAL NUMBER LABEL -->
   <label>Sensor Serial Number:</label><br>
   <input type="integer" id="sensor_serial_number"><br><br>
@@ -205,15 +205,26 @@
           resultBox.textContent = 'Error inserting image: ' + imageError.message;
           return;
         }
-
+        let sensorValue = document.getElementById('sensor').value;
+        if (sensorValue === 'other') {
+        sensorValue = document.getElementById('custom_sensor').value;}
         // Insert into sensor table
+
+        console.log("Inserting sensor:", {
+  sensor: sensorValue,
+  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
+  sensor_nature: document.getElementById('sensor_nature').value,
+  free_period: parseFloat(document.getElementById('free_period').value),
+  damping: parseInt(document.getElementById('damping').value)
+});
+
         const { error: sensorError } = await client.from('sensor').insert([{
-          sensor: document.getElementById('sensor').value,
-          sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-          sensor_nature: document.getElementById('sensor_nature').value,
-          free_period: parseFloat(document.getElementById('free_period').value),
-          damping: parseInt(document.getElementById('damping').value)
-        }]);
+  sensor: sensorValue,
+  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
+  sensor_nature: document.getElementById('sensor_nature').value,
+  free_period: parseFloat(document.getElementById('free_period').value),
+  damping: parseInt(document.getElementById('damping').value)
+}]);
         if (sensorError) {
           resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
           return;
@@ -223,7 +234,6 @@
         const { error: equipError } = await client.from('equipment').insert([{
           channel: document.getElementById('channel').value,
           equip_open_date: document.getElementById('equip_open_date').value,
-          sensor: document.getElementById('equip_sensor').value,
           equip_serial_number: parseInt(document.getElementById('equip_serial_number').value)
         }]);
         if (equipError) {
