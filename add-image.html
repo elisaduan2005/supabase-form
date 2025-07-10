@@ -4,12 +4,15 @@
 <head>
   <title>Add New Seismogram</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <a href="index.html">← Back to Home</a>
-  <h1>Add New Seismogram</h1>
+  <h1 style="text-align:center;">Add New Seismogram</h1>
 
-
+<div class="columns">
+  <div class="form-section">
+    <h2>Image</h2>
   <!-- IMAGE TABLE -->
 <form id="imageForm">
   <label>Date Scanned:</label><br>
@@ -76,7 +79,9 @@
   <input type="datetime-local" id="timemark"><br><br>
 
 </form>
-
+</div>
+<div class="form-section">
+<h2>Sensor</h2>
 <!-- SENSOR TABLE -->
 <form id="sensorForm">
   <!-- SENSOR LABEL -->
@@ -101,7 +106,10 @@
   <label>Galvo Damping Constant:</label><br>
   <input type="integer" id="damping"><br><br>
 </form>
+</div>
 
+<div class="form-section">
+<h2>Equipment</h2>
 <!-- EQUIPMENT TABLE -->
 <form id="equipmentForm">
   <!-- CHANNEL LABEL -->
@@ -138,7 +146,7 @@
   <label>Nature of Equipment:</label><br>
   <input type="varchar" id="equip_nature"><br><br>
 </form>
-
+</div>
 <button id="SubmitAll">Submit</button>
 <p id="result"></p>
 
