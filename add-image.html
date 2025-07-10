@@ -10,36 +10,27 @@
   <h1>Add New Seismogram</h1>
 
 <form id="imageForm">
-  <label>Image_id:</label><br>
-  <input type="number" id="image_id"><br><br>
   <label>Date Scanned:</label><br>
   <input type="date" id="date_scanned"><br><br>
-
   <label>Resolution:</label><br>
-  <input type="number" id="resolution"><br><br>
+<select id="resolution">
+  <option value="300">300</option>
+  <option value="600">600</option>
+  <option value="1200">1200</option>
+  <option value="361 (WWSSN)">361 (WWSSN)</option>
+  <option value="other">Other</option>
+</select>
+<input type="number" id="custom_resolution" placeholder="Enter custom value" style="display:none;"><br><br>
 
-  <label>Vertical Pixels:</label><br>
-  <input type="number" id="v_pixel"><br><br>
-
-  <label>Horizontal Pixels:</label><br>
-  <input type="number" id="h_pixel"><br><br>
-
-  <label>Format:</label><br>
-  <input type="text" id="format" maxlength="4"><br><br>
-
-  <label>Size:</label><br>
-  <input type="number" id="size"><br><br>
-
-  <label>Length (in seconds?):</label><br>
+  <label>Length:</label><br>
   <input type="number" step="0.01" id="length"><br><br>
-
-  <label>Color Depth:</label><br>
-  <input type="text" id="color_depth"><br><br>
-
+  <label>width:</label><br>
+  <input type="number" step="0.01" id="width"><br><br>
   <label>Phase Markings:</label><br>
   <select id="phase_markings">
-    <option value="true">True</option>
-    <option value="false">False</option>
+    <option value="True">True</option>
+    <option value="False">False</option>
+    <option value="NULL">Null</option>
   </select><br><br>
 
   <label>Bulletin:</label><br>
@@ -47,12 +38,20 @@
 
   <label>Occlusions:</label><br>
   <select id="occlusions">
-    <option value="true">True</option>
-    <option value="false">False</option>
+    <option value="True">True</option>
+    <option value="False">False</option>
+    <option value="NULL">Null</option>
   </select><br><br>
 
   <label>Recording Type:</label><br>
-  <input type="text" id="recording_type"><br><br>
+<select id="recording_type">
+  <option value="photographic / photosensitive">photographic / photosensitive</option>
+  <option value="thermal">thermal</option>
+  <option value="ink">ink</option>
+  <option value="smoke">smoke</option>
+  <option value="other">Other</option>
+</select>
+<input type="text" id="custom_recording_type" placeholder="Enter custom recording type" style="display:none;"><br><br>
 
   <label>Notes:</label><br>
   <textarea id="notes"></textarea><br><br>
@@ -62,6 +61,16 @@
 
   <label>Creator:</label><br>
   <input type="text" id="creator"><br><br>
+
+  <label>Signal:</label><br>
+  <select id="signal">
+    <option value="True">True</option>
+    <option value="False">False</option>
+    <option value="NULL">Null</option>
+  </select><br><br>
+
+  <label>Timemark:</label><br>
+  <input type="datetime-local" id="timemark"><br><br>
 
   <input type="submit" value="Submit">
 </form>
@@ -81,27 +90,45 @@
   imageForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     console.log("Submitting form...");
+  // Handle resolution
+  let resolutionValue = document.getElementById('resolution').value;
+  if (resolutionValue === 'other') {
+  resolutionValue = parseInt(document.getElementById('custom_resolution').value);
+  } else if (resolutionValue === '361 (WWSSN)') {
+  resolutionValue = 361;
+  } else {
+  resolutionValue = parseInt(resolutionValue);
+  }
+  if (isNaN(resolutionValue)) resolutionValue = null;
 
-    const { data, error } = await client
-      .from('image')
-      .insert([{
-  image_id: parseInt(document.getElementById('image_id').value),
-  date_scanned: document.getElementById('date_scanned').value || null,
-  resolution: parseInt(document.getElementById('resolution').value),
-  v_pixel: parseInt(document.getElementById('v_pixel').value),
-  h_pixel: parseInt(document.getElementById('h_pixel').value),
-  format: document.getElementById('format').value,
-  size: parseInt(document.getElementById('size').value),
-  length: parseFloat(document.getElementById('length').value),
-  color_depth: document.getElementById('color_depth').value,
-  phase_markings: document.getElementById('phase_markings').value === 'true',
-  bulletin: document.getElementById('bulletin').value,
-  occlusions: document.getElementById('occlusions').value === 'true',
-  recording_type: document.getElementById('recording_type').value,
-  notes: document.getElementById('notes').value,
-  owner_contact: document.getElementById('owner_contact').value,
-  creator: document.getElementById('creator').value
-      }]);
+  // Handle recording type
+  let recordingType = document.getElementById('recording_type').value;
+  if (recordingType === 'other') {
+  recordingType = document.getElementById('custom_recording_type').value;
+  }
+
+    
+  const { data, error } = await client
+  .from('image')
+  .insert([{
+    date_scanned: document.getElementById('date_scanned').value || null,
+    resolution: resolutionValue,
+    length: parseFloat(document.getElementById('length').value),
+    width: parseFloat(document.getElementById('width').value),
+    phase_markings: document.getElementById('phase_markings').value.toLowerCase() === 'true' ? true :
+                    document.getElementById('phase_markings').value.toLowerCase() === 'false' ? false : null,
+    bulletin: document.getElementById('bulletin').value,
+    occlusions: document.getElementById('occlusions').value.toLowerCase() === 'true' ? true :
+                document.getElementById('occlusions').value.toLowerCase() === 'false' ? false : null,
+    recording_type: recordingType,
+    notes: document.getElementById('notes').value,
+    owner_contact: document.getElementById('owner_contact').value,
+    creator: document.getElementById('creator').value,
+    signal: document.getElementById('signal').value.toLowerCase() === 'true' ? true :
+            document.getElementById('signal').value.toLowerCase() === 'false' ? false : null,
+    timemark: document.getElementById('timemark').value || null
+  }]);
+
 
     if (error) {
        console.error("Insert error:", error);  // <-- shows detailed message in DevTools
@@ -110,6 +137,20 @@
       imageResult.textContent = 'Success! Image record added.';
       imageForm.reset();
     }
+  });
+
+    // Show/hide custom resolution field
+  const resolutionDropdown = document.getElementById('resolution');
+  const customResolutionInput = document.getElementById('custom_resolution');
+  resolutionDropdown.addEventListener('change', () => {
+    customResolutionInput.style.display = resolutionDropdown.value === 'other' ? 'block' : 'none';
+  });
+
+  // Show/hide custom recording type field
+  const recordingDropdown = document.getElementById('recording_type');
+  const customRecordingInput = document.getElementById('custom_recording_type');
+  recordingDropdown.addEventListener('change', () => {
+    customRecordingInput.style.display = recordingDropdown.value === 'other' ? 'block' : 'none';
   });
 </script>
 
