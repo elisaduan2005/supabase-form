@@ -211,7 +211,7 @@
       const { error: equipError } = await client.from('equipment').insert([{
         channel: document.getElementById('channel').value,
         equip_open_date: document.getElementById('equip_open_date').value,
-        sensor: document.getElementById('equipment_sensor').value,
+        sensor: document.getElementById('equip_sensor').value,
         equip_serial_number: parseInt(document.getElementById('equip_serial_number').value)
       }]);
 
