@@ -146,94 +146,96 @@
 <p id="Result"></p>
 
   <script>
-    const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
-    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    document.getElementById('SubmitAll').addEventListener('click', async (e) => {
-      e.preventDefault();
-      const Result = document.getElementById('Result');
+    document.addEventListener('DOMContentLoaded', () => {
+      const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
+      const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      // RESOLUTION
-      let resolutionValue = document.getElementById('resolution').value;
-      if (resolutionValue === 'other') {
-        resolutionValue = parseInt(document.getElementById('custom_resolution').value);
-      } else if (resolutionValue === '361 (WWSSN)') {
-        resolutionValue = 361;
-      } else {
-        resolutionValue = parseInt(resolutionValue);
-      }
-      if (isNaN(resolutionValue)) resolutionValue = null;
+      const resultBox = document.getElementById('Result');
 
-      // RECORDING TYPE
-      let recordingType = document.getElementById('recording_type').value;
-      if (recordingType === 'other') {
-        recordingType = document.getElementById('custom_recording_type').value;
-      }
+      // Show/hide custom fields
+      document.getElementById('resolution').addEventListener('change', () => {
+        document.getElementById('custom_resolution').style.display =
+          document.getElementById('resolution').value === 'other' ? 'block' : 'none';
+      });
 
-      // INSERT IMAGE
-      const { error: imageError } = await client.from('image').insert([{
-        date_scanned: document.getElementById('date_scanned').value || null,
-        resolution: resolutionValue,
-        length: parseFloat(document.getElementById('length').value),
-        width: parseFloat(document.getElementById('width').value),
-        phase_markings: document.getElementById('phase_markings').value.toLowerCase() === 'true',
-        bulletin: document.getElementById('bulletin').value,
-        occlusions: document.getElementById('occlusions').value.toLowerCase() === 'true',
-        recording_type: recordingType,
-        notes: document.getElementById('notes').value,
-        owner_contact: document.getElementById('owner_contact').value,
-        creator: document.getElementById('creator').value,
-        signal: document.getElementById('signal').value.toLowerCase() === 'true',
-        timemark: document.getElementById('timemark').value || null
-      }]);
+      document.getElementById('recording_type').addEventListener('change', () => {
+        document.getElementById('custom_recording_type').style.display =
+          document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
+      });
 
-      if (imageError) {
-        Result.textContent = 'Error inserting image: ' + imageError.message;
-        return;
-      }
+      document.getElementById('SubmitAll').addEventListener('click', async (e) => {
+        e.preventDefault();
 
-      // INSERT SENSOR
-      const { error: sensorError } = await client.from('sensor').insert([{
-        sensor: document.getElementById('sensor').value,
-        sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-        sensor_nature: document.getElementById('sensor_nature').value,
-        free_period: parseFloat(document.getElementById('free_period').value),
-        damping: parseInt(document.getElementById('damping').value)
-      }]);
+        // Handle resolution
+        let resolutionValue = document.getElementById('resolution').value;
+        if (resolutionValue === 'other') {
+          resolutionValue = parseInt(document.getElementById('custom_resolution').value);
+        } else if (resolutionValue === '361 (WWSSN)') {
+          resolutionValue = 361;
+        } else {
+          resolutionValue = parseInt(resolutionValue);
+        }
+        if (isNaN(resolutionValue)) resolutionValue = null;
 
-      if (sensorError) {
-        Result.textContent = 'Error inserting sensor: ' + sensorError.message;
-        return;
-      }
+        // Handle recording type
+        let recordingType = document.getElementById('recording_type').value;
+        if (recordingType === 'other') {
+          recordingType = document.getElementById('custom_recording_type').value;
+        }
 
-      // INSERT EQUIPMENT
-      const { error: equipError } = await client.from('equipment').insert([{
-        channel: document.getElementById('channel').value,
-        equip_open_date: document.getElementById('equip_open_date').value,
-        sensor: document.getElementById('equip_sensor').value,
-        equip_serial_number: parseInt(document.getElementById('equip_serial_number').value)
-      }]);
+        // Insert into image table
+        const { error: imageError } = await client.from('image').insert([{
+          date_scanned: document.getElementById('date_scanned').value || null,
+          resolution: resolutionValue,
+          length: parseFloat(document.getElementById('length').value),
+          width: parseFloat(document.getElementById('width').value),
+          phase_markings: document.getElementById('phase_markings').value === 'True',
+          bulletin: document.getElementById('bulletin').value,
+          occlusions: document.getElementById('occlusions').value === 'True',
+          recording_type: recordingType,
+          notes: document.getElementById('notes').value,
+          owner_contact: document.getElementById('owner_contact').value,
+          creator: document.getElementById('creator').value,
+          signal: document.getElementById('signal').value === 'True',
+          timemark: document.getElementById('timemark').value || null
+        }]);
+        if (imageError) {
+          resultBox.textContent = 'Error inserting image: ' + imageError.message;
+          return;
+        }
 
-      if (equipError) {
-        Result.textContent = 'Error inserting equipment: ' + equipError.message;
-        return;
-      }
+        // Insert into sensor table
+        const { error: sensorError } = await client.from('sensor').insert([{
+          sensor: document.getElementById('sensor').value,
+          sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
+          sensor_nature: document.getElementById('sensor_nature').value,
+          free_period: parseFloat(document.getElementById('free_period').value),
+          damping: parseInt(document.getElementById('damping').value)
+        }]);
+        if (sensorError) {
+          resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
+          return;
+        }
 
-      Result.textContent = 'Success! All records added.';
-      document.getElementById('imageForm').reset();
-      document.getElementById('sensorForm').reset();
-      document.getElementById('equipmentForm').reset();
-    });
+        // Insert into equipment table
+        const { error: equipError } = await client.from('equipment').insert([{
+          channel: document.getElementById('channel').value,
+          equip_open_date: document.getElementById('equip_open_date').value,
+          sensor: document.getElementById('equip_sensor').value,
+          equip_serial_number: parseInt(document.getElementById('equip_serial_number').value)
+        }]);
+        if (equipError) {
+          resultBox.textContent = 'Error inserting equipment: ' + equipError.message;
+          return;
+        }
 
-    document.getElementById('resolution').addEventListener('change', () => {
-      document.getElementById('custom_resolution').style.display =
-        document.getElementById('resolution').value === 'other' ? 'block' : 'none';
-    });
-
-    document.getElementById('recording_type').addEventListener('change', () => {
-      document.getElementById('custom_recording_type').style.display =
-        document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
+        resultBox.textContent = 'Success! All records added.';
+        document.getElementById('imageForm').reset();
+        document.getElementById('sensorForm').reset();
+        document.getElementById('equipmentForm').reset();
+      });
     });
   </script>
 </body>
