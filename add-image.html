@@ -9,9 +9,9 @@
   <a href="/">← Back to Home</a>
   <h1>Add New Seismogram</h1>
 
+
+  <!-- IMAGE TABLE -->
 <form id="imageForm">
-  <label>Box ID:</label><br>
-  <input type="text" id="box_id"><br><br>
   <label>Date Scanned:</label><br>
   <input type="date" id="date_scanned"><br><br>
 
@@ -75,88 +75,166 @@
   <label>Timemark:</label><br>
   <input type="datetime-local" id="timemark"><br><br>
 
-  <input type="submit" value="Submit">
 </form>
 
-<p id="imageResult"></p>
+<!-- SENSOR TABLE -->
+<form id="sensorForm">
+  <!-- SENSOR LABEL -->
+  <label>Type of Sensor:</label><br>
+  <select id="sensor">
+  <option value="Streckheisen STS-2">Streckheisen STS-2</option>
+  <option value="Ewing">Ewing</option>
+  <option value="Beniof">Beniof</option>
+  <option value="other">Other</option>
+  </select>
+  <input type="varchar" id="sensor" placeholder="Enter custom value" style="display:none;"><br><br>
+  <!-- SENSOR SERIAL NUMBER LABEL -->
+  <label>Sensor Serial Number:</label><br>
+  <input type="integer" id="sensor_serial_number"><br><br>
+  <!-- NATURE LABEL -->
+  <label>Nature of Sensor:</label><br>
+  <input type="varchar" id="sensor_nature"><br><br>
+  <!-- GALVO FREE PERIOD LABEL -->
+  <label>Galvo Free Period:</label><br>
+  <input type="float" id="free_period"><br><br>
+  <!-- DAMPING LABEL -->
+  <label>Galvo Damping Constant:</label><br>
+  <input type="integer" id="damping"><br><br>
+</form>
+
+<!-- EQUIPMENT TABLE -->
+<form id="equipmentForm">
+  <!-- CHANNEL LABEL -->
+  <label>Channel:</label><br>
+  <input type="varchar" id="channel"><br><br>
+  <!-- EQUIPMENT OPEN DATE LABEL -->
+  <label>Equipment Open Date:</label><br>
+  <input type="date" id="equip_open_date"><br><br>
+  <!-- EQUIPMENT SERIAL NUMBER LABEL -->
+  <label>Equipment Serial Number:</label><br>
+  <input type="integer" id="equip_serial_number"><br><br>
+  <!-- HORIZONTAL 1 DIP/AZIMUTH LABEL -->
+  <label>Horizontal 1 Dip/Azimuth:</label><br>
+  <input type="float" id="h_dip1"><br><br>
+  <!-- HORIZONTAL 2 DIP/AZIMUTH LABEL -->
+  <label>Horizontal 2 Dip/Azimuth:</label><br>
+  <input type="float" id="h_dip2"><br><br>
+  <!-- VERTICAL DIP/AZIMUTH LABEL -->
+  <label>Vertical Dip/Azimuth:</label><br>
+  <input type="float" id="v_dip"><br><br>
+  <!-- RECORDING SYSTEM LABEL -->
+  <label>Recording System:</label><br>
+  <input type="varchar" id="recording_system"><br><br>
+  <!-- RECORDING SERIAL NUMBER LABEL -->
+  <label>Recording Serial Number:</label><br>
+  <input type="integer" id="recording_serial_number"><br><br>
+  <!-- EQUIPMENT GAIN LABEL-->
+  <label>Equipment Gain:</label><br>
+  <input type="integer" id="equip_gain"><br><br>
+  <!-- PERIOD OF GAIN LABEL -->
+  <label>Period of Gain:</label><br>
+  <input type="float" id="period_of_gain"><br><br>
+  <!-- NATURE OF EQUIPMENT LABEL -->
+  <label>Nature of Equipment:</label><br>
+  <input type="varchar" id="equip_nature"><br><br>
+</form>
+
+<button id="SubmitAll">Submit</button>
+<p id="result"></p>
+
+
+<p id="Result"></p>
 
   <script>
-   console.log("Script loaded");
-  const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
- // created a Supabase client with your project URL and anon key
- const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  // Your image insert logic goes below
-  const imageForm = document.getElementById('imageForm');
-  const imageResult = document.getElementById('imageResult');
+    const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  imageForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    console.log("Submitting form...");
-  // Handle resolution
-  let resolutionValue = document.getElementById('resolution').value;
-  if (resolutionValue === 'other') {
-  resolutionValue = parseInt(document.getElementById('custom_resolution').value);
-  } else if (resolutionValue === '361 (WWSSN)') {
-  resolutionValue = 361;
-  } else {
-  resolutionValue = parseInt(resolutionValue);
-  }
-  if (isNaN(resolutionValue)) resolutionValue = null;
+    document.getElementById('submitAll').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const Result = document.getElementById('Result');
 
-  // Handle recording type
-  let recordingType = document.getElementById('recording_type').value;
-  if (recordingType === 'other') {
-  recordingType = document.getElementById('custom_recording_type').value;
-  }
+      // RESOLUTION
+      let resolutionValue = document.getElementById('resolution').value;
+      if (resolutionValue === 'other') {
+        resolutionValue = parseInt(document.getElementById('custom_resolution').value);
+      } else if (resolutionValue === '361 (WWSSN)') {
+        resolutionValue = 361;
+      } else {
+        resolutionValue = parseInt(resolutionValue);
+      }
+      if (isNaN(resolutionValue)) resolutionValue = null;
 
-    
-  const { data, error } = await client
-  .from('image')
-  .insert([{
-    box_id: document.getElementById('box_id').value || null,
-    date_scanned: document.getElementById('date_scanned').value || null,
-    resolution: resolutionValue,
-    length: parseFloat(document.getElementById('length').value),
-    width: parseFloat(document.getElementById('width').value),
-    phase_markings: document.getElementById('phase_markings').value.toLowerCase() === 'true' ? true :
-                    document.getElementById('phase_markings').value.toLowerCase() === 'false' ? false : null,
-    bulletin: document.getElementById('bulletin').value,
-    occlusions: document.getElementById('occlusions').value.toLowerCase() === 'true' ? true :
-                document.getElementById('occlusions').value.toLowerCase() === 'false' ? false : null,
-    recording_type: recordingType,
-    notes: document.getElementById('notes').value,
-    owner_contact: document.getElementById('owner_contact').value,
-    creator: document.getElementById('creator').value,
-    signal: document.getElementById('signal').value.toLowerCase() === 'true' ? true :
-            document.getElementById('signal').value.toLowerCase() === 'false' ? false : null,
-    timemark: document.getElementById('timemark').value || null
-  }]);
+      // RECORDING TYPE
+      let recordingType = document.getElementById('recording_type').value;
+      if (recordingType === 'other') {
+        recordingType = document.getElementById('custom_recording_type').value;
+      }
 
+      // INSERT IMAGE
+      const { error: imageError } = await client.from('image').insert([{
+        date_scanned: document.getElementById('date_scanned').value || null,
+        resolution: resolutionValue,
+        length: parseFloat(document.getElementById('length').value),
+        width: parseFloat(document.getElementById('width').value),
+        phase_markings: document.getElementById('phase_markings').value.toLowerCase() === 'true',
+        bulletin: document.getElementById('bulletin').value,
+        occlusions: document.getElementById('occlusions').value.toLowerCase() === 'true',
+        recording_type: recordingType,
+        notes: document.getElementById('notes').value,
+        owner_contact: document.getElementById('owner_contact').value,
+        creator: document.getElementById('creator').value,
+        signal: document.getElementById('signal').value.toLowerCase() === 'true',
+        timemark: document.getElementById('timemark').value || null
+      }]);
 
-    if (error) {
-       console.error("Insert error:", error);  // <-- shows detailed message in DevTools
-      imageResult.textContent = 'Error: ' + error.message;
-    } else {
-      imageResult.textContent = 'Success! Image record added.';
-      imageForm.reset();
-    }
-  });
+      if (imageError) {
+        Result.textContent = 'Error inserting image: ' + imageError.message;
+        return;
+      }
 
-    // Show/hide custom resolution field
-  const resolutionDropdown = document.getElementById('resolution');
-  const customResolutionInput = document.getElementById('custom_resolution');
-  resolutionDropdown.addEventListener('change', () => {
-    customResolutionInput.style.display = resolutionDropdown.value === 'other' ? 'block' : 'none';
-  });
+      // INSERT SENSOR
+      const { error: sensorError } = await client.from('Sensor').insert([{
+        sensor: document.getElementById('sensor').value,
+        sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
+        sensor_nature: document.getElementById('sensor_nature').value,
+        free_period: parseFloat(document.getElementById('free_period').value),
+        damping: parseInt(document.getElementById('damping').value)
+      }]);
 
-  // Show/hide custom recording type field
-  const recordingDropdown = document.getElementById('recording_type');
-  const customRecordingInput = document.getElementById('custom_recording_type');
-  recordingDropdown.addEventListener('change', () => {
-    customRecordingInput.style.display = recordingDropdown.value === 'other' ? 'block' : 'none';
-  });
-</script>
+      if (sensorError) {
+        Result.textContent = 'Error inserting sensor: ' + sensorError.message;
+        return;
+      }
 
+      // INSERT EQUIPMENT
+      const { error: equipError } = await client.from('Equipment').insert([{
+        channel: document.getElementById('channel').value,
+        equip_open_date: document.getElementById('equip_open_date').value,
+        sensor: document.getElementById('equipment_sensor').value,
+        equip_serial_number: parseInt(document.getElementById('equip_serial_number').value)
+      }]);
+
+      if (equipError) {
+        Result.textContent = 'Error inserting equipment: ' + equipError.message;
+        return;
+      }
+
+      Result.textContent = 'Success! All records added.';
+      document.getElementById('imageForm').reset();
+      document.getElementById('sensorForm').reset();
+      document.getElementById('equipmentForm').reset();
+    });
+
+    document.getElementById('resolution').addEventListener('change', () => {
+      document.getElementById('custom_resolution').style.display =
+        document.getElementById('resolution').value === 'other' ? 'block' : 'none';
+    });
+
+    document.getElementById('recording_type').addEventListener('change', () => {
+      document.getElementById('custom_recording_type').style.display =
+        document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
+    });
+  </script>
 </body>
 </html>
