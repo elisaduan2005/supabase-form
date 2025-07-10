@@ -194,7 +194,7 @@
       }
 
       // INSERT SENSOR
-      const { error: sensorError } = await client.from('Sensor').insert([{
+      const { error: sensorError } = await client.from('sensor').insert([{
         sensor: document.getElementById('sensor').value,
         sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
         sensor_nature: document.getElementById('sensor_nature').value,
@@ -208,7 +208,7 @@
       }
 
       // INSERT EQUIPMENT
-      const { error: equipError } = await client.from('Equipment').insert([{
+      const { error: equipError } = await client.from('equipment').insert([{
         channel: document.getElementById('channel').value,
         equip_open_date: document.getElementById('equip_open_date').value,
         sensor: document.getElementById('equipment_sensor').value,
