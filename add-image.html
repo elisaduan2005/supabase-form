@@ -12,14 +12,14 @@
 
 <div class="columns">
   <div class="form-section">
-    <h2>Image</h2>
+    <h2>Image Details</h2>
   <!-- IMAGE TABLE -->
 <form id="imageForm">
   <!-- Data Scanned-->
   <label>Date Scanned:</label><br>
   <input type="date" id="date_scanned"><br><br>
   <!-- RESOLUTION LABEL -->
-  <!-- red asterisk -->
+  <!-- red asterisk for required label -->
   <label for="resolution">Resolution: <span style="color:red">*</span></label><br>
   <select id="resolution">
   <option value="300">300</option>
@@ -29,65 +29,67 @@
   <option value="other">Other</option>
   </select>
   <input type="number" id="custom_resolution" placeholder="Enter custom value" style="display:none;"><br><br>
-
+  <!-- LENGTH LABEL -->
   <label>Length:</label><br>
   <input type="number" step="0.01" id="length"><br><br>
+  <!-- WIDTH LABEL -->
   <label>Width:</label><br>
   <input type="number" step="0.01" id="width"><br><br>
+  <!-- PHASE MARKINGS LABEL -->
   <label>Phase Markings:</label><br>
   <select id="phase_markings">
     <option value="True">True</option>
     <option value="False">False</option>
     <option value="NULL">Null</option>
   </select><br><br>
-
+  <!-- BULLETIN LABEL -->
   <label>Bulletin:</label><br>
   <input type="text" id="bulletin"><br><br>
-
+  <!-- OCCLUSIONS LABEL -->
   <label>Occlusions:</label><br>
   <select id="occlusions">
     <option value="True">True</option>
     <option value="False">False</option>
     <option value="NULL">Null</option>
   </select><br><br>
-
-  <label>Recording Type:</label><br>
-<select id="recording_type">
+  <!-- RECORDING TYPE LABEL -->
+  <label for="recording_type">Recording Type: <span style="color:red">*</span></label><br>
+  <select id="recording_type">
   <option value="Photographic / Photosensitive">photographic / photosensitive</option>
   <option value="Thermal">thermal</option>
   <option value="Ink">ink</option>
   <option value="Smoke">smoke</option>
   <option value="Other">Other</option>
-</select>
-<input type="text" id="custom_recording_type" placeholder="Enter custom recording type" style="display:none;"><br><br>
-
+  </select>
+  <input type="text" id="custom_recording_type" placeholder="Enter custom recording type" style="display:none;"><br><br>
+  <!-- NOTES LABEL -->
   <label>Notes:</label><br>
   <textarea id="notes"></textarea><br><br>
-
+  <!-- OWNER CONTACT LABEL -->
   <label>Owner Contact:</label><br>
   <input type="text" id="owner_contact"><br><br>
-
+  <!-- CREATOR LABEL -->
   <label>Creator:</label><br>
   <input type="text" id="creator"><br><br>
-
+  <!-- SIGNAL LABEL -->
   <label>Signal:</label><br>
   <select id="signal">
     <option value="True">True</option>
     <option value="False">False</option>
     <option value="NULL">Null</option>
   </select><br><br>
-
+  <!-- TIMEMARK LABEL -->
   <label>Timemark:</label><br>
   <input type="datetime-local" id="timemark"><br><br>
-
 </form>
 </div>
+
 <div class="form-section">
-<h2>Sensor</h2>
+<h2>Sensor Details</h2>
 <!-- SENSOR TABLE -->
 <form id="sensorForm">
   <!-- SENSOR LABEL -->
-  <label>Type of Sensor:</label><br>
+  <label for="sensor">Sensor: <span style="color:red">*</span></label><br>
   <select id="sensor">
   <option value="Streckheisen STS-2">Streckheisen STS-2</option>
   <option value="Ewing">Ewing</option>
@@ -102,16 +104,16 @@
   <label>Nature of Sensor:</label><br>
   <input type="varchar" id="sensor_nature"><br><br>
   <!-- GALVO FREE PERIOD LABEL -->
-  <label>Galvo Free Period:</label><br>
+  <label for="free_period">Galvo Free Period: <span style="color:red">*</span></label><br>
   <input type="float" id="free_period"><br><br>
   <!-- DAMPING LABEL -->
-  <label>Galvo Damping Constant:</label><br>
+  <label for="damping">Galvo Damping: <span style="color:red">*</span></label><br>
   <input type="integer" id="damping"><br><br>
 </form>
 </div>
 
 <div class="form-section">
-<h2>Equipment</h2>
+<h2>Equipment Details</h2>
 <!-- EQUIPMENT TABLE -->
 <form id="equipmentForm">
   <!-- CHANNEL LABEL -->
