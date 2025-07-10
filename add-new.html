@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add New Seismogram</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <a href="index.html">← Back to Home</a>
+  <h1>Add New Seismogram</h1>
+
+<form id="imageForm">
+  <label>Image_id:</label><br>
+  <input type="number" id="image_id"><br><br>
+  <label>Date Scanned:</label><br>
+  <input type="date" id="date_scanned"><br><br>
+
+  <label>Resolution:</label><br>
+  <input type="number" id="resolution"><br><br>
+
+  <label>Vertical Pixels:</label><br>
+  <input type="number" id="v_pixel"><br><br>
+
+  <label>Horizontal Pixels:</label><br>
+  <input type="number" id="h_pixel"><br><br>
+
+  <label>Format:</label><br>
+  <input type="text" id="format" maxlength="4"><br><br>
+
+  <label>Size:</label><br>
+  <input type="number" id="size"><br><br>
+
+  <label>Length (in seconds?):</label><br>
+  <input type="number" step="0.01" id="length"><br><br>
+
+  <label>Color Depth:</label><br>
+  <input type="text" id="color_depth"><br><br>
+
+  <label>Phase Markings:</label><br>
+  <select id="phase_markings">
+    <option value="true">True</option>
+    <option value="false">False</option>
+  </select><br><br>
+
+  <label>Bulletin:</label><br>
+  <input type="text" id="bulletin"><br><br>
+
+  <label>Occlusions:</label><br>
+  <select id="occlusions">
+    <option value="true">True</option>
+    <option value="false">False</option>
+  </select><br><br>
+
+  <label>Recording Type:</label><br>
+  <input type="text" id="recording_type"><br><br>
+
+  <label>Notes:</label><br>
+  <textarea id="notes"></textarea><br><br>
+
+  <label>Owner Contact:</label><br>
+  <input type="text" id="owner_contact"><br><br>
+
+  <label>Creator:</label><br>
+  <input type="text" id="creator"><br><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+<p id="imageResult"></p>
+
+  <script>
+   console.log("Script loaded");
+  const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
+ // created a Supabase client with your project URL and anon key
+ const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // Your image insert logic goes below
+  const imageForm = document.getElementById('imageForm');
+  const imageResult = document.getElementById('imageResult');
+
+  imageForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    console.log("Submitting form...");
+
+    const { data, error } = await client
+      .from('image')
+      .insert([{
+  image_id: parseInt(document.getElementById('image_id').value),
+  date_scanned: document.getElementById('date_scanned').value || null,
+  resolution: parseInt(document.getElementById('resolution').value),
+  v_pixel: parseInt(document.getElementById('v_pixel').value),
+  h_pixel: parseInt(document.getElementById('h_pixel').value),
+  format: document.getElementById('format').value,
+  size: parseInt(document.getElementById('size').value),
+  length: parseFloat(document.getElementById('length').value),
+  color_depth: document.getElementById('color_depth').value,
+  phase_markings: document.getElementById('phase_markings').value === 'true',
+  bulletin: document.getElementById('bulletin').value,
+  occlusions: document.getElementById('occlusions').value === 'true',
+  recording_type: document.getElementById('recording_type').value,
+  notes: document.getElementById('notes').value,
+  owner_contact: document.getElementById('owner_contact').value,
+  creator: document.getElementById('creator').value
+      }]);
+
+    if (error) {
+       console.error("Insert error:", error);  // <-- shows detailed message in DevTools
+      imageResult.textContent = 'Error: ' + error.message;
+    } else {
+      imageResult.textContent = 'Success! Image record added.';
+      imageForm.reset();
+    }
+  });
+</script>
+
+</body>
+</html>
