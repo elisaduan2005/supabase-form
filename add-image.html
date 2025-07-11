@@ -55,10 +55,10 @@
   <!-- RECORDING TYPE LABEL -->
   <label for="recording_type">Recording Type: <span style="color:red">*</span></label><br>
   <select id="recording_type">
-  <option value="Photographic / Photosensitive">photographic / photosensitive</option>
-  <option value="Thermal">thermal</option>
-  <option value="Ink">ink</option>
-  <option value="Smoke">smoke</option>
+  <option value="Photographic / Photosensitive">Photographic / Photosensitive</option>
+  <option value="Thermal">Thermal</option>
+  <option value="Ink">Ink</option>
+  <option value="Smoke">Smoke</option>
   <option value="Other">Other</option>
   </select>
   <input type="text" id="custom_recording_type" placeholder="Enter custom recording type" style="display:none;"><br><br>
@@ -165,19 +165,16 @@
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const resultBox = document.getElementById('Result');
 
-      // Show/hide custom fields, drop down
+      document.getElementById('SubmitAll').addEventListener('click', async (e) => {
+        e.preventDefault();
+
+
+      // REVEALS CUSTOM FIELD
       document.getElementById('resolution').addEventListener('change', () => {
         document.getElementById('custom_resolution').style.display =
           document.getElementById('resolution').value === 'other' ? 'block' : 'none';
       });
 
-      document.getElementById('recording_type').addEventListener('change', () => {
-        document.getElementById('custom_recording_type').style.display =
-          document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
-      });
-
-      document.getElementById('SubmitAll').addEventListener('click', async (e) => {
-        e.preventDefault();
 
         // Handle resolution, other option
         let resolutionValue = document.getElementById('resolution').value;
@@ -190,10 +187,19 @@
         }
         if (isNaN(resolutionValue)) resolutionValue = null;
 
-        // Handle recording type, other option
+        
+      document.getElementById('recording_type').addEventListener('change', () => {
+        document.getElementById('custom_recording_type').style.display =
+          document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
+      });
+
+        //DROP-DOWN TABLE
         let recordingType = document.getElementById('recording_type').value;
         if (recordingType === 'other') {
           recordingType = document.getElementById('custom_recording_type').value;
+        }
+        if (!recordingType) {
+        recordingType = null;
         }
 
         // Insert into image table
@@ -216,11 +222,23 @@
           resultBox.textContent = 'Error inserting image: ' + imageError.message;
           return;
         }
+        
+        // ADD/HIDE CUSTOM FIELD
+        document.getElementById('sensor').addEventListener('change', () => {
+        document.getElementById('custom_sensor').style.display =
+          document.getElementById('sensor').value === 'other' ? 'block' : 'none';
+      });
 
-
+        //DROP-DOWN TABLE
         let sensorValue = document.getElementById('sensor').value;
         if (sensorValue === 'other') {
-        sensorValue = document.getElementById('custom_sensor').value;}
+        sensorValue = document.getElementById('custom_sensor').value.trim();
+        }
+        if (!sensorValue) {
+        sensorValue = null;
+        }
+
+        
         // Insert into sensor table
 
         console.log("Inserting sensor:", {
