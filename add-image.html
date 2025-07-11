@@ -22,6 +22,7 @@
   <!-- red asterisk for required label -->
   <label for="resolution">Resolution: <span style="color:red">*</span></label><br>
   <select id="resolution">
+  <option value="" disabled selected>Choose</option>
   <option value="300">300</option>
   <option value="600">600</option>
   <option value="1200">1200</option>
@@ -59,7 +60,7 @@
   <option value="Thermal">Thermal</option>
   <option value="Ink">Ink</option>
   <option value="Smoke">Smoke</option>
-  <option value="Other">Other</option>
+  <option value="other">Other</option>
   </select>
   <input type="text" id="custom_recording_type" placeholder="Enter custom recording type" style="display:none;"><br><br>
   <!-- NOTES LABEL -->
@@ -167,7 +168,7 @@
 
     
 
-      // REVEALS CUSTOM FIELD
+        // ADD/HIDE CUSTOM FIELD
       document.getElementById('resolution').addEventListener('change', () => {
         document.getElementById('custom_resolution').style.display =
           document.getElementById('resolution').value === 'other' ? 'block' : 'none';
@@ -177,7 +178,7 @@
           document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
       });
 
-        // ADD/HIDE CUSTOM FIELD
+      
         document.getElementById('sensor').addEventListener('change', () => {
         document.getElementById('custom_sensor').style.display =
           document.getElementById('sensor').value === 'other' ? 'block' : 'none';
@@ -197,8 +198,6 @@
         }
         if (isNaN(resolutionValue)) resolutionValue = null;
 
-        
-      
 
         //DROP-DOWN TABLE
         let recordingType = document.getElementById('recording_type').value;
