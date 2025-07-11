@@ -303,28 +303,24 @@ let sensorValue = (sensorRaw === 'other')
         damping: parseInt(document.getElementById('damping').value)
         });
 
-        const { error } = await client.from('sensor').upsert([
-  {
-    sensor: 'Beniof',
-    sensor_serial_number: 12345,
-    sensor_nature: 'short-period',
-    free_period: 2.5,
-    damping: 8
-  }
-], {
-  onConflict: ['sensor'],
+        function safeParse(id, type = 'int') {
+  const raw = document.getElementById(id).value.trim();
+  if (raw === '') return null; // empty string = null
+  const parsed = type === 'int' ? parseInt(raw) : parseFloat(raw);
+  return isNaN(parsed) ? null : parsed;
+}
+
+        const { error: sensorError } = await client.from('sensor').upsert([{
+  sensor: sensorValue,
+  sensor_serial_number: safeParse('sensor_serial_number', 'int'),
+  sensor_nature: document.getElementById('sensor_nature').value.trim() || null,
+  free_period: safeParse('free_period', 'float'),
+  damping: safeParse('damping', 'int')         
+}], {
+  onConflict: ['sensor'],    
   ignoreDuplicates: true
 });
-        const { error: sensorError } = await client.from('sensor').upsert([{
-        sensor: sensorValue,
-        sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-        sensor_nature: document.getElementById('sensor_nature').value,
-        free_period: parseFloat(document.getElementById('free_period').value),
-        damping: parseInt(document.getElementById('damping').value)
-        }],{
-    onConflict: ['sensor'],    
-    ignoreDuplicates: true
-  });
+
 
         if (sensorError) {
           console.error("Sensor error details:", sensorError);  // See full backend response
