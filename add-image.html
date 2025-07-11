@@ -230,9 +230,7 @@
           }
         }
 
-        // Now it's safe to proceed with the rest of the logic...
-                // Required: Resolution
-        
+
 // PARSE cleaned values after validation
 
 // RESOLUTION
@@ -295,38 +293,35 @@ let sensorValue = (sensorRaw === 'other')
         
         // Insert into sensor table
 
-        console.log("Inserting sensor:", {
-        sensor: sensorValue,
-        sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-        sensor_nature: document.getElementById('sensor_nature').value,
-        free_period: parseFloat(document.getElementById('free_period').value),
-        damping: parseInt(document.getElementById('damping').value)
-        });
-
         function safeParse(id, type = 'int') {
-  const raw = document.getElementById(id).value.trim();
-  if (raw === '') return null; // empty string = null
+  const el = document.getElementById(id);
+  if (!el || el.value.trim() === '') return null;
+  const raw = el.value.trim();
   const parsed = type === 'int' ? parseInt(raw) : parseFloat(raw);
   return isNaN(parsed) ? null : parsed;
 }
 
-        const { error: sensorError } = await client.from('sensor').upsert([{
+const sensorPayload = {
   sensor: sensorValue,
   sensor_serial_number: safeParse('sensor_serial_number', 'int'),
   sensor_nature: document.getElementById('sensor_nature').value.trim() || null,
   free_period: safeParse('free_period', 'float'),
-  damping: safeParse('damping', 'int')         
-}], {
+  damping: safeParse('damping', 'int')
+};
+
+console.log("Final sensor payload:", sensorPayload);
+
+const { error: sensorError } = await client.from('sensor').upsert([sensorPayload], {
   onConflict: ['sensor'],    
   ignoreDuplicates: true
 });
 
+if (sensorError) {
+  console.error("Sensor error details:", sensorError);
+  resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
+  return;
+}
 
-        if (sensorError) {
-          console.error("Sensor error details:", sensorError);  // See full backend response
-          resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
-          return;
-        }
 
         // Insert into equipment table
         const { error: equipError } = await client.from('equipment').insert([{
