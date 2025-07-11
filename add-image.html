@@ -165,15 +165,25 @@
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const resultBox = document.getElementById('Result');
 
-      document.getElementById('SubmitAll').addEventListener('click', async (e) => {
-        e.preventDefault();
-
+    
 
       // REVEALS CUSTOM FIELD
       document.getElementById('resolution').addEventListener('change', () => {
         document.getElementById('custom_resolution').style.display =
           document.getElementById('resolution').value === 'other' ? 'block' : 'none';
       });
+      document.getElementById('recording_type').addEventListener('change', () => {
+        document.getElementById('custom_recording_type').style.display =
+          document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
+      });
+
+        // ADD/HIDE CUSTOM FIELD
+        document.getElementById('sensor').addEventListener('change', () => {
+        document.getElementById('custom_sensor').style.display =
+          document.getElementById('sensor').value === 'other' ? 'block' : 'none';
+      });
+      document.getElementById('SubmitAll').addEventListener('click', async (e) => {
+        e.preventDefault();
 
 
         // Handle resolution, other option
@@ -188,10 +198,7 @@
         if (isNaN(resolutionValue)) resolutionValue = null;
 
         
-      document.getElementById('recording_type').addEventListener('change', () => {
-        document.getElementById('custom_recording_type').style.display =
-          document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
-      });
+      
 
         //DROP-DOWN TABLE
         let recordingType = document.getElementById('recording_type').value;
@@ -223,11 +230,7 @@
           return;
         }
         
-        // ADD/HIDE CUSTOM FIELD
-        document.getElementById('sensor').addEventListener('change', () => {
-        document.getElementById('custom_sensor').style.display =
-          document.getElementById('sensor').value === 'other' ? 'block' : 'none';
-      });
+      
 
         //DROP-DOWN TABLE
         let sensorValue = document.getElementById('sensor').value;
@@ -263,8 +266,8 @@
 
         // Insert into equipment table
         const { error: equipError } = await client.from('equipment').insert([{
-          channel: document.getElementById('channel').value || null,
-          equip_open_date: document.getElementById('equip_open_date').value,
+          channel: document.getElementById('channel').value,
+          equip_open_date: document.getElementById('equip_open_date').value  || null,
           equip_serial_number: parseInt(document.getElementById('equip_serial_number').value),
           h_dip1: parseFloat(document.getElementById('h_dip1').value),
           h_dip2: parseFloat(document.getElementById('h_dip2').value),
