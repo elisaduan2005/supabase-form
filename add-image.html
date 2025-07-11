@@ -117,25 +117,25 @@
 <!-- EQUIPMENT TABLE -->
 <form id="equipmentForm">
   <!-- CHANNEL LABEL -->
-  <label>Channel:</label><br>
+  <label for="channel">Channel: <span style="color:red">*</span></label><br>
   <input type="varchar" id="channel"><br><br>
   <!-- EQUIPMENT OPEN DATE LABEL -->
   <label>Equipment Open Date:</label><br>
   <input type="date" id="equip_open_date"><br><br>
   <!-- EQUIPMENT SERIAL NUMBER LABEL -->
-  <label>Equipment Serial Number:</label><br>
+  <label for="equip_serial_number">Equipment Serial Number: <span style="color:red">*</span></label><br>
   <input type="integer" id="equip_serial_number"><br><br>
   <!-- HORIZONTAL 1 DIP/AZIMUTH LABEL -->
-  <label>Horizontal 1 Dip/Azimuth:</label><br>
+  <label for="h_dip1">Horizontal 1 Dip/Azimuth: <span style="color:red">*</span></label><br>
   <input type="float" id="h_dip1"><br><br>
   <!-- HORIZONTAL 2 DIP/AZIMUTH LABEL -->
-  <label>Horizontal 2 Dip/Azimuth:</label><br>
+  <label for="h_dip2">Horizontal 2 Dip/Azimuth: <span style="color:red">*</span></label><br>
   <input type="float" id="h_dip2"><br><br>
   <!-- VERTICAL DIP/AZIMUTH LABEL -->
-  <label>Vertical Dip/Azimuth:</label><br>
+  <label for="v_dip">Vertical Dip/Azimuth: <span style="color:red">*</span></label><br>
   <input type="float" id="v_dip"><br><br>
   <!-- RECORDING SYSTEM LABEL -->
-  <label>Recording System:</label><br>
+  <label for="recording_system">Recording System: <span style="color:red">*</span></label><br>
   <input type="varchar" id="recording_system"><br><br>
   <!-- RECORDING SERIAL NUMBER LABEL -->
   <label>Recording Serial Number:</label><br>
@@ -163,10 +163,9 @@
       const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
       const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
       const resultBox = document.getElementById('Result');
 
-      // Show/hide custom fields
+      // Show/hide custom fields, drop down
       document.getElementById('resolution').addEventListener('change', () => {
         document.getElementById('custom_resolution').style.display =
           document.getElementById('resolution').value === 'other' ? 'block' : 'none';
@@ -180,7 +179,7 @@
       document.getElementById('SubmitAll').addEventListener('click', async (e) => {
         e.preventDefault();
 
-        // Handle resolution
+        // Handle resolution, other option
         let resolutionValue = document.getElementById('resolution').value;
         if (resolutionValue === 'other') {
           resolutionValue = parseInt(document.getElementById('custom_resolution').value);
@@ -191,7 +190,7 @@
         }
         if (isNaN(resolutionValue)) resolutionValue = null;
 
-        // Handle recording type
+        // Handle recording type, other option
         let recordingType = document.getElementById('recording_type').value;
         if (recordingType === 'other') {
           recordingType = document.getElementById('custom_recording_type').value;
@@ -217,26 +216,28 @@
           resultBox.textContent = 'Error inserting image: ' + imageError.message;
           return;
         }
+
+
         let sensorValue = document.getElementById('sensor').value;
         if (sensorValue === 'other') {
         sensorValue = document.getElementById('custom_sensor').value;}
         // Insert into sensor table
 
         console.log("Inserting sensor:", {
-  sensor: sensorValue,
-  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-  sensor_nature: document.getElementById('sensor_nature').value,
-  free_period: parseFloat(document.getElementById('free_period').value),
-  damping: parseInt(document.getElementById('damping').value)
-});
+        sensor: sensorValue,
+        sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
+        sensor_nature: document.getElementById('sensor_nature').value,
+        free_period: parseFloat(document.getElementById('free_period').value),
+        damping: parseInt(document.getElementById('damping').value)
+        });
 
         const { error: sensorError } = await client.from('sensor').insert([{
-  sensor: sensorValue,
-  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-  sensor_nature: document.getElementById('sensor_nature').value,
-  free_period: parseFloat(document.getElementById('free_period').value),
-  damping: parseInt(document.getElementById('damping').value)
-}]);
+        sensor: sensorValue,
+        sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
+        sensor_nature: document.getElementById('sensor_nature').value,
+        free_period: parseFloat(document.getElementById('free_period').value),
+        damping: parseInt(document.getElementById('damping').value)
+        }]);
         if (sensorError) {
           resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
           return;
@@ -246,7 +247,15 @@
         const { error: equipError } = await client.from('equipment').insert([{
           channel: document.getElementById('channel').value,
           equip_open_date: document.getElementById('equip_open_date').value,
-          equip_serial_number: parseInt(document.getElementById('equip_serial_number').value)
+          equip_serial_number: parseInt(document.getElementById('equip_serial_number').value),
+          h_dip1: parseFloat(document.getElementById('h_dip1').value),
+          h_dip2: parseFloat(document.getElementById('h_dip2').value),
+          v_dip: parseFloat(document.getElementById('v_dip').value),
+          recording_system: document.getElementById('recording_system').value,
+          recording_serial_number: parseInt(document.getElementById('recording_serial_number').value),
+          equip_gain: parseInt(document.getElementById('equip_gain').value),
+          period_of_gain: parseFloat(document.getElementById('period_of_gain').value),
+          equip_nature: document.getElementById('equip_nature').value
         }]);
         if (equipError) {
           resultBox.textContent = 'Error inserting equipment: ' + equipError.message;
