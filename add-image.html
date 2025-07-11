@@ -186,56 +186,50 @@
       
         document.getElementById('sensor').addEventListener('change', () => {
         document.getElementById('custom_sensor').style.display =
-          document.getElementById('sensor').value === 'other' ? 'block' : 'none';
-      });
-      document.getElementById('SubmitAll').addEventListener('click', async (e) => {
+        document.getElementById('sensor').value === 'other' ? 'block' : 'none';
+         });
+        document.getElementById('SubmitAll').addEventListener('click', async (e) => {
         e.preventDefault();
       
-        // Required: Resolution
-        let resolutionInput = document.getElementById('resolution').value;
-        if (resolutionInput === '') {
-          alert("Please choose a value for Resolution.");
-          return;
-        }
-        let resolutionValue;
-        if (resolutionInput === 'other') {
-          resolutionValue = parseInt(document.getElementById('custom_resolution').value);
-          if (isNaN(resolutionValue)) {
-            alert("Please enter a valid custom resolution.");
+        e.preventDefault();
+
+        // Validate all required fields before inserting anything
+        const requiredFields = [
+          { id: 'resolution', label: 'Resolution' },
+          { id: 'recording_type', label: 'Recording Type' },
+          { id: 'sensor', label: 'Sensor' },
+          { id: 'free_period', label: 'Galvo Free Period' },
+          { id: 'damping', label: 'Galvo Damping' },
+          { id: 'channel', label: 'Channel' },
+          { id: 'equip_serial_number', label: 'Equipment Serial Number' },
+          { id: 'h_dip1', label: 'Horizontal 1 Dip/Azimuth' },
+          { id: 'h_dip2', label: 'Horizontal 2 Dip/Azimuth' },
+          { id: 'v_dip', label: 'Vertical Dip/Azimuth' },
+          { id: 'recording_system', label: 'Recording System' }
+        ];
+
+        for (let field of requiredFields) {
+          const el = document.getElementById(field.id);
+          let value = el.value;
+
+          // Handle custom options
+          if (field.id === 'resolution' && value === 'other') {
+            value = document.getElementById('custom_resolution').value;
+          }
+          if (field.id === 'recording_type' && value === 'other') {
+            value = document.getElementById('custom_recording_type').value;
+          }
+          if (field.id === 'sensor' && value === 'other') {
+            value = document.getElementById('custom_sensor').value;
+          }
+
+          if (!value || value.trim() === '') {
+            alert(`Please enter a value for ${field.label}.`);
             return;
           }
-        } else if (resolutionInput === '361 (WWSSN)') {
-          resolutionValue = 361;
-        } else {
-          resolutionValue = parseInt(resolutionInput);
         }
 
-        // Required: Recording Type
-        let recordingType = document.getElementById('recording_type').value;
-        if (recordingType === '') {
-          alert("Please choose a value for Recording Type.");
-          return;
-        }
-        if (recordingType === 'other') {
-          recordingType = document.getElementById('custom_recording_type').value.trim();
-          if (!recordingType) {
-            alert("Please enter a custom Recording Type.");
-            return;
-          }
-        }
-
-        //DROP-DOWN TABLE
-        let sensorValue = document.getElementById('sensor').value;
-        if (sensorValue === '') {
-          alert("Please choose a value for Sensor.");
-          return;
-        }
-        if (sensorValue === 'other') {
-        sensorValue = document.getElementById('custom_sensor').value.trim();
-        }
-        if (!sensorValue) {
-        sensorValue = null;
-        }
+        // Now it's safe to proceed with the rest of the logic...
 
         
         // Optional: Phase Markings, Occlusions, Signal
