@@ -313,8 +313,9 @@ let sensorValue = (sensorRaw === 'other')
     onConflict: ['sensor'],    
     ignoreDuplicates: true
   });
-        
+
         if (sensorError) {
+          console.error("Sensor error details:", sensorError);  // See full backend response
           resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
           return;
         }
