@@ -245,7 +245,7 @@
 
         // Insert into equipment table
         const { error: equipError } = await client.from('equipment').insert([{
-          channel: document.getElementById('channel').value,
+          channel: document.getElementById('channel').value || null,
           equip_open_date: document.getElementById('equip_open_date').value,
           equip_serial_number: parseInt(document.getElementById('equip_serial_number').value),
           h_dip1: parseFloat(document.getElementById('h_dip1').value),
