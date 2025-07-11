@@ -303,7 +303,7 @@ let sensorValue = (sensorRaw === 'other')
         damping: parseInt(document.getElementById('damping').value)
         });
 
-        const { error: sensorError } = await client.from('sensor').insert([{
+        const { error: sensorError } = await client.from('sensor').upsert([{
         sensor: sensorValue,
         sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
         sensor_nature: document.getElementById('sensor_nature').value,
