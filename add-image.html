@@ -38,8 +38,8 @@
   <input type="number" step="0.01" id="width"><br><br>
   <!-- PHASE MARKINGS LABEL -->
   <label>Phase Markings:</label><br>
-  <option value="" disabled selected>Choose...</option>
   <select id="phase_markings">
+    <option value="" disabled selected>Choose...</option>
     <option value="True">True</option>
     <option value="False">False</option>
     <option value="NULL">Null</option>
@@ -49,16 +49,16 @@
   <input type="text" id="bulletin"><br><br>
   <!-- OCCLUSIONS LABEL -->
   <label>Occlusions:</label><br>
-  <option value="" disabled selected>Choose...</option>
   <select id="occlusions">
+    <option value="" disabled selected>Choose...</option>
     <option value="True">True</option>
     <option value="False">False</option>
     <option value="NULL">Null</option>
   </select><br><br>
   <!-- RECORDING TYPE LABEL -->
   <label for="recording_type">Recording Type: <span style="color:red">*</span></label><br>
-  <option value="" disabled selected>Choose...</option>
   <select id="recording_type">
+  <option value="" disabled selected>Choose...</option>
   <option value="Photographic / Photosensitive">Photographic / Photosensitive</option>
   <option value="Thermal">Thermal</option>
   <option value="Ink">Ink</option>
@@ -77,8 +77,8 @@
   <input type="text" id="creator"><br><br>
   <!-- SIGNAL LABEL -->
   <label>Signal:</label><br>
-  <option value="" disabled selected>Choose...</option>
   <select id="signal">
+    <option value="" disabled selected>Choose...</option>
     <option value="True">True</option>
     <option value="False">False</option>
     <option value="NULL">Null</option>
@@ -96,6 +96,7 @@
   <!-- SENSOR LABEL -->
   <label for="sensor">Sensor: <span style="color:red">*</span></label><br>
   <select id="sensor">
+  <option value="" disabled selected>Choose...</option>
   <option value="Streckheisen STS-2">Streckheisen STS-2</option>
   <option value="Ewing">Ewing</option>
   <option value="Beniof">Beniof</option>
@@ -223,6 +224,19 @@
           }
         }
 
+        //DROP-DOWN TABLE
+        let sensorValue = document.getElementById('sensor').value;
+        if (sensorValue === '') {
+          alert("Please choose a value for Sensor.");
+          return;
+        }
+        if (sensorValue === 'other') {
+        sensorValue = document.getElementById('custom_sensor').value.trim();
+        }
+        if (!sensorValue) {
+        sensorValue = null;
+        }
+
         
         // Optional: Phase Markings, Occlusions, Signal
         const phaseMarkingsRaw = document.getElementById('phase_markings').value;
@@ -256,14 +270,6 @@
         }
         
 
-        //DROP-DOWN TABLE
-        let sensorValue = document.getElementById('sensor').value;
-        if (sensorValue === 'other') {
-        sensorValue = document.getElementById('custom_sensor').value.trim();
-        }
-        if (!sensorValue) {
-        sensorValue = null;
-        }
 
         
         // Insert into sensor table
