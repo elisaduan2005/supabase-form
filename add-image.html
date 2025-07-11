@@ -22,7 +22,7 @@
   <!-- red asterisk for required label -->
   <label for="resolution">Resolution: <span style="color:red">*</span></label><br>
   <select id="resolution">
-  <option value="" disabled selected>Choose</option>
+  <option value="" disabled selected>Choose...</option>
   <option value="300">300</option>
   <option value="600">600</option>
   <option value="1200">1200</option>
@@ -38,6 +38,7 @@
   <input type="number" step="0.01" id="width"><br><br>
   <!-- PHASE MARKINGS LABEL -->
   <label>Phase Markings:</label><br>
+  <option value="" disabled selected>Choose...</option>
   <select id="phase_markings">
     <option value="True">True</option>
     <option value="False">False</option>
@@ -48,6 +49,7 @@
   <input type="text" id="bulletin"><br><br>
   <!-- OCCLUSIONS LABEL -->
   <label>Occlusions:</label><br>
+  <option value="" disabled selected>Choose...</option>
   <select id="occlusions">
     <option value="True">True</option>
     <option value="False">False</option>
@@ -55,6 +57,7 @@
   </select><br><br>
   <!-- RECORDING TYPE LABEL -->
   <label for="recording_type">Recording Type: <span style="color:red">*</span></label><br>
+  <option value="" disabled selected>Choose...</option>
   <select id="recording_type">
   <option value="Photographic / Photosensitive">Photographic / Photosensitive</option>
   <option value="Thermal">Thermal</option>
@@ -74,6 +77,7 @@
   <input type="text" id="creator"><br><br>
   <!-- SIGNAL LABEL -->
   <label>Signal:</label><br>
+  <option value="" disabled selected>Choose...</option>
   <select id="signal">
     <option value="True">True</option>
     <option value="False">False</option>
@@ -185,43 +189,65 @@
       });
       document.getElementById('SubmitAll').addEventListener('click', async (e) => {
         e.preventDefault();
-
-
-        // Handle resolution, other option
-        let resolutionValue = document.getElementById('resolution').value;
-        if (resolutionValue === 'other') {
+      
+        // Required: Resolution
+        let resolutionInput = document.getElementById('resolution').value;
+        if (resolutionInput === '') {
+          alert("Please choose a value for Resolution.");
+          return;
+        }
+        let resolutionValue;
+        if (resolutionInput === 'other') {
           resolutionValue = parseInt(document.getElementById('custom_resolution').value);
-        } else if (resolutionValue === '361 (WWSSN)') {
+          if (isNaN(resolutionValue)) {
+            alert("Please enter a valid custom resolution.");
+            return;
+          }
+        } else if (resolutionInput === '361 (WWSSN)') {
           resolutionValue = 361;
         } else {
-          resolutionValue = parseInt(resolutionValue);
+          resolutionValue = parseInt(resolutionInput);
         }
-        if (isNaN(resolutionValue)) resolutionValue = null;
 
-
-        //DROP-DOWN TABLE
+        // Required: Recording Type
         let recordingType = document.getElementById('recording_type').value;
-        if (recordingType === 'other') {
-          recordingType = document.getElementById('custom_recording_type').value;
+        if (recordingType === '') {
+          alert("Please choose a value for Recording Type.");
+          return;
         }
-        if (!recordingType) {
-        recordingType = null;
+        if (recordingType === 'other') {
+          recordingType = document.getElementById('custom_recording_type').value.trim();
+          if (!recordingType) {
+            alert("Please enter a custom Recording Type.");
+            return;
+          }
         }
 
+        
+        // Optional: Phase Markings, Occlusions, Signal
+        const phaseMarkingsRaw = document.getElementById('phase_markings').value;
+        let phaseMarkings = phaseMarkingsRaw === "True" ? true : phaseMarkingsRaw === "False" ? false : null;
+
+        const occlusionsRaw = document.getElementById('occlusions').value;
+        let occlusions = occlusionsRaw === "True" ? true : occlusionsRaw === "False" ? false : null;
+
+        const signalRaw = document.getElementById('signal').value;
+        let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
+      
         // Insert into image table
         const { error: imageError } = await client.from('image').insert([{
           date_scanned: document.getElementById('date_scanned').value || null,
           resolution: resolutionValue,
           length: parseFloat(document.getElementById('length').value),
           width: parseFloat(document.getElementById('width').value),
-          phase_markings: document.getElementById('phase_markings').value === 'True',
+          phase_markings: phaseMarkings,
           bulletin: document.getElementById('bulletin').value,
-          occlusions: document.getElementById('occlusions').value === 'True',
+          occlusions: occlusions,
           recording_type: recordingType,
           notes: document.getElementById('notes').value,
           owner_contact: document.getElementById('owner_contact').value,
           creator: document.getElementById('creator').value,
-          signal: document.getElementById('signal').value === 'True',
+          signal: signal,
           timemark: document.getElementById('timemark').value || null
         }]);
         if (imageError) {
@@ -229,7 +255,6 @@
           return;
         }
         
-      
 
         //DROP-DOWN TABLE
         let sensorValue = document.getElementById('sensor').value;
