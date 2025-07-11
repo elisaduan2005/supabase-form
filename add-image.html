@@ -191,7 +191,6 @@
         document.getElementById('SubmitAll').addEventListener('click', async (e) => {
         e.preventDefault();
       
-        e.preventDefault();
 
         // Validate all required fields before inserting anything
         const requiredFields = [
@@ -230,6 +229,51 @@
         }
 
         // Now it's safe to proceed with the rest of the logic...
+                // Required: Resolution
+        let resolutionInput = document.getElementById('resolution').value;
+        if (resolutionInput === '') {
+          alert("Please choose a value for Resolution.");
+          return;
+        }
+        let resolutionValue;
+        if (resolutionInput === 'other') {
+          resolutionValue = parseInt(document.getElementById('custom_resolution').value);
+          if (isNaN(resolutionValue)) {
+            alert("Please enter a valid custom resolution.");
+            return;
+          }
+        } else if (resolutionInput === '361 (WWSSN)') {
+          resolutionValue = 361;
+        } else {
+          resolutionValue = parseInt(resolutionInput);
+        }
+
+        // Required: Recording Type
+        let recordingType = document.getElementById('recording_type').value;
+        if (recordingType === '') {
+          alert("Please choose a value for Recording Type.");
+          return;
+        }
+        if (recordingType === 'other') {
+          recordingType = document.getElementById('custom_recording_type').value.trim();
+          if (!recordingType) {
+            alert("Please enter a custom Recording Type.");
+            return;
+          }
+        }
+
+        //DROP-DOWN TABLE
+        let sensorValue = document.getElementById('sensor').value;
+        if (sensorValue === '') {
+          alert("Please choose a value for Sensor.");
+          return;
+        }
+        if (sensorValue === 'other') {
+        sensorValue = document.getElementById('custom_sensor').value.trim();
+        }
+        if (!sensorValue) {
+        sensorValue = null;
+        }
 
         
         // Optional: Phase Markings, Occlusions, Signal
