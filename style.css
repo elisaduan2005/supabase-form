@@ -1,23 +1,28 @@
 
-  .form-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 20px;
-    padding: 0 2rem;
-  }
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 20px;
+  padding: 0 2rem;
+}
 
+.form-section {
+  flex: 1 1 calc(33.33% - 2rem); /* 3 per row accounting for gap */
+  box-sizing: border-box;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+@media (max-width: 900px) {
   .form-section {
-    flex: 1 1 30%;
-    min-width: 300px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    flex: 1 1 100%; /* Stack vertically on small screens */
   }
+}
 
   form input, form select, form textarea {
     width: 100%;
