@@ -121,7 +121,6 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
         
             // Insert into sensor table
 
-
           console.log("Inserting sensor:", {
   sensor: sensorValue,
   sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
@@ -130,27 +129,27 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
   damping: parseInt(document.getElementById('damping').value)
 });
 
-        const { error: sensorError } = await client.from('sensor').insert([{
+let sensorInsertSkipped = false;
+
+const { error: sensorError } = await client.from('sensor').insert([{
   sensor: sensorValue,
   sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
   sensor_nature: document.getElementById('sensor_nature').value,
   free_period: parseFloat(document.getElementById('free_period').value),
   damping: parseInt(document.getElementById('damping').value)
 }]);
-        if (sensorError) {
-          resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
-          return;
-        }
 
-        
-
-
-        if (sensorError) {
-          console.error("Sensor error details:", sensorError);  // See full backend response
-          resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
-          return;
-        }
-
+if (sensorError) {
+  // Check if the error is a duplicate key violation
+  if (sensorError.message.includes('duplicate key') || sensorError.message.includes('already exists')) {
+    console.warn("Sensor is in database.");
+    sensorInsertSkipped = true;
+  } else {
+    // Other error — stop everything
+    resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
+    return;
+  }
+}
 
         // Insert into equipment table
         const { error: equipError } = await client.from('equipment').insert([{
