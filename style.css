@@ -35,3 +35,23 @@
     width: 100%;
   }
 }
+
+
+  form input, form select, form textarea {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 0;
+  }
+
+  #SubmitAll {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
