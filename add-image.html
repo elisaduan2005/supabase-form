@@ -201,7 +201,7 @@
   <input type="integer" id="elevation"><br><br>
     <!-- DEPTH LABEL -->
   <label>Depth:</label><br>
-  <input type="integer" id="depth"><br>
+  <input type="integer" id="depth"><br><br>
   <!-- SITE NAME LABEL -->
   <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
   <select id="site_name">
@@ -210,7 +210,7 @@
   <option value="New Mexico">New Mexico</option>
   <option value="USA">USA</option>
   <option value="other">Other</option>
-  </select>
+  </select><br><br>
   <!-- OPEN DATE LABEL -->
   <label>Open Date:</label><br>
   <input type="date" id="open_date"><br><br>
@@ -220,14 +220,137 @@
 </form>
 </div>
 
-<!-- START HEREE -->
-
-
-<!-- END HEREE -->
-
+<div class="form-section">
+<h2>Seismogram Details</h2>
+<!-- DATA TABLE -->
+<form id="dataForm">
+  <!-- PHYSICAL LOCATION LABEL -->
+  <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
+  <select id="physical_location">
+  <option value="" disabled selected>Choose...</option>
+  <option value="California Department of Water and Power">Albuquerque</option>
+  <option value="EarthScope">New Mexico</option>
+  <option value="Northwestern">USA</option>
+  <option value="other">Other</option>
+  </select><br><br>
+  <!-- COMPONENT LABEL -->
+  <label>Component:</label><br>
+  <input type="varchar" id="component"><br><br>
+  </select><br><br>
+    <!-- POLARITY LABEL -->
+  <label>Polarity:</label><br>
+  <select id="polarity">
+  <option value="" disabled selected>Choose...</option>
+  <option value="Up">Up</option>
+   <option value="Down">Down</option>
+  <option value="NULL">Null</option>
+  </select><br><br>
+</form>
 </div>
 
+<div class="form-section">
+<h2>Seismogram Details</h2>
+<!-- DATA TABLE -->
+<form id="dataForm">
+  <!-- PHYSICAL LOCATION LABEL -->
+  <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
+  <select id="physical_location">
+  <option value="" disabled selected>Choose...</option>
+  <option value="California Department of Water and Power">Albuquerque</option>
+  <option value="EarthScope">New Mexico</option>
+  <option value="Northwestern">USA</option>
+  <option value="other">Other</option>
+  </select><br><br>
+  <!-- COMPONENT LABEL -->
+  <label>Component:</label><br>
+  <input type="varchar" id="component"><br><br>
+  </select><br><br>
+    <!-- POLARITY LABEL -->
+  <label>Polarity:</label><br>
+  <select id="polarity">
+  <option value="" disabled selected>Choose...</option>
+  <option value="Up">Up</option>
+   <option value="Down">Down</option>
+  <option value="NULL">Null</option>
+  </select><br><br>
+</form>
+</div>
 
+<div class="form-section">
+<h2>CDWP Image</h2>
+<!-- CDWP IMAGE TABLE -->
+<form id="cdwpimageForm">
+  <!-- LOCAL STATION CODE LABEL -->
+  <label>Local Station Code:</label><br>
+  <input type="varchar" id="station_code_local"><br><br>
+  <!-- START TIME CORRECTION LABEL -->
+  <label>Start Time Correction:</label><br>
+  <input type="date" id="start_time_correction"><br><br>
+  <!-- END TIME CORRECTION LABEL -->
+  <label>End Time Correction:</label><br>
+  <input type="date" id="end_time_correction"><br><br>
+  <!-- SIDE LABEL -->
+  <label>Side:</label><br>
+  <select id="side">
+  <option value="" disabled selected>Choose...</option>
+  <option value="True">Up</option>
+   <option value="False">Down</option>
+  <option value="NULL">Null</option>
+  </select><br><br>
+  <!-- INSTRUMENT NAME LABEL-->
+  <label>Instrument Name:</label><br>
+  <input type="varchar" id="instrument_name"><br><br>
+  <!-- CDWP LOCATION GAIN LABEL -->
+  <label>CDWP Location Gain:</label><br>
+  <input type="integer" id="CDWP_location_gain"><br><br>
+  <!-- TO LABEL -->
+  <label>To:</label><br>
+  <input type="float" id="to"><br><br>
+  <!-- TG LABEL -->
+  <label>Tg:</label><br>
+  <input type="float" id="tg"><br><br>
+  <!-- FILENAME LABEL -->
+  <label>Filename:</label><br>
+  <input type="varchar" id="filename"><br><br>
+  <!-- CREATOR LABEL -->
+  <label>Creator:</label><br>
+  <input type="varchar" id="creator"><br><br>
+  </select><br><br>
+</form>
+</div>
+
+<div class="form-section">
+<h2>CDWP Location</h2>
+<!-- CDWP LOCATION TABLE -->
+<form id="cdwplocationForm">
+  <!-- BOX ID LABEL -->
+  <label>Box ID:</label><br>
+  <input type="integer" id="box_id"><br><br>
+  <!-- START DATE LABEL -->
+  <label>Start Date:</label><br>
+  <input type="date" id="start_date"><br><br>
+  <!-- END DATE LABEL -->
+  <label>End Date:</label><br>
+  <input type="date" id="end_date"><br><br>
+  <!-- CONTAINER LABEL -->
+  <label>Container:</label><br>
+  <input type="varchar" id="container"><br><br>
+  <!-- STACK LABEL-->
+  <label>Stack:</label><br>
+  <input type="integer" id="stack"><br><br>
+  <!-- PREVIOUS NUMBER LABEL -->
+  <label>Previous Number:</label><br>
+  <input type="integer" id="previous_no"><br><br>
+  <!-- EXCEPTIONS LABEL -->
+  <label>Exceptions:</label><br>
+  <input type="varchar" id="exceptions"><br><br>
+  <!-- NOTES LABEL -->
+  <label>Notes:</label><br>
+  <input type="varchar" id="CDWP_location_notes"><br><br>
+</form>
+</div>
+
+</div>
 
 
 
