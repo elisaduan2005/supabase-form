@@ -158,20 +158,61 @@
 </form>
 </div>
 
-<!-- START HEREE -->
 
 <div class="form-section">
 <h2>Network Details</h2>
 <!-- NETWORK TABLE -->
 <form id="networkForm">
   <!-- NETWORK ID LABEL -->
-  <label for="nework_id">Network ID: <span style="color:red">*</span></label><br>
-  <input type="varchar" id="network_id"><br><br>
+  <label for="network_id">Network ID: <span style="color:red">*</span></label><br>
+  <option value="WWSSN">WWSSN</option>
+  <option value="GSN">GSN</option>
+  <option value="EREBUS">EREBUS</option>
+  <option value="other">Other</option>
   <!-- NETWORK NAME LABEL -->
   <label>Network Name:</label><br>
-  <input type="varchar" id="network_name"><br><br>
+  <option value="CI">CI</option>
+  <option value="SS">SS</option>
+  <option value="other">Other</option>
 </form>
 </div>
+
+<div class="form-section">
+<h2>Station Details</h2>
+<!-- STATION TABLE -->
+<form id="stationForm">
+  <!-- STATION ID LABEL -->
+  <label for="IR_code">IR Code: <span style="color:red">*</span></label><br>
+  <input type="varchar" id="IR_code"><br><br>
+  <!-- LONGITUDE LABEL -->
+  <label>Longitude: <span style="color:red">*</span></label><br>
+  <input type="float" id="longitude"><br><br>
+    <!-- LATITUDE LABEL -->
+  <label>Latitude: <span style="color:red">*</span></label><br>
+  <input type="float" id="latitude"><br><br>
+    <!-- ELEVATION LABEL -->
+  <label>Elevation:</label><br>
+  <input type="integer" id="elevation"><br><br>
+    <!-- DEPTH LABEL -->
+  <label>Depth:</label><br>
+  <input type="integer" id="depth"><br><br>
+  <!-- SITE NAME LABEL -->
+  <label>Site Name: <span style="color:red">*</span></label><br>
+  <option value="Albuquerque">Albuquerque</option>
+  <option value="New Mexico">New Mexico</option>
+  <option value="USA">USA</option>
+  <option value="other">Other</option>
+  <!-- OPEN DATE LABEL -->
+  <label>Open Date:</label><br>
+  <input type="date" id="open_date"><br><br>
+  <!-- CLOSE DATE LABEL -->
+  <label>Close Date:</label><br>
+  <input type="date" id="close_date"><br><br>
+</form>
+</div>
+
+<!-- START HEREE -->
+
 
 <!-- END HEREE -->
 
