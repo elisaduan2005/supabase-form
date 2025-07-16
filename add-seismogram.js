@@ -131,6 +131,7 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
 
 let sensorInsertSkipped = false;
 
+// Try inserting the sensor row
 const { error: sensorError } = await client.from('sensor').insert([{
   sensor: sensorValue,
   sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
@@ -139,13 +140,20 @@ const { error: sensorError } = await client.from('sensor').insert([{
   damping: parseInt(document.getElementById('damping').value)
 }]);
 
+// ⚠️ Handle sensor error only after the insert attempt
 if (sensorError) {
-  // Check if the error is a duplicate key violation
-  if (sensorError.message.includes('duplicate key') || sensorError.message.includes('already exists')) {
+  const msg = sensorError.message.toLowerCase();
+
+  // If it's a duplicate/unique constraint error, skip and log
+  if (
+    msg.includes('duplicate') ||
+    msg.includes('already exists') ||
+    msg.includes('violates unique constraint')
+  ) {
     console.warn("Sensor is in database.");
     sensorInsertSkipped = true;
   } else {
-    // Other error — stop everything
+    // ❌ For any other error, stop execution
     resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
     return;
   }
