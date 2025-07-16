@@ -1,14 +1,12 @@
-
+// Wait until the DOM is fully loaded before executing any code
 
     document.addEventListener('DOMContentLoaded', () => {
       const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
       const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      const resultBox = document.getElementById('Result');
+      const resultBox = document.getElementById('Result');  // element to display error message
 
-    
-
-        // ADD/HIDE CUSTOM FIELD
+     // ADD OR HIDE CUSTOM FIELD
       document.getElementById('resolution').addEventListener('change', () => {
         document.getElementById('custom_resolution').style.display =
           document.getElementById('resolution').value === 'other' ? 'block' : 'none';
@@ -18,7 +16,6 @@
           document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
       });
 
-      
         document.getElementById('sensor').addEventListener('change', () => {
         document.getElementById('custom_sensor').style.display =
         document.getElementById('sensor').value === 'other' ? 'block' : 'none';
@@ -42,11 +39,13 @@
           { id: 'recording_system', label: 'Recording System' }
         ];
 
+        //Validate all required fields
         for (let field of requiredFields) {
           const el = document.getElementById(field.id);
           let value = el.value;
 
-          // Handle custom options
+            //DROP DOWNS
+          // If custom value is required for "other", get the input value
           if (field.id === 'resolution' && value === 'other') {
             value = document.getElementById('custom_resolution').value;
           }
@@ -56,17 +55,16 @@
           if (field.id === 'sensor' && value === 'other') {
             value = document.getElementById('custom_sensor').value;
           }
-
+        
+          // If any required field is empty, show an alert and stop submission
           if (!value || value.trim() === '') {
             alert(`Please enter a value for ${field.label}.`);
             return;
           }
         }
 
-
-// PARSE cleaned values after validation
-
-// RESOLUTION
+//DROP DOWNS
+// PARSE RESOLUTION EITHER FOR 361 AND CUSTOM VALUES
 let resolutionRaw = document.getElementById('resolution').value;
 let resolutionValue;
 if (resolutionRaw === '361 (WWSSN)') {
@@ -77,28 +75,28 @@ if (resolutionRaw === '361 (WWSSN)') {
   resolutionValue = parseInt(resolutionRaw);
 }
 
-// RECORDING TYPE
+// PARSE RECORDING TYPE (CUSTOM OR SELECTED)
 let recordingRaw = document.getElementById('recording_type').value;
 let recordingType = (recordingRaw === 'other')
   ? document.getElementById('custom_recording_type').value.trim()
   : recordingRaw;
 
-// SENSOR
+// PARSE SENSOR TYPE (CUSTOM OR SELECTED)
 let sensorRaw = document.getElementById('sensor').value;
 let sensorValue = (sensorRaw === 'other')
   ? document.getElementById('custom_sensor').value.trim()
   : sensorRaw;
 
         
-        // Optional: Phase Markings, Occlusions, Signal
-        const phaseMarkingsRaw = document.getElementById('phase_markings').value;
-        let phaseMarkings = phaseMarkingsRaw === "True" ? true : phaseMarkingsRaw === "False" ? false : null;
+// Convert dropdowns to booleans or null
+const phaseMarkingsRaw = document.getElementById('phase_markings').value;
+let phaseMarkings = phaseMarkingsRaw === "True" ? true : phaseMarkingsRaw === "False" ? false : null;
 
-        const occlusionsRaw = document.getElementById('occlusions').value;
-        let occlusions = occlusionsRaw === "True" ? true : occlusionsRaw === "False" ? false : null;
+const occlusionsRaw = document.getElementById('occlusions').value;
+let occlusions = occlusionsRaw === "True" ? true : occlusionsRaw === "False" ? false : null;
 
-        const signalRaw = document.getElementById('signal').value;
-        let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
+const signalRaw = document.getElementById('signal').value;
+let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
       
         // Insert into image table
         const { error: imageError } = await client.from('image').insert([{
@@ -121,10 +119,6 @@ let sensorValue = (sensorRaw === 'other')
           return;
         }
         
-
-
-        
-        // Insert into sensor table
             // Insert into sensor table
 
         console.log("Inserting sensor:", {
@@ -135,7 +129,7 @@ let sensorValue = (sensorRaw === 'other')
         damping: parseInt(document.getElementById('damping').value)
         });
 
-     const { error: sensorError } = await client.from('sensor').upsert([{
+     const { error: sensorError } = await client.from('sensor').insert([{
         sensor: sensorValue,
         sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
         sensor_nature: document.getElementById('sensor_nature').value,
