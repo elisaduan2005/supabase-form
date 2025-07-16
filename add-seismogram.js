@@ -153,30 +153,48 @@ if (sensorError) {
     console.warn("Sensor is in database.");
     sensorInsertSkipped = true;
   } else {
-    // ❌ For any other error, stop execution
+    // For any other error, stop execution
     resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
     return;
   }
 }
 
-        // Insert into equipment table
-        const { error: equipError } = await client.from('equipment').insert([{
-          channel: document.getElementById('channel').value,
-          equip_open_date: document.getElementById('equip_open_date').value  || null,
-          equip_serial_number: parseInt(document.getElementById('equip_serial_number').value),
-          h_dip1: parseFloat(document.getElementById('h_dip1').value),
-          h_dip2: parseFloat(document.getElementById('h_dip2').value),
-          v_dip: parseFloat(document.getElementById('v_dip').value),
-          recording_system: document.getElementById('recording_system').value,
-          recording_serial_number: parseInt(document.getElementById('recording_serial_number').value),
-          equip_gain: parseInt(document.getElementById('equip_gain').value),
-          period_of_gain: parseFloat(document.getElementById('period_of_gain').value),
-          equip_nature: document.getElementById('equip_nature').value
-        }]);
-        if (equipError) {
-          resultBox.textContent = 'Error inserting equipment: ' + equipError.message;
-          return;
-        }
+console.log("Attempting to insert equipment...");
+
+let equipmentInsertSkipped = false;
+
+const { error: equipError } = await client.from('equipment').insert([{
+  channel: document.getElementById('channel').value,
+  equip_open_date: document.getElementById('equip_open_date').value || null,
+  equip_serial_number: parseInt(document.getElementById('equip_serial_number').value),
+  h_dip1: parseFloat(document.getElementById('h_dip1').value),
+  h_dip2: parseFloat(document.getElementById('h_dip2').value),
+  v_dip: parseFloat(document.getElementById('v_dip').value),
+  recording_system: document.getElementById('recording_system').value,
+  recording_serial_number: parseInt(document.getElementById('recording_serial_number').value),
+  equip_gain: parseInt(document.getElementById('equip_gain').value),
+  period_of_gain: parseFloat(document.getElementById('period_of_gain').value),
+  equip_nature: document.getElementById('equip_nature').value
+}]);
+
+if (equipError) {
+  // Handle unique constraint conflict (duplicate primary key)
+  if (
+    equipError.code === '23505' || // PostgreSQL duplicate key code
+    (equipError.message && (
+      equipError.message.includes('duplicate key') ||
+      equipError.message.includes('already exists')
+    ))
+  ) {
+    console.warn("Equipment already exists — skipping equipment insert.");
+    equipmentInsertSkipped = true;
+  } else {
+    // If it's another kind of error, stop everything
+    resultBox.textContent = 'Error inserting equipment: ' + equipError.message;
+    return;
+  }
+}
+
 
         resultBox.textContent = 'Success! All records added.';
         document.getElementById('imageForm').reset();
