@@ -11,10 +11,14 @@
   <h1 style="text-align:center;">Add New Seismogram</h1>
 
 <div class="form-container">
-  <div class="form-section">
+  <!-- ROW 1 -->
+  <div class="row">
+    <!-- COL 1 -->
+    <div class="col">
+    <div class="form-section">
     <h2>Image Details</h2>
   <!-- IMAGE TABLE -->
-<form id="imageForm">
+  <form id="imageForm">
   <!-- Data Scanned-->
   <label>Date Scanned:</label><br>
   <input type="date" id="date_scanned"><br><br>
@@ -87,6 +91,35 @@
   <label>Timemark:</label><br>
   <input type="datetime-local" id="timemark"><br><br>
 </form>
+</div></div>
+
+<!-- COL 2 -->
+<div class="col">
+<div class="form-section">
+<h2>Seismogram Details</h2>
+<!-- DATA TABLE -->
+<form id="dataForm">
+  <!-- PHYSICAL LOCATION LABEL -->
+  <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
+  <select id="physical_location">
+  <option value="" disabled selected>Choose...</option>
+  <option value="California Department of Water and Power">Albuquerque</option>
+  <option value="EarthScope">New Mexico</option>
+  <option value="Northwestern">USA</option>
+  <option value="other">Other</option>
+  </select><br><br>
+  <!-- COMPONENT LABEL -->
+  <label>Component:</label><br>
+  <input type="varchar" id="component"><br><br>
+    <!-- POLARITY LABEL -->
+  <label>Polarity:</label><br>
+  <select id="polarity">
+  <option value="" disabled selected>Choose...</option>
+  <option value="Up">Up</option>
+  <option value="Down">Down</option>
+  <option value="NULL">Null</option>
+  </select><br><br>
+</form>
 </div>
 
 <div class="form-section">
@@ -116,8 +149,10 @@
   <label for="damping">Galvo Damping: <span style="color:red">*</span></label><br>
   <input type="integer" id="damping"><br><br>
 </form>
-</div>
+</div></div>
 
+<!-- COL 3 -->
+<div class="col">
 <div class="form-section">
 <h2>Equipment Details</h2>
 <!-- EQUIPMENT TABLE -->
@@ -156,9 +191,12 @@
   <label>Nature of Equipment:</label><br>
   <input type="varchar" id="equip_nature"><br><br>
 </form>
-</div>
+</div></div></div>
 
-
+<!-- ROW 2 -->
+<div class="row">
+<!-- COL 1 -->
+<div class="col">
 <div class="form-section">
 <h2>Network Details</h2>
 <!-- NETWORK TABLE -->
@@ -182,7 +220,6 @@
   </select><br><br>
 </form>
 </div>
-
 <div class="form-section">
 <h2>Station Details</h2>
 <!-- STATION TABLE -->
@@ -218,35 +255,10 @@
   <label>Close Date:</label><br>
   <input type="date" id="close_date"><br><br>
 </form>
-</div>
+</div></div>
 
-<div class="form-section">
-<h2>Seismogram Details</h2>
-<!-- DATA TABLE -->
-<form id="dataForm">
-  <!-- PHYSICAL LOCATION LABEL -->
-  <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
-  <select id="physical_location">
-  <option value="" disabled selected>Choose...</option>
-  <option value="California Department of Water and Power">Albuquerque</option>
-  <option value="EarthScope">New Mexico</option>
-  <option value="Northwestern">USA</option>
-  <option value="other">Other</option>
-  </select><br><br>
-  <!-- COMPONENT LABEL -->
-  <label>Component:</label><br>
-  <input type="varchar" id="component"><br><br>
-    <!-- POLARITY LABEL -->
-  <label>Polarity:</label><br>
-  <select id="polarity">
-  <option value="" disabled selected>Choose...</option>
-  <option value="Up">Up</option>
-  <option value="Down">Down</option>
-  <option value="NULL">Null</option>
-  </select><br><br>
-</form>
-</div>
-
+<!-- ROW 2 COL 2 -->
+<div class="col">
 <div class="form-section">
 <h2>CDWP Image</h2>
 <!-- CDWP IMAGE TABLE -->
@@ -285,11 +297,12 @@
   <input type="varchar" id="filename"><br><br>
   <!-- CREATOR LABEL -->
   <label>Creator:</label><br>
-  <input type="varchar" id="creator"><br><br>
-  </select><br><br>
+  <input type="varchar" id="CDWP_image_creator"><br><br>
 </form>
-</div>
+</div></div>
 
+<!-- ROW 2 COL 3 -->
+<div class="col">
 <div class="form-section">
 <h2>CDWP Location</h2>
 <!-- CDWP LOCATION TABLE -->
@@ -319,9 +332,7 @@
   <label>Notes:</label><br>
   <input type="varchar" id="CDWP_location_notes"><br><br>
 </form>
-</div>
-
-</div>
+</div></div></div>
 
 
 
