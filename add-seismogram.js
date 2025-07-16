@@ -173,7 +173,8 @@ const { error: equipError } = await client.from('equipment').insert([{
   recording_serial_number: parseInt(document.getElementById('recording_serial_number').value),
   equip_gain: parseInt(document.getElementById('equip_gain').value),
   period_of_gain: parseFloat(document.getElementById('period_of_gain').value),
-  equip_nature: document.getElementById('equip_nature').value
+  equip_nature: document.getElementById('equip_nature').value,
+  sensor: sensorValue
 }]);
 
 // Handle Equip error only after the insert attempt
