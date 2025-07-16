@@ -121,25 +121,28 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
         
             // Insert into sensor table
 
-        console.log("Inserting sensor:", {
-        sensor: sensorValue,
-        sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-        sensor_nature: document.getElementById('sensor_nature').value,
-        free_period: parseFloat(document.getElementById('free_period').value),
-        damping: parseInt(document.getElementById('damping').value)
-        });
 
-     const { error: sensorError } = await client.from('sensor').insert([{
-        sensor: sensorValue,
-        sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-        sensor_nature: document.getElementById('sensor_nature').value,
-        free_period: parseFloat(document.getElementById('free_period').value),
-        damping: parseInt(document.getElementById('damping').value)
-        }],{
-    onConflict: ['sensor'],    
-    ignoreDuplicates: true
-  });
+          console.log("Inserting sensor:", {
+  sensor: sensorValue,
+  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
+  sensor_nature: document.getElementById('sensor_nature').value,
+  free_period: parseFloat(document.getElementById('free_period').value),
+  damping: parseInt(document.getElementById('damping').value)
+});
 
+        const { error: sensorError } = await client.from('sensor').insert([{
+  sensor: sensorValue,
+  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
+  sensor_nature: document.getElementById('sensor_nature').value,
+  free_period: parseFloat(document.getElementById('free_period').value),
+  damping: parseInt(document.getElementById('damping').value)
+}]);
+        if (sensorError) {
+          resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
+          return;
+        }
+
+        
 
 
         if (sensorError) {
