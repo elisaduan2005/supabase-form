@@ -159,7 +159,6 @@ if (sensorError) {
   }
 }
 
-console.log("Attempting to insert equipment...");
 
 let equipmentInsertSkipped = false;
 
@@ -177,24 +176,24 @@ const { error: equipError } = await client.from('equipment').insert([{
   equip_nature: document.getElementById('equip_nature').value
 }]);
 
+// Handle Equip error only after the insert attempt
 if (equipError) {
-  // Handle unique constraint conflict (duplicate primary key)
+  const msg = equipError.message.toLowerCase();
+
+  // If it's a duplicate/unique constraint error, skip and log
   if (
-    equipError.code === '23505' || // PostgreSQL duplicate key code
-    (equipError.message && (
-      equipError.message.includes('duplicate key') ||
-      equipError.message.includes('already exists')
-    ))
+    msg.includes('duplicate') ||
+    msg.includes('already exists') ||
+    msg.includes('violates unique constraint')
   ) {
-    console.warn("Equipment already exists — skipping equipment insert.");
-    equipmentInsertSkipped = true;
+    console.warn("Equipment is in database.");
+    sensorInsertSkipped = true;
   } else {
-    // If it's another kind of error, stop everything
-    resultBox.textContent = 'Error inserting equipment: ' + equipError.message;
+    // For any other error, stop execution
+    resultBox.textContent = 'Error inserting equipent: ' + sensorError.message;
     return;
   }
 }
-
 
         resultBox.textContent = 'Success! All records added.';
         document.getElementById('imageForm').reset();
