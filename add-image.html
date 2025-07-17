@@ -38,11 +38,11 @@
   <input type="number" id="custom_resolution" placeholder="Enter custom value" style="display:none;"><br><br>
   <!-- LENGTH LABEL -->
   <label>Length:</label><br>
-  <small class="description">enter the length of the analog document in (what unit???)</small><br>
+  <small class="description">enter the length (float) of the analog document in (what unit???)</small><br>
   <input type="number" step="0.01" id="length"><br><br>
   <!-- WIDTH LABEL -->
   <label>Width:</label><br>
-  <small class="description">enter the width of the analog document in (what unit???)</small><br>
+  <small class="description">enter the width (float) of the analog document in (what unit???)</small><br>
   <input type="number" step="0.01" id="width"><br><br>
   <!-- PHASE MARKINGS LABEL -->
   <label>Phase Markings:</label><br>
@@ -95,7 +95,8 @@
     <option value="NULL">Null</option>
   </select><br><br>
   <!-- TIMEMARK LABEL -->
-  <small class="description">positive reel to indicate length of vertically offset timemarks, negative reel to indicate length of gapped timemarks, null to indicate no timemarks</small><br>
+  <label>Timemark:</label><br>
+  <small class="description"><em>positive reel to indicate length of vertically offset timemarks, negative reel to indicate length of gapped timemarks, null to indicate no timemarks</em></small><br>
   <select id="timemark">
   <option value="" disabled selected>Choose...</option>
   <option value="Positive">True</option>
