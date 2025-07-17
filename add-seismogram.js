@@ -153,8 +153,7 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
           notes: document.getElementById('notes').value,
           owner_contact: document.getElementById('owner_contact').value,
           signal: signal,
-          timemark: document.getElementById('timemark').value || null,
-          sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value)
+          timemark: document.getElementById('timemark').value || null
         }]);
         if (imageError) {
           resultBox.textContent = 'Error inserting image: ' + imageError.message;
@@ -175,7 +174,6 @@ let sensorInsertSkipped = false;
 // Try inserting the sensor row
 const { error: sensorError } = await client.from('sensor').insert([{
   sensor: sensorValue,
-  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
   sensor_nature: document.getElementById('sensor_nature').value,
   free_period: parseFloat(document.getElementById('free_period').value),
   damping: parseInt(document.getElementById('damping').value)
@@ -214,6 +212,7 @@ const { error: equipError } = await client.from('equipment').insert([{
   equip_gain: parseInt(document.getElementById('equip_gain').value),
   period_of_gain: parseFloat(document.getElementById('period_of_gain').value),
   equip_nature: document.getElementById('equip_nature').value,
+  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
   sensor: sensorValue
 }]);
 
@@ -259,7 +258,6 @@ const formData = {
   free_period: document.getElementById("free_period").value,
   damping: document.getElementById("damping").value,
   channel: document.getElementById("channel").value,
-  equip_serial_number: document.getElementById("equip_serial_number").value,
   h_dip1: document.getElementById("h_dip1").value,
   h_dip2: document.getElementById("h_dip2").value,
   v_dip: document.getElementById("v_dip").value,
