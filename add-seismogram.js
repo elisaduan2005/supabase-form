@@ -6,9 +6,12 @@
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const resultBox = document.getElementById('Result');  // element to display error message
 
-        //Autofill form with previously saved data
+        // Autofill form ONLY IF just submitted
+
   const savedData = JSON.parse(localStorage.getItem("lastSeismogramSubmission"));
-  if (savedData) {
+const shouldAutofill = sessionStorage.getItem("shouldAutofill") === "true";
+
+if (savedData && shouldAutofill) {
     for (const key in savedData) {
       const el = document.getElementById(key);
       if (el) {
@@ -33,6 +36,9 @@
     const el = document.getElementById(id);
     if (el) el.dispatchEvent(new Event('change'));
   });
+
+    // 🔁 Don't autofill again on refresh
+  sessionStorage.removeItem("shouldAutofill");
 }
   
 
@@ -259,6 +265,8 @@ const formData = {
 };
 
 localStorage.setItem("lastSeismogramSubmission", JSON.stringify(formData));
+sessionStorage.setItem("shouldAutofill", "true"); // ✅ Triggers one-time autofill on reload
+
 
 // Clear the form afterward
 document.getElementById('imageForm').reset();
