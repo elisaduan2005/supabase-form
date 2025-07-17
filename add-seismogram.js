@@ -154,7 +154,8 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
           owner_contact: document.getElementById('owner_contact').value,
           creator: document.getElementById('creator').value,
           signal: signal,
-          timemark: document.getElementById('timemark').value || null
+          timemark: document.getElementById('timemark').value || null,
+          sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value)
         }]);
         if (imageError) {
           resultBox.textContent = 'Error inserting image: ' + imageError.message;
