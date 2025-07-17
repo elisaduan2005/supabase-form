@@ -70,7 +70,8 @@
           { id: 'h_dip1', label: 'Horizontal 1 Dip/Azimuth' },
           { id: 'h_dip2', label: 'Horizontal 2 Dip/Azimuth' },
           { id: 'v_dip', label: 'Vertical Dip/Azimuth' },
-          { id: 'recording_system', label: 'Recording System' }
+          { id: 'recording_system', label: 'Recording System' },
+          { id: 'sensor_serial_number', label: 'Sensor Serial Number' }
         ];
 
         //Validate all required fields
