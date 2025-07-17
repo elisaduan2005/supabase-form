@@ -124,7 +124,7 @@
   </select><br><br>
   <!-- COMPONENT LABEL -->
   <label>Component:</label><br>
-  <input type="varchar" id="component"><br><br>
+  <input type="text" id="component"><br><br>
     <!-- POLARITY LABEL -->
   <label>Polarity:</label><br>
   <small class="description">ground motion up = up on paper or down on papers</small><br>
@@ -151,18 +151,18 @@
   <option value="Beniof">Beniof</option>
   <option value="other">Other</option>
   </select>
-  <input type="varchar" id="custom_sensor" placeholder="Enter custom value" style="display:none;"><br><br>
+  <input type="text" id="custom_sensor" placeholder="Enter custom value" style="display:none;"><br><br>
   <!-- NATURE LABEL -->
   <label>Nature of Sensor:</label><br>
-  <input type="varchar" id="sensor_nature"><br><br>
+  <input type="text" id="sensor_nature"><br><br>
   <!-- GALVO FREE PERIOD LABEL -->
   <label for="free_period">Galvo Free Period: <span style="color:red">*</span></label><br>
   <small class="description">the free period of the instrument</small><br>
-  <input type="float" id="free_period"><br><br>
+  <input type="number" step="0.01" id="free_period"><br><br>
   <!-- DAMPING LABEL -->
   <label for="damping">Galvo Damping: <span style="color:red">*</span></label><br>
   <small class="description">the instrument's damping constant</small><br>
-  <input type="integer" id="damping"><br><br>
+  <input type="number" id="damping"><br><br>
 </form>
 </div></div>
 
@@ -175,45 +175,45 @@
   <!-- CHANNEL LABEL -->
   <label for="channel">Channel: <span style="color:red">*</span></label><br>
   <small class="description">channel code as in SEED format</small><br>
-  <input type="varchar" id="channel"><br><br>
+  <input type="text" id="channel"><br><br>
   <!-- EQUIPMENT OPEN DATE LABEL -->
   <label>Equipment Open Date:</label><br>
   <input type="date" id="equip_open_date"><br><br>
    <!-- SENSOR SERIAL NUMBER LABEL -->
   <label for="sensor_serial_number">Sensor Serial Number: <span style="color:red">*</span></label><br>
   <small class="description">manufacturer's serial number of seismometer if known</small><br>
-  <input type="integer" id="sensor_serial_number"><br><br>
+  <input type="number" id="sensor_serial_number"><br><br>
   <!-- HORIZONTAL 1 DIP/AZIMUTH LABEL -->
   <label for="h_dip1">Horizontal 1 Dip/Azimuth: <span style="color:red">*</span></label><br>
   <small class="description">the dip/azimuth of the first horizontal</small><br>
-  <input type="float" id="h_dip1"><br><br>
+  <input type="number" step="0.01" id="h_dip1"><br><br>
   <!-- HORIZONTAL 2 DIP/AZIMUTH LABEL -->
   <label for="h_dip2">Horizontal 2 Dip/Azimuth: <span style="color:red">*</span></label><br>
   <small class="description">the dip/azimuth of the second horizontal</small><br>
-  <input type="float" id="h_dip2"><br><br>
+  <input type="number" step="0.01" id="h_dip2"><br><br>
   <!-- VERTICAL DIP/AZIMUTH LABEL -->
   <label for="v_dip">Vertical Dip/Azimuth: <span style="color:red">*</span></label><br>
-  <small class="description">the dip/azimuth of the vertical channel</small><br>
-  <input type="float" id="v_dip"><br><br>
+  <small class="description">the dip/azimuth o
+  <input type="number" step="0.01" id="v_dip"><br><br>
   <!-- RECORDING SYSTEM LABEL -->
   <label for="recording_system">Recording System: <span style="color:red">*</span></label><br>
-  <input type="varchar" id="recording_system"><br><br>
+  <input type="text" id="recording_system"><br><br>
   <!-- RECORDING SERIAL NUMBER LABEL -->
   <label>Recording Serial Number:</label><br>
   <small class="description">manufacturer's serial number if known</small><br>
-  <input type="integer" id="recording_serial_number"><br><br>
+  <input type="number" id="recording_serial_number"><br><br>
   <!-- EQUIPMENT GAIN LABEL-->
   <label>Equipment Gain:</label><br>
   <small class="description">scale or gain factor (scaler)</small><br>
-  <input type="integer" id="equip_gain"><br><br>
+  <input type="number" id="equip_gain"><br><br>
   <!-- PERIOD OF GAIN LABEL -->
   <label>Period of Gain:</label><br>
   <small class="description">period at which the gain is valid</small><br>
-  <input type="float" id="period_of_gain"><br><br>
+  <input type="number" step="0.01" id="period_of_gain"><br><br>
   <!-- NATURE OF EQUIPMENT LABEL -->
   <label>Nature of Equipment:</label><br>
   <small class="description">Mechanical (e.g., Wiechert) or electromagnetic (e.g., Golitsyn)</small><br>
-  <input type="varchar" id="equip_nature"><br><br>
+  <input type="text" id="equip_nature"><br><br>
 </form>
 </div></div></div>
 
@@ -254,23 +254,23 @@
   <!-- STATION ID LABEL -->
   <label for="IR_code">IR Code: <span style="color:red">*</span></label><br>
   <small class="description">station's code in the International Registry (ISC)</small><br>
-  <input type="varchar" id="IR_code"><br><br>
+  <input type="text" id="IR_code"><br><br>
   <!-- LONGITUDE LABEL -->
   <label>Longitude: <span style="color:red">*</span></label><br>
   <small class="description">longitude using WGS84 datum</small><br>
-  <input type="float" id="longitude"><br><br>
+  <input type="number" step="0.01" id="longitude"><br><br>
     <!-- LATITUDE LABEL -->
   <label>Latitude: <span style="color:red">*</span></label><br>
   <small class="description">latitude using WGS84 datum</small><br>
-  <input type="float" id="latitude"><br><br>
+  <input type="number" step="0.01" id="latitude"><br><br>
     <!-- ELEVATION LABEL -->
   <label>Elevation:</label><br>
   <small class="description">elevation above (+) or below (-) sea level</small><br>
-  <input type="integer" id="elevation"><br><br>
+  <input type="number" id="elevation"><br><br>
     <!-- DEPTH LABEL -->
   <label>Depth:</label><br>
   <small class="description">depth below ground surface at specified longitude and latitude</small><br>
-  <input type="integer" id="depth"><br><br>
+  <input type="number" id="depth"><br><br>
   <!-- SITE NAME LABEL -->
   <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
   <small class="description">site name (e.g. Albuquerque, New Mexico, USA)</small><br>
@@ -300,7 +300,7 @@
 <form id="cdwpimageForm">
   <!-- LOCAL STATION CODE LABEL -->
   <label>Local Station Code:</label><br>
-  <input type="varchar" id="station_code_local"><br><br>
+  <input type="text" id="station_code_local"><br><br>
   <!-- START TIME CORRECTION LABEL -->
   <label>Start Time Correction:</label><br>
   <input type="date" id="start_time_correction"><br><br>
@@ -318,25 +318,25 @@
   </select><br><br>
   <!-- INSTRUMENT NAME LABEL-->
   <label>Instrument Name:</label><br>
-  <input type="varchar" id="instrument_name"><br><br>
+  <input type="text" id="instrument_name"><br><br>
   <!-- CDWP LOCATION GAIN LABEL -->
   <label>CDWP Location Gain:</label><br>
-  <input type="integer" id="CDWP_location_gain"><br><br>
+  <input type="number" id="CDWP_location_gain"><br><br>
   <!-- TO LABEL -->
   <label>To:</label><br>
   <small class="description">Defined as pendulumn free period</small><br>
-  <input type="float" id="to"><br><br>
+  <input type="number" step="0.01" id="to"><br><br>
   <!-- TG LABEL -->
   <label>Tg:</label><br>
   <small class="description">Defined as galvanmometer free period</small><br>
-  <input type="float" id="tg"><br><br>
+  <input type="number" step="0.01" id="tg"><br><br>
   <!-- FILENAME LABEL -->
   <label>Filename:</label><br>
   <small class="description">Image filename</small><br>
-  <input type="varchar" id="filename"><br><br>
+  <input type="text" id="filename"><br><br>
   <!-- CREATOR LABEL -->
   <label>Creator:</label><br>
-  <input type="varchar" id="CDWP_image_creator"><br><br>
+  <input type="text" id="CDWP_image_creator"><br><br>
 </form>
 </div></div>
 
@@ -348,7 +348,7 @@
 <form id="cdwplocationForm">
   <!-- BOX ID LABEL -->
   <label>Box ID:</label><br>
-  <input type="integer" id="box_id"><br><br>
+  <input type="number" id="box_id"><br><br>
   <!-- START DATE LABEL -->
   <label>Start Date:</label><br>
   <input type="date" id="start_date"><br><br>
@@ -357,16 +357,16 @@
   <input type="date" id="end_date"><br><br>
   <!-- CONTAINER LABEL -->
   <label>Container:</label><br>
-  <input type="varchar" id="container"><br><br>
+  <input type="text" id="container"><br><br>
   <!-- STACK LABEL-->
   <label>Stack:</label><br>
-  <input type="integer" id="stack"><br><br>
+  <input type="number" id="stack"><br><br>
   <!-- PREVIOUS NUMBER LABEL -->
   <label>Previous Number:</label><br>
-  <input type="integer" id="previous_no"><br><br>
+  <input type="number" id="previous_no"><br><br>
   <!-- EXCEPTIONS LABEL -->
   <label>Exceptions:</label><br>
-  <input type="varchar" id="exceptions"><br><br>
+  <input type="text" id="exceptions"><br><br>
   <!-- NOTES LABEL -->
   <label>Notes:</label><br>
   <textarea id="CDWP_location_notes"></textarea><br><br>
@@ -376,8 +376,8 @@
 
 
 <button id="SubmitAll">Submit</button>
-<p id="Result"></p>
-
+<!-- <p id="Result"></p>-->
+<div id="Result" style="margin-top: 8px; font-weight: bold;"></div>
 <script src="add-seismogram.js" defer></script>
 </body>
 </html>

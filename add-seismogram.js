@@ -30,8 +30,6 @@
       }
     }
 
-  alert('Autofilled with last submission');
-
   ['resolution', 'recording_type', 'sensor'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.dispatchEvent(new Event('change'));
@@ -235,7 +233,7 @@ if (equipError) {
   }
 }       alert('✅ Submission complete!');
 
-        resultBox.textContent = 'Success! Your record has been added to the database.'
+resultBox.textContent = 'Success! Your record has been added to the database.'
 
 // ✅ Save some of the last inputs for default next time
 const formData = {
