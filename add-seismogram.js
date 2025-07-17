@@ -252,7 +252,6 @@ const formData = {
   custom_recording_type: document.getElementById("custom_recording_type").value,
   notes: document.getElementById("notes").value,
   owner_contact: document.getElementById("owner_contact").value,
-  creator: document.getElementById("creator").value,
   signal: document.getElementById("signal").value,
   timemark: document.getElementById("timemark").value,
   sensor: document.getElementById("sensor").value,
