@@ -165,7 +165,6 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
 
           console.log("Inserting sensor:", {
   sensor: sensorValue,
-  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
   sensor_nature: document.getElementById('sensor_nature').value,
   free_period: parseFloat(document.getElementById('free_period').value),
   damping: parseInt(document.getElementById('damping').value)
