@@ -99,8 +99,8 @@
   <small class="description">positive reel to indicate length of vertically offset timemarks, negative reel to indicate length of gapped timemarks, null to indicate no timemarks</small><br>
   <select id="timemark">
   <option value="" disabled selected>Choose...</option>
-  <option value="Positive">True</option>
-  <option value="Negatve">False</option>
+  <option value="Positive">Positive</option>
+  <option value="Negatve">Negative</option>
   <option value="NULL">Null</option>
   </select><br><br>
 </form>
@@ -115,6 +115,7 @@
   <!-- PHYSICAL LOCATION LABEL -->
   <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
   <small class="description">Country, state or province, city, institution, room of original analog document when scanned</small><br>
+  <select id="physica_location">
   <option value="" disabled selected>Choose...</option>
   <option value="California Department of Water and Power">Albuquerque</option>
   <option value="EarthScope">New Mexico</option>
@@ -173,6 +174,7 @@
 <form id="equipmentForm">
   <!-- CHANNEL LABEL -->
   <label for="channel">Channel: <span style="color:red">*</span></label><br>
+  <small class="description">channel code as in SEED format</small><br>
   <input type="varchar" id="channel"><br><br>
   <!-- EQUIPMENT OPEN DATE LABEL -->
   <label>Equipment Open Date:</label><br>
@@ -225,6 +227,7 @@
 <form id="networkForm">
   <!-- NETWORK ID LABEL -->
   <label for="network_id">Network ID: <span style="color:red">*</span></label><br>
+  <small class="description">network to which the station belongs (e.g. WWSSN, GSN, EREBUS)</small><br>
   <select id="network_id">
   <option value="" disabled selected>Choose...</option>
   <option value="WWSSN">WWSSN</option>
@@ -234,6 +237,7 @@
   </select><br><br>
   <!-- NETWORK NAME LABEL -->
   <label>Network Name:</label><br>
+  <small class="description">earliest FDSN Code in use for the station (use SS if not associated with a network)</small><br>
   <select id="network_name">
   <option value="" disabled selected>Choose...</option>
   <option value="CI">CI</option>
@@ -242,27 +246,34 @@
   </select><br><br>
 </form>
 </div>
+
 <div class="form-section">
 <h2>Station Details</h2>
 <!-- STATION TABLE -->
 <form id="stationForm">
   <!-- STATION ID LABEL -->
   <label for="IR_code">IR Code: <span style="color:red">*</span></label><br>
+  <small class="description">station's code in the International Registry (ISC)</small><br>
   <input type="varchar" id="IR_code"><br><br>
   <!-- LONGITUDE LABEL -->
   <label>Longitude: <span style="color:red">*</span></label><br>
+  <small class="description">longitude using WGS84 datum</small><br>
   <input type="float" id="longitude"><br><br>
     <!-- LATITUDE LABEL -->
   <label>Latitude: <span style="color:red">*</span></label><br>
+  <small class="description">latitude using WGS84 datum</small><br>
   <input type="float" id="latitude"><br><br>
     <!-- ELEVATION LABEL -->
   <label>Elevation:</label><br>
+  <small class="description">elevation above (+) or below (-) sea level</small><br>
   <input type="integer" id="elevation"><br><br>
     <!-- DEPTH LABEL -->
   <label>Depth:</label><br>
+  <small class="description">depth below ground surface at specified longitude and latitude</small><br>
   <input type="integer" id="depth"><br><br>
   <!-- SITE NAME LABEL -->
   <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
+  <small class="description">site name (e.g. Albuquerque, New Mexico, USA)</small><br>
   <select id="site_name">
   <option value="" disabled selected>Choose...</option>
   <option value="Albuquerque">Albuquerque</option>
@@ -272,9 +283,11 @@
   </select><br><br>
   <!-- OPEN DATE LABEL -->
   <label>Open Date:</label><br>
+  <small class="description">date when station was opened</small><br>
   <input type="date" id="open_date"><br><br>
   <!-- CLOSE DATE LABEL -->
   <label>Close Date:</label><br>
+  <small class="description">if closed, Date when station was closed. Leave empty if still operating or not known</small><br>
   <input type="date" id="close_date"><br><br>
 </form>
 </div></div>
@@ -296,6 +309,7 @@
   <input type="date" id="end_time_correction"><br><br>
   <!-- SIDE LABEL -->
   <label>Side:</label><br>
+  <small class="description">0 = Front, 1 = Back</small><br>
   <select id="side">
   <option value="" disabled selected>Choose...</option>
   <option value="True">Up</option>
@@ -310,12 +324,15 @@
   <input type="integer" id="CDWP_location_gain"><br><br>
   <!-- TO LABEL -->
   <label>To:</label><br>
+  <small class="description">Defined as pendulumn free period</small><br>
   <input type="float" id="to"><br><br>
   <!-- TG LABEL -->
   <label>Tg:</label><br>
+  <small class="description">Defined as galvanmometer free period</small><br>
   <input type="float" id="tg"><br><br>
   <!-- FILENAME LABEL -->
   <label>Filename:</label><br>
+  <small class="description">Image filename</small><br>
   <input type="varchar" id="filename"><br><br>
   <!-- CREATOR LABEL -->
   <label>Creator:</label><br>
