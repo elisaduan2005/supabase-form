@@ -266,7 +266,7 @@ const formData = {
 
 localStorage.setItem("lastSeismogramSubmission", JSON.stringify(formData));
 sessionStorage.setItem("shouldAutofill", "true"); // ✅ Triggers one-time autofill on reload
-
+location.reload();
 
 // Clear the form afterward
 document.getElementById('imageForm').reset();

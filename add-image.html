@@ -19,12 +19,14 @@
     <h2>Image Details</h2>
   <!-- IMAGE TABLE -->
   <form id="imageForm">
-  <!-- Data Scanned-->
+  <!-- DATE SCANNED LABEL-->
   <label>Date Scanned:</label><br>
+  <small class="description">enter the date the image was scanned</small><br>
   <input type="date" id="date_scanned"><br><br>
   <!-- RESOLUTION LABEL -->
   <!-- red asterisk for required label -->
   <label for="resolution">Resolution: <span style="color:red">*</span></label><br>
+  <small class="description">enter the resolution of the scanned image in DPI</small><br>
   <select id="resolution">
   <option value="" disabled selected>Choose...</option>
   <option value="300">300</option>
@@ -36,12 +38,15 @@
   <input type="number" id="custom_resolution" placeholder="Enter custom value" style="display:none;"><br><br>
   <!-- LENGTH LABEL -->
   <label>Length:</label><br>
+  <small class="description">enter the length of the analog document in (what unit???)</small><br>
   <input type="number" step="0.01" id="length"><br><br>
   <!-- WIDTH LABEL -->
   <label>Width:</label><br>
+  <small class="description">enter the width of the analog document in (what unit???)</small><br>
   <input type="number" step="0.01" id="width"><br><br>
   <!-- PHASE MARKINGS LABEL -->
   <label>Phase Markings:</label><br>
+  <small class="description">indicate if phase notations were placed in the image</small><br>
   <select id="phase_markings">
     <option value="" disabled selected>Choose...</option>
     <option value="True">True</option>
@@ -50,9 +55,11 @@
   </select><br><br>
   <!-- BULLETIN LABEL -->
   <label>Bulletin:</label><br>
+  <small class="description">earthquake phases are present on image. phases were reported to a bulletin or otherwise publlished.</small><br>
   <input type="text" id="bulletin"><br><br>
   <!-- OCCLUSIONS LABEL -->
   <label>Occlusions:</label><br>
+  <small class="description">indicate true if tears or other flaws obscure trace data</small><br>
   <select id="occlusions">
     <option value="" disabled selected>Choose...</option>
     <option value="True">True</option>
@@ -61,6 +68,7 @@
   </select><br><br>
   <!-- RECORDING TYPE LABEL -->
   <label for="recording_type">Recording Type: <span style="color:red">*</span></label><br>
+  <small class="description">indicate original recording type</small><br>
   <select id="recording_type">
   <option value="" disabled selected>Choose...</option>
   <option value="Photographic / Photosensitive">Photographic / Photosensitive</option>
@@ -75,12 +83,11 @@
   <textarea id="notes"></textarea><br><br>
   <!-- OWNER CONTACT LABEL -->
   <label>Owner Contact:</label><br>
+  <small class="description">contact information for the original owner of the data</small><br>
   <input type="text" id="owner_contact"><br><br>
-  <!-- CREATOR LABEL -->
-  <label>Creator:</label><br>
-  <input type="text" id="creator"><br><br>
   <!-- SIGNAL LABEL -->
   <label>Signal:</label><br>
+  <small class="description">indicate true if an earthquake signal is present</small><br>
   <select id="signal">
     <option value="" disabled selected>Choose...</option>
     <option value="True">True</option>
@@ -88,8 +95,13 @@
     <option value="NULL">Null</option>
   </select><br><br>
   <!-- TIMEMARK LABEL -->
-  <label>Timemark:</label><br>
-  <input type="datetime-local" id="timemark"><br><br>
+  <small class="description">positive reel to indicate length of vertically offset timemarks, negative reel to indicate length of gapped timemarks, null to indicate no timemarks</small><br>
+  <select id="timemark">
+  <option value="" disabled selected>Choose...</option>
+  <option value="Positive">True</option>
+  <option value="Negatve">False</option>
+  <option value="NULL">Null</option>
+  </select><br><br>
 </form>
 </div></div>
 
