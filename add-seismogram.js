@@ -8,11 +8,11 @@
 
         // Autofill form ONLY IF just submitted
 
-  const savedData = JSON.parse(localStorage.getItem("lastSeismogramSubmission"));
-const shouldAutofill = sessionStorage.getItem("shouldAutofill") === "true";
+      const savedData = JSON.parse(localStorage.getItem("lastSeismogramSubmission"));
+      const shouldAutofill = sessionStorage.getItem("shouldAutofill") === "true";
 
-if (savedData && shouldAutofill) {
-    for (const key in savedData) {
+      if (savedData && shouldAutofill) {
+      for (const key in savedData) {
       const el = document.getElementById(key);
       if (el) {
         el.value = savedData[key];
@@ -152,7 +152,6 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
           recording_type: recordingType,
           notes: document.getElementById('notes').value,
           owner_contact: document.getElementById('owner_contact').value,
-          creator: document.getElementById('creator').value,
           signal: signal,
           timemark: document.getElementById('timemark').value || null,
           sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value)
