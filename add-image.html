@@ -96,7 +96,7 @@
   </select><br><br>
   <!-- TIMEMARK LABEL -->
   <label>Timemark:</label><br>
-  <small class="description"><em>positive reel to indicate length of vertically offset timemarks, negative reel to indicate length of gapped timemarks, null to indicate no timemarks</em></small><br>
+  <small class="description">positive reel to indicate length of vertically offset timemarks, negative reel to indicate length of gapped timemarks, null to indicate no timemarks</small><br>
   <select id="timemark">
   <option value="" disabled selected>Choose...</option>
   <option value="Positive">True</option>
@@ -114,7 +114,7 @@
 <form id="dataForm">
   <!-- PHYSICAL LOCATION LABEL -->
   <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
-  <select id="physical_location">
+  <small class="description">Country, state or province, city, institution, room of original analog document when scanned</small><br>
   <option value="" disabled selected>Choose...</option>
   <option value="California Department of Water and Power">Albuquerque</option>
   <option value="EarthScope">New Mexico</option>
@@ -126,6 +126,7 @@
   <input type="varchar" id="component"><br><br>
     <!-- POLARITY LABEL -->
   <label>Polarity:</label><br>
+  <small class="description">ground motion up = up on paper or down on papers</small><br>
   <select id="polarity">
   <option value="" disabled selected>Choose...</option>
   <option value="Up">Up</option>
@@ -141,6 +142,7 @@
 <form id="sensorForm">
   <!-- SENSOR LABEL -->
   <label for="sensor">Sensor: <span style="color:red">*</span></label><br>
+  <small class="description">type of sensing instrument (e.g. Streckheisen STS-2, Ewing, Beniof)</small><br>
   <select id="sensor">
   <option value="" disabled selected>Choose...</option>
   <option value="Streckheisen STS-2">Streckheisen STS-2</option>
@@ -149,17 +151,16 @@
   <option value="other">Other</option>
   </select>
   <input type="varchar" id="custom_sensor" placeholder="Enter custom value" style="display:none;"><br><br>
-  <!-- SENSOR SERIAL NUMBER LABEL -->
-  <label>Sensor Serial Number:</label><br>
-  <input type="integer" id="sensor_serial_number"><br><br>
   <!-- NATURE LABEL -->
   <label>Nature of Sensor:</label><br>
   <input type="varchar" id="sensor_nature"><br><br>
   <!-- GALVO FREE PERIOD LABEL -->
   <label for="free_period">Galvo Free Period: <span style="color:red">*</span></label><br>
+  <small class="description">the free period of the instrument</small><br>
   <input type="float" id="free_period"><br><br>
   <!-- DAMPING LABEL -->
   <label for="damping">Galvo Damping: <span style="color:red">*</span></label><br>
+  <small class="description">the instrument's damping constant</small><br>
   <input type="integer" id="damping"><br><br>
 </form>
 </div></div>
@@ -176,32 +177,40 @@
   <!-- EQUIPMENT OPEN DATE LABEL -->
   <label>Equipment Open Date:</label><br>
   <input type="date" id="equip_open_date"><br><br>
-  <!-- EQUIPMENT SERIAL NUMBER LABEL -->
-  <label for="equip_serial_number">Equipment Serial Number: <span style="color:red">*</span></label><br>
-  <input type="integer" id="equip_serial_number"><br><br>
+   <!-- SENSOR SERIAL NUMBER LABEL -->
+  <label for="sensor_serial_number">Sensor Serial Number: <span style="color:red">*</span></label><br>
+  <small class="description">manufacturer's serial number of seismometer if known</small><br>
+  <input type="integer" id="sensor_serial_number"><br><br>
   <!-- HORIZONTAL 1 DIP/AZIMUTH LABEL -->
   <label for="h_dip1">Horizontal 1 Dip/Azimuth: <span style="color:red">*</span></label><br>
+  <small class="description">the dip/azimuth of the first horizontal</small><br>
   <input type="float" id="h_dip1"><br><br>
   <!-- HORIZONTAL 2 DIP/AZIMUTH LABEL -->
   <label for="h_dip2">Horizontal 2 Dip/Azimuth: <span style="color:red">*</span></label><br>
+  <small class="description">the dip/azimuth of the second horizontal</small><br>
   <input type="float" id="h_dip2"><br><br>
   <!-- VERTICAL DIP/AZIMUTH LABEL -->
   <label for="v_dip">Vertical Dip/Azimuth: <span style="color:red">*</span></label><br>
+  <small class="description">the dip/azimuth of the vertical channel</small><br>
   <input type="float" id="v_dip"><br><br>
   <!-- RECORDING SYSTEM LABEL -->
   <label for="recording_system">Recording System: <span style="color:red">*</span></label><br>
   <input type="varchar" id="recording_system"><br><br>
   <!-- RECORDING SERIAL NUMBER LABEL -->
   <label>Recording Serial Number:</label><br>
+  <small class="description">manufacturer's serial number if known</small><br>
   <input type="integer" id="recording_serial_number"><br><br>
   <!-- EQUIPMENT GAIN LABEL-->
   <label>Equipment Gain:</label><br>
+  <small class="description">scale or gain factor (scaler)</small><br>
   <input type="integer" id="equip_gain"><br><br>
   <!-- PERIOD OF GAIN LABEL -->
   <label>Period of Gain:</label><br>
+  <small class="description">period at which the gain is valid</small><br>
   <input type="float" id="period_of_gain"><br><br>
   <!-- NATURE OF EQUIPMENT LABEL -->
   <label>Nature of Equipment:</label><br>
+  <small class="description">Mechanical (e.g., Wiechert) or electromagnetic (e.g., Golitsyn)</small><br>
   <input type="varchar" id="equip_nature"><br><br>
 </form>
 </div></div></div>
