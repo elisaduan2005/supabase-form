@@ -59,50 +59,108 @@
         e.preventDefault();
       
 
-        // Validate all required fields before inserting anything
-        const requiredFields = [
-          { id: 'resolution', label: 'Resolution' },
-          { id: 'recording_type', label: 'Recording Type' },
-          { id: 'sensor', label: 'Sensor' },
-          { id: 'free_period', label: 'Galvo Free Period' },
-          { id: 'damping', label: 'Galvo Damping' },
-          { id: 'channel', label: 'Channel' },
-          { id: 'h_dip1', label: 'Horizontal 1 Dip/Azimuth' },
-          { id: 'h_dip2', label: 'Horizontal 2 Dip/Azimuth' },
-          { id: 'v_dip', label: 'Vertical Dip/Azimuth' },
-          { id: 'recording_system', label: 'Recording System' },
-          { id: 'sensor_serial_number', label: 'Sensor Serial Number' }
-        ];
+const fieldsToValidate = [
+  // ─── IMAGE ───
+  { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
+  { id: 'resolution', type: 'number', required: true, label: 'Resolution' },
+  { id: 'custom_resolution', type: 'number', required: false, label: 'Custom Resolution' },
+  { id: 'length', type: 'number', required: false, label: 'Image Length' },
+  { id: 'width', type: 'number', required: false, label: 'Image Width' },
+  { id: 'phase_markings', type: 'boolean', required: false, label: 'Phase Markings' },
+  { id: 'bulletin', type: 'string', required: false, label: 'Bulletin' },
+  { id: 'occlusions', type: 'boolean', required: false, label: 'Occlusions' },
+  { id: 'recording_type', type: 'string', required: true, label: 'Recording Type' },
+  { id: 'custom_recording_type', type: 'string', required: false, label: 'Custom Recording Type' },
+  { id: 'notes', type: 'string', required: false, label: 'Notes' },
+  { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
+  { id: 'signal', type: 'boolean', required: false, label: 'Signal Present' },
+  { id: 'timemark', type: 'date', required: false, label: 'Timemark' },
 
-        //Validate all required fields
-        for (let field of requiredFields) {
-          const el = document.getElementById(field.id);
-if (!el) {
-  alert(`Missing field in DOM: ${field.label} (id="${field.id}")`);
-  return;
+  // ─── SENSOR ───
+  { id: 'sensor', type: 'string', required: true, label: 'Sensor' },
+  { id: 'custom_sensor', type: 'string', required: false, label: 'Custom Sensor' },
+  { id: 'sensor_nature', type: 'string', required: false, label: 'Sensor Nature' },
+  { id: 'free_period', type: 'number', required: true, label: 'Galvo Free Period' },
+  { id: 'damping', type: 'number', required: true, label: 'Galvo Damping' },
+
+  // ─── EQUIPMENT ───
+  { id: 'channel', type: 'string', required: true, label: 'Channel' },
+  { id: 'equip_open_date', type: 'date', required: false, label: 'Equipment Open Date' },
+  { id: 'h_dip1', type: 'number', required: true, label: 'Horizontal 1 Dip/Azimuth' },
+  { id: 'h_dip2', type: 'number', required: true, label: 'Horizontal 2 Dip/Azimuth' },
+  { id: 'v_dip', type: 'number', required: true, label: 'Vertical Dip/Azimuth' },
+  { id: 'recording_system', type: 'string', required: true, label: 'Recording System' },
+  { id: 'recording_serial_number', type: 'number', required: false, label: 'Recording Serial Number' },
+  { id: 'equip_gain', type: 'number', required: false, label: 'Equipment Gain' },
+  { id: 'period_of_gain', type: 'number', required: false, label: 'Period of Gain' },
+  { id: 'equip_nature', type: 'string', required: false, label: 'Equipment Nature' },
+  { id: 'sensor_serial_number', type: 'number', required: true, label: 'Sensor Serial Number' }
+];
+
+for (let field of fieldsToValidate) {
+  const el = document.getElementById(field.id);
+  if (!el) continue;
+
+  let raw = el.value?.trim();
+
+  // Handle custom dropdowns
+  if (field.id === 'resolution' && raw === 'other') {
+    raw = document.getElementById('custom_resolution').value.trim();
+    if (!raw) {
+      alert('Please enter a custom resolution.');
+      return;
+    }
+  }
+  if (field.id === 'recording_type' && raw === 'other') {
+    raw = document.getElementById('custom_recording_type').value.trim();
+    if (!raw) {
+      alert('Please enter a custom recording type.');
+      return;
+    }
+  }
+  if (field.id === 'sensor' && raw === 'other') {
+    raw = document.getElementById('custom_sensor').value.trim();
+    if (!raw) {
+      alert('Please enter a custom sensor.');
+      return;
+    }
+  }
+
+  // Required field check
+  if (field.required && (!raw || raw === '')) {
+    alert(`❌ ${field.label} is required.`);
+    return;
+  }
+
+  // Allow empty optional fields
+  if (!field.required && (!raw || raw === '')) continue;
+
+  // Type validation
+  let isValid = true;
+  switch (field.type) {
+    case 'number':
+      isValid = !isNaN(parseFloat(raw));
+      break;
+    case 'string':
+      isValid = typeof raw === 'string';
+      break;
+    case 'date':
+      isValid = !isNaN(Date.parse(raw));
+      break;
+    case 'boolean':
+      isValid = ['true', 'false'].includes(raw.toLowerCase());
+      break;
+    default:
+      isValid = false;
+  }
+
+  if (!isValid) {
+    alert(`❌ Invalid value for ${field.label}. Expected type: ${field.type}.`);
+    return;
+  }
 }
-let value = el.value;
 
-          
 
-            //DROP DOWNS
-          // If custom value is required for "other", get the input value
-          if (field.id === 'resolution' && value === 'other') {
-            value = document.getElementById('custom_resolution').value;
-          }
-          if (field.id === 'recording_type' && value === 'other') {
-            value = document.getElementById('custom_recording_type').value;
-          }
-          if (field.id === 'sensor' && value === 'other') {
-            value = document.getElementById('custom_sensor').value;
-          }
-        
-          // If any required field is empty, show an alert and stop submission
-          if (!value || value.trim() === '') {
-            alert(`Please enter a value for ${field.label}.`);
-            return;
-          }
-        }
 
 //DROP DOWNS
 // PARSE RESOLUTION EITHER FOR 361 AND CUSTOM VALUES
