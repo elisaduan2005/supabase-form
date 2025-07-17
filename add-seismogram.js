@@ -167,33 +167,35 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
   damping: parseInt(document.getElementById('damping').value)
 });
 
-let sensorInsertSkipped = false;
 
-// Try inserting the sensor row
-const { error: sensorError } = await client.from('sensor').insert([{
-  sensor: sensorValue,
-  sensor_nature: document.getElementById('sensor_nature').value,
-  free_period: parseFloat(document.getElementById('free_period').value),
-  damping: parseInt(document.getElementById('damping').value)
-}]);
+// Check if sensor already exists
+const { data: existingSensor, error: sensorCheckError } = await client
+  .from('sensor')
+  .select('sensor')
+  .eq('sensor', sensorValue)
+  .maybeSingle();
 
-// ⚠️ Handle sensor error only after the insert attempt
-if (sensorError) {
-  const msg = sensorError.message.toLowerCase();
+if (sensorCheckError) {
+  resultBox.textContent = 'Error checking sensor: ' + (sensorCheckError.message || 'Unknown error');
+  return;
+}
 
-  // If it's a duplicate/unique constraint error, skip and log
-  if (
-    msg.includes('duplicate') ||
-    msg.includes('already exists') ||
-    msg.includes('violates unique constraint')
-  ) {
-    console.warn("Sensor is in database.");
-    sensorInsertSkipped = true;
-  } else {
-    // For any other error, stop execution
-    resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
+if (!existingSensor) {
+  const { error: sensorInsertError } = await client.from('sensor').insert([{
+    sensor: sensorValue,
+    sensor_nature: document.getElementById('sensor_nature').value,
+    free_period: parseFloat(document.getElementById('free_period').value),
+    damping: parseInt(document.getElementById('damping').value)
+  }]);
+
+  if (sensorInsertError) {
+    resultBox.textContent = 'Error inserting sensor: ' + (sensorInsertError.message || 'Unknown error');
     return;
   }
+
+  console.log("✅ Sensor inserted.");
+} else {
+  console.warn("⚠️ Sensor is already in database.");
 }
 
 
@@ -231,7 +233,9 @@ if (equipError) {
     resultBox.textContent = 'Error inserting equipment: ' + equipError.message;
     return;
   }
-}       alert('✅ Submission complete!');
+}      
+
+alert('✅ Submission complete!');
 
 resultBox.textContent = 'Success! Your record has been added to the database.'
 
