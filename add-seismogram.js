@@ -225,10 +225,10 @@ if (equipError) {
     msg.includes('violates unique constraint')
   ) {
     console.warn("Equipment is in database.");
-    sensorInsertSkipped = true;
+    equipmentInsertSkipped = true;
   } else {
     // For any other error, stop execution
-    resultBox.textContent = 'Error inserting equipent: ' + sensorError.message;
+    resultBox.textContent = 'Error inserting equipment: ' + equipError.message;
     return;
   }
 }       alert('✅ Submission complete!');
