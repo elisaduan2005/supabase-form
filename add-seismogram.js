@@ -6,6 +6,29 @@
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const resultBox = document.getElementById('Result');  // element to display error message
 
+        //Autofill form with previously saved data
+  const savedData = JSON.parse(localStorage.getItem("lastSeismogramSubmission"));
+  if (savedData) {
+    for (const key in savedData) {
+      const el = document.getElementById(key);
+      if (el) {
+        el.value = savedData[key];
+
+        // Show the custom fields if "other" was selected
+        if (key === 'resolution' && savedData[key] === 'other') {
+          document.getElementById("custom_resolution").style.display = "block";
+        }
+        if (key === 'recording_type' && savedData[key] === 'other') {
+          document.getElementById("custom_recording_type").style.display = "block";
+        }
+        if (key === 'sensor' && savedData[key] === 'other') {
+          document.getElementById("custom_sensor").style.display = "block";
+        }
+      }
+    }
+  }
+
+
      // ADD OR HIDE CUSTOM FIELD
       document.getElementById('resolution').addEventListener('change', () => {
         document.getElementById('custom_resolution').style.display =
@@ -197,9 +220,44 @@ if (equipError) {
 }
 
         resultBox.textContent = 'Success! All records added.';
-        document.getElementById('imageForm').reset();
-        document.getElementById('sensorForm').reset();
-        document.getElementById('equipmentForm').reset();
+
+        resultBox.textContent = 'Success! All records added.';
+
+// ✅ Save some of the last inputs for default next time
+const formData = {
+  date_scanned: document.getElementById("date_scanned").value,
+  resolution: document.getElementById("resolution").value,
+  custom_resolution: document.getElementById("custom_resolution").value,
+  length: document.getElementById("length").value,
+  width: document.getElementById("width").value,
+  phase_markings: document.getElementById("phase_markings").value,
+  bulletin: document.getElementById("bulletin").value,
+  occlusions: document.getElementById("occlusions").value,
+  recording_type: document.getElementById("recording_type").value,
+  custom_recording_type: document.getElementById("custom_recording_type").value,
+  notes: document.getElementById("notes").value,
+  owner_contact: document.getElementById("owner_contact").value,
+  creator: document.getElementById("creator").value,
+  signal: document.getElementById("signal").value,
+  timemark: document.getElementById("timemark").value,
+  sensor: document.getElementById("sensor").value,
+  custom_sensor: document.getElementById("custom_sensor").value,
+  free_period: document.getElementById("free_period").value,
+  damping: document.getElementById("damping").value,
+  channel: document.getElementById("channel").value,
+  equip_serial_number: document.getElementById("equip_serial_number").value,
+  h_dip1: document.getElementById("h_dip1").value,
+  h_dip2: document.getElementById("h_dip2").value,
+  v_dip: document.getElementById("v_dip").value,
+  recording_system: document.getElementById("recording_system").value
+};
+
+localStorage.setItem("lastSeismogramSubmission", JSON.stringify(formData));
+
+// Clear the form afterward
+document.getElementById('imageForm').reset();
+document.getElementById('sensorForm').reset();
+document.getElementById('equipmentForm').reset();
       });
     });
 
