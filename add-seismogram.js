@@ -35,7 +35,7 @@
     if (el) el.dispatchEvent(new Event('change'));
   });
 
-    // 🔁 Don't autofill again on refresh
+    // Don't autofill again on refresh
   sessionStorage.removeItem("shouldAutofill");
 }
   
@@ -157,6 +157,8 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
           resultBox.textContent = 'Error inserting image: ' + imageError.message;
           return;
         }
+
+
         
             // Insert into sensor table
 
@@ -168,35 +170,36 @@ let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
 });
 
 
-// Check if sensor already exists
-const { data: existingSensor, error: sensorCheckError } = await client
-  .from('sensor')
-  .select('sensor')
-  .eq('sensor', sensorValue)
-  .maybeSingle();
+let sensorInsertSkipped = false;
 
-if (sensorCheckError) {
-  resultBox.textContent = 'Error checking sensor: ' + (sensorCheckError.message || 'Unknown error');
-  return;
-}
+// Try inserting the sensor row
+const { error: sensorError } = await client.from('sensor').insert([{
+  sensor: sensorValue,
+  sensor_nature: document.getElementById('sensor_nature').value,
+  free_period: parseFloat(document.getElementById('free_period').value),
+  damping: parseInt(document.getElementById('damping').value)
+}]);
 
-if (!existingSensor) {
-  const { error: sensorInsertError } = await client.from('sensor').insert([{
-    sensor: sensorValue,
-    sensor_nature: document.getElementById('sensor_nature').value,
-    free_period: parseFloat(document.getElementById('free_period').value),
-    damping: parseInt(document.getElementById('damping').value)
-  }]);
+// ⚠️ Handle sensor error only after the insert attempt
+if (sensorError) {
+  const msg = sensorError.message.toLowerCase();
 
-  if (sensorInsertError) {
-    resultBox.textContent = 'Error inserting sensor: ' + (sensorInsertError.message || 'Unknown error');
+  // If it's a duplicate/unique constraint error, skip and log
+  if (
+    msg.includes('duplicate') ||
+    msg.includes('already exists') ||
+    msg.includes('violates unique constraint')
+  ) {
+    console.warn("Sensor is in database.");
+    sensorInsertSkipped = true;
+  } else {
+    // For any other error, stop execution
+    resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
     return;
   }
-
-  console.log("✅ Sensor inserted.");
-} else {
-  console.warn("⚠️ Sensor is already in database.");
 }
+
+
 
 
 let equipmentInsertSkipped = false;
@@ -216,7 +219,6 @@ const { error: equipError } = await client.from('equipment').insert([{
   sensor: sensorValue
 }]);
 
-// Handle Equip error only after the insert attempt
 if (equipError) {
   const msg = equipError.message.toLowerCase();
 
@@ -239,7 +241,7 @@ alert('✅ Submission complete!');
 
 resultBox.textContent = 'Success! Your record has been added to the database.'
 
-// ✅ Save some of the last inputs for default next time
+// Save some of the last inputs for default next time
 const formData = {
   date_scanned: document.getElementById("date_scanned").value,
   resolution: document.getElementById("resolution").value,
@@ -267,7 +269,7 @@ const formData = {
 };
 
 localStorage.setItem("lastSeismogramSubmission", JSON.stringify(formData));
-sessionStorage.setItem("shouldAutofill", "true"); // ✅ Triggers one-time autofill on reload
+sessionStorage.setItem("shouldAutofill", "true"); // Triggers one-time autofill on reload
 location.reload();
 
       });
