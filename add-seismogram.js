@@ -79,7 +79,13 @@ if (savedData && shouldAutofill) {
         //Validate all required fields
         for (let field of requiredFields) {
           const el = document.getElementById(field.id);
-          let value = el.value;
+if (!el) {
+  alert(`Missing field in DOM: ${field.label} (id="${field.id}")`);
+  return;
+}
+let value = el.value;
+
+          
 
             //DROP DOWNS
           // If custom value is required for "other", get the input value
