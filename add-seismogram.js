@@ -69,7 +69,6 @@ if (savedData && shouldAutofill) {
           { id: 'free_period', label: 'Galvo Free Period' },
           { id: 'damping', label: 'Galvo Damping' },
           { id: 'channel', label: 'Channel' },
-          { id: 'equip_serial_number', label: 'Equipment Serial Number' },
           { id: 'h_dip1', label: 'Horizontal 1 Dip/Azimuth' },
           { id: 'h_dip2', label: 'Horizontal 2 Dip/Azimuth' },
           { id: 'v_dip', label: 'Vertical Dip/Azimuth' },
@@ -208,7 +207,6 @@ let equipmentInsertSkipped = false;
 const { error: equipError } = await client.from('equipment').insert([{
   channel: document.getElementById('channel').value,
   equip_open_date: document.getElementById('equip_open_date').value || null,
-  equip_serial_number: parseInt(document.getElementById('equip_serial_number').value),
   h_dip1: parseFloat(document.getElementById('h_dip1').value),
   h_dip2: parseFloat(document.getElementById('h_dip2').value),
   v_dip: parseFloat(document.getElementById('v_dip').value),
