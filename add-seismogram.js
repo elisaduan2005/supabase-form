@@ -26,7 +26,15 @@
         }
       }
     }
-  }
+
+  alert('Autofilled with last submission');
+
+  ['resolution', 'recording_type', 'sensor'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.dispatchEvent(new Event('change'));
+  });
+}
+  
 
 
      // ADD OR HIDE CUSTOM FIELD
@@ -217,11 +225,9 @@ if (equipError) {
     resultBox.textContent = 'Error inserting equipent: ' + sensorError.message;
     return;
   }
-}
+}       alert('✅ Submission complete!');
 
-        resultBox.textContent = 'Success! All records added.';
-
-        resultBox.textContent = 'Success! All records added.';
+        resultBox.textContent = 'Success! Your record has been added to the database.'
 
 // ✅ Save some of the last inputs for default next time
 const formData = {
