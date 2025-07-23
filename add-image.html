@@ -11,7 +11,215 @@
   <h1 style="text-align:center;">Add New Seismogram</h1>
 
 <div class="form-container">
-  <!-- ROW 1 -->
+<!-- ROW 1 -->
+<div class="row">
+<!-- COL 1 -->
+<div class="col">
+<div class="form-section">
+<h2>Network Details</h2>
+<!-- NETWORK TABLE -->
+<form id="networkForm">
+  <!-- NETWORK ID LABEL -->
+  <label for="network_id">FDSN Network Code: <span style="color:red">*</span></label><br>
+  <small class="description">earliest FDSN Code in use for the station (use SS if not associated with a network)</small><br>
+  <select id="network_id" required>
+  <option value="" disabled selected>Choose...</option>
+  <option value="CI">CI</option>
+  <option value="SS">SS</option>
+  <option value="other">Other</option>
+  </select><br><br>
+  <!-- NETWORK NAME LABEL -->
+  <label>Network Name:</label><br>
+  <small class="description">network to which the station belongs (e.g. WWSSN, GSN, EREBUS)</small><br>
+  <select id="network_name">
+  <option value="" disabled selected>Choose...</option>
+  <option value="WWSSN">WWSSN</option>
+  <option value="GSN">GSN</option>
+  <option value="EREBUS">EREBUS</option>
+  <option value="SCSN">SCSN</option>
+  <option value="other">Other</option>
+  </select><br><br>
+</form>
+</div>
+
+<div class="form-section">
+<h2>Station Details</h2>
+<!-- STATION TABLE -->
+<form id="stationForm">
+  <!-- STATION ID LABEL -->
+  <label for="IR_code">IR Station Code: <span style="color:red">*</span></label><br>
+  <small class="description">station's code in the International Registry (ISC)</small><br>
+  <select id="IR_code"required>
+  <option value="" disabled selected>Choose...</option>
+  <option value="ANMO">ANMO</option>
+  <option value="HRV">HRV</option>
+  <option value="other">Other</option>
+  </select><br><br>
+  <!-- SITE NAME LABEL -->
+  <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
+  <small class="description">Enter city, state/province, and country (e.g. Albuquerque, New Mexico, USA)</small><br>
+  <input type="text" id="city" name="city" placeholder="City" required>
+  <input type="text" id="state" name="state" placeholder="State/Province" required>
+  <input type="text" id="country" name="country" placeholder="Country" required><br><br>
+  <!-- LONGITUDE LABEL -->
+  <label>Longitude: <span style="color:red">*</span></label><br>
+  <small class="description">longitude using WGS84 datum (value must be float between −180 to 180)</small><br>
+  <input type="number" step="0.000001" id="longitude" min="-180" max="180" required><br><br>
+  <!-- LATITUDE LABEL -->
+  <label>Latitude: <span style="color:red">*</span></label><br>
+  <small class="description">latitude using WGS84 datum (value must be float between −90 to 90)</small><br>
+  <input type="number" step="0.000001" id="latitude" min="-90" max="90" required><br><br>
+    <!-- ELEVATION LABEL -->
+  <label>Elevation:</label><br>
+  <small class="description">elevation above (+) or below (-) sea level (in meters)</small><br>
+  <input type="number" id="elevation"><br><br>
+    <!-- DEPTH LABEL -->
+  <label>Depth:</label><br>
+  <small class="description">depth below ground surface at specified longitude and latitude (in meters)</small><br>
+  <input type="number" id="depth"><br><br>
+  <!-- OPEN DATE LABEL -->
+  <label>Open Date:</label><br>
+  <small class="description">date when station was opened</small><br>
+  <input type="text" id="open_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <!-- CLOSE DATE LABEL -->
+  <label>Close Date:</label><br>
+  <small class="description">if closed, Date when station was closed. Leave empty if still operating or not known</small><br>
+  <input type="text" id="close_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+</form>
+</div></div>
+
+<!-- COL 2 -->
+<div class="col">
+<div class="form-section">
+<h2>Equipment Details</h2>
+<!-- EQUIPMENT TABLE -->
+<form id="equipmentForm">
+  <!-- CHANNEL LABEL -->
+  <label for="channel">Channel: <span style="color:red">*</span></label><br>
+  <small class="description">channel code as in SEED format</small><br>
+  <input type="text" id="channel" required><br><br>
+   <!-- SENSOR SERIAL NUMBER LABEL -->
+  <label for="sensor_serial_number">Sensor Serial Number: <span style="color:red">*</span></label><br>
+  <small class="description">manufacturer's serial number of seismometer if known</small><br>
+  <input type="number" id="sensor_serial_number" required><br><br>
+  <!-- HORIZONTAL 1 DIP/AZIMUTH LABEL -->
+  <label for="h_dip1">Horizontal 1 Dip/Azimuth: <span style="color:red">*</span></label><br>
+  <small class="description">the dip/azimuth of the first horizontal</small><br>
+  <input type="number" step="0.01" id="h_dip1" required><br><br>
+  <!-- HORIZONTAL 2 DIP/AZIMUTH LABEL -->
+  <label for="h_dip2">Horizontal 2 Dip/Azimuth: <span style="color:red">*</span></label><br>
+  <small class="description">the dip/azimuth of the second horizontal</small><br>
+  <input type="number" step="0.01" id="h_dip2"required><br><br>
+  <!-- VERTICAL DIP/AZIMUTH LABEL -->
+  <label for="v_dip">Vertical Dip/Azimuth: <span style="color:red">*</span></label><br>
+  <small class="description">the dip/azimuth of the vertical </small><br>
+  <input type="number" step="0.01" id="v_dip" required><br><br>
+  <!-- RECORDING SYSTEM LABEL -->
+  <label for="recording_system">Recording System: <span style="color:red">*</span></label><br>
+  <input type="text" id="recording_system" required><br><br>
+  <!-- RECORDING SERIAL NUMBER LABEL -->
+  <label>Recording Serial Number:</label><br>
+  <small class="description">manufacturer's serial number if known</small><br>
+  <input type="number" id="recording_serial_number"><br><br>
+  <!-- EQUIPMENT GAIN LABEL-->
+  <label>Equipment Gain:</label><br>
+  <small class="description">scale or gain factor (scaler)</small><br>
+  <input type="number" id="equip_gain"><br><br>
+  <!-- PERIOD OF GAIN LABEL -->
+  <label>Period of Gain:</label><br>
+  <small class="description">period at which the gain is valid</small><br>
+  <input type="number" step="0.01" id="period_of_gain"><br><br>
+  <!-- NATURE OF EQUIPMENT LABEL -->
+  <label>Nature of Equipment:</label><br>
+  <small class="description">Mechanical (e.g., Wiechert) or electromagnetic (e.g., Golitsyn)</small><br>
+  <select id="equip_nature">
+  <option value="" disabled selected>Choose...</option>
+  <option value="mechanical">Mechanical</option>
+  <option value="electromagnetic">Electromagnetic</option>
+  </select>
+</form>
+</div></div>
+
+<!-- COL 3 -->
+<div class="col">
+<div class="form-section">
+<h2>Sensor Details</h2>
+<!-- SENSOR TABLE -->
+<form id="sensorForm">
+  <!-- SENSOR LABEL -->
+  <label for="sensor">Sensor: <span style="color:red">*</span></label><br>
+  <small class="description">type of sensing instrument (e.g. Streckheisen STS-2, Ewing, Beniof)</small><br>
+  <select id="sensor" required>
+  <option value="" disabled selected>Choose...</option>
+  <option value="Streckheisen STS-2">Streckheisen STS-2</option>
+  <option value="WWSSN SP">WWSSN SP</option>
+  <option value="WWSSN LP1">WWSSN LP1</option>
+  <option value="WWSSN LP2">WWSSN LP2</option>
+  <option value="Press Ewing">Press Ewing</option>
+  <option value="Benioff">Benioff</option>
+  <option value="SP 30-90">SP 30-90</option>
+  <option value="Benioff LP 1-90">Benioff LP 1-90</option>
+  <option value="Wood-Anderson (standard)">Wood-Anderson (standard)</option>
+  <option value="Ranger">Ranger</option>
+  <option value="other">Other</option>
+  </select>
+  <input type="text" id="custom_sensor" placeholder="Enter custom value" style="display:none;"><br><br>
+  <!-- NATURE LABEL -->
+  <label>Nature of Sensor:</label><br>
+  <select id="sensor_nature">
+  <option value="" disabled selected>Choose...</option>
+  <option value="mechanical">Mechanical</option>
+  <option value="electromagnetic">Electromagnetic</option>
+  </select>
+  <!-- GALVO FREE PERIOD LABEL -->
+  <label for="free_period">Galvo Free Period: <span style="color:red">*</span></label><br>
+  <small class="description">the free period of the instrument</small><br>
+  <input type="number" step="0.01" id="free_period"required><br><br>
+  <!-- DAMPING LABEL -->
+  <label for="damping">Galvo Damping: <span style="color:red">*</span></label><br>
+  <small class="description">the instrument's damping constant</small><br>
+  <input type="number" id="damping"required><br><br>
+</form>
+</div>
+<div class="form-section">
+<h2>Seismogram Details</h2>
+<!-- DATA TABLE -->
+<form id="dataForm">
+  <!-- PHYSICAL LOCATION LABEL -->
+  <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
+  <small class="description">country, state or province, city, institution, room of original analog document when scanned</small><br>
+  <select id="physical_location" required>
+  <option value="" disabled selected>Choose...</option>
+  <option value="California Department of Water and Power">California Department of Water and Power</option>
+  <option value="Albuquerque Seismic Lab USG">Albuquerque Seismic Lab USGS</option>
+  <option value="Northwestern University">Northwestern University</option>
+  <option value="other">Other</option>
+  </select><br><br>
+  <!-- COMPONENT LABEL -->
+  <label>Component:</label><br>
+  <select id="component">
+  <option value="" disabled selected>Choose...</option>
+  <option value="Z">Z</option>
+  <option value="E">E</option>
+  <option value="N">N</option>
+  <option value="W">W</option>
+  <option value="S">S</option>
+  </select><br><br>
+    <!-- POLARITY LABEL -->
+  <label>Polarity:</label><br>
+  <small class="description">ground motion up = up on paper or down on papers</small><br>
+  <select id="polarity">
+  <option value="" disabled selected>Choose...</option>
+  <option value="Up">Up</option>
+  <option value="Down">Down</option>
+  <option value="NULL">Unknown</option>
+  </select><br><br>
+</form>
+</div>
+</div>
+</div>
+
+<!-- ROW 2 -->
   <div class="row">
     <!-- COL 1 -->
     <div class="col">
@@ -27,7 +235,7 @@
   <!-- red asterisk for required label -->
   <label for="resolution">Resolution: <span style="color:red">*</span></label><br>
   <small class="description">resolution of the scanned image in DPI/PPI</small><br>
-  <select id="resolution">
+  <select id="resolution" required>
   <option value="" disabled selected>Choose...</option>
   <option value="300">300</option>
   <option value="600">600</option>
@@ -69,7 +277,7 @@
   <!-- RECORDING TYPE LABEL -->
   <label for="recording_type">Recording Type: <span style="color:red">*</span></label><br>
   <small class="description">original recording type</small><br>
-  <select id="recording_type">
+  <select id="recording_type" required>
   <option value="" disabled selected>Choose...</option>
   <option value="Photographic / Photosensitive">Photographic / Photosensitive</option>
   <option value="Thermal">Thermal</option>
@@ -106,214 +314,6 @@
 </form>
 </div></div>
 
-<!-- COL 2 -->
-<div class="col">
-<div class="form-section">
-<h2>Seismogram Details</h2>
-<!-- DATA TABLE -->
-<form id="dataForm">
-  <!-- PHYSICAL LOCATION LABEL -->
-  <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
-  <small class="description">country, state or province, city, institution, room of original analog document when scanned</small><br>
-  <select id="physical_location">
-  <option value="" disabled selected>Choose...</option>
-  <option value="California Department of Water and Power">California Department of Water and Power</option>
-  <option value="Albuquerque Seismic Lab USG">Albuquerque Seismic Lab USGS</option>
-  <option value="Northwestern University">Northwestern University</option>
-  <option value="other">Other</option>
-  </select><br><br>
-  <!-- COMPONENT LABEL -->
-  <label>Component:</label><br>
-  <select id="component">
-  <option value="" disabled selected>Choose...</option>
-  <option value="Z">Z</option>
-  <option value="E">E</option>
-  <option value="N">N</option>
-  <option value="W">W</option>
-  <option value="S">S</option>
-  </select><br><br>
-    <!-- POLARITY LABEL -->
-  <label>Polarity:</label><br>
-  <small class="description">ground motion up = up on paper or down on papers</small><br>
-  <select id="polarity">
-  <option value="" disabled selected>Choose...</option>
-  <option value="Up">Up</option>
-  <option value="Down">Down</option>
-  <option value="NULL">Unknown</option>
-  </select><br><br>
-</form>
-</div>
-
-<div class="form-section">
-<h2>Sensor Details</h2>
-<!-- SENSOR TABLE -->
-<form id="sensorForm">
-  <!-- SENSOR LABEL -->
-  <label for="sensor">Sensor: <span style="color:red">*</span></label><br>
-  <small class="description">type of sensing instrument (e.g. Streckheisen STS-2, Ewing, Beniof)</small><br>
-  <select id="sensor">
-  <option value="" disabled selected>Choose...</option>
-  <option value="Streckheisen STS-2">Streckheisen STS-2</option>
-  <option value="WWSSN SP">WWSSN SP</option>
-  <option value="WWSSN LP1">WWSSN LP1</option>
-  <option value="WWSSN LP2">WWSSN LP2</option>
-  <option value="Press Ewing">Press Ewing</option>
-  <option value="Benioff">Benioff</option>
-  <option value="SP 30-90">SP 30-90</option>
-  <option value="Benioff LP 1-90">Benioff LP 1-90</option>
-  <option value="Wood-Anderson (standard)">Wood-Anderson (standard)</option>
-  <option value="Ranger">Ranger</option>
-  <option value="other">Other</option>
-  </select>
-  <input type="text" id="custom_sensor" placeholder="Enter custom value" style="display:none;"><br><br>
-  <!-- NATURE LABEL -->
-  <label>Nature of Sensor:</label><br>
-  <select id="sensor_nature">
-  <option value="" disabled selected>Choose...</option>
-  <option value="mechanical">Mechanical</option>
-  <option value="electromagnetic">Electromagnetic</option>
-  </select>
-  <!-- GALVO FREE PERIOD LABEL -->
-  <label for="free_period">Galvo Free Period: <span style="color:red">*</span></label><br>
-  <small class="description">the free period of the instrument</small><br>
-  <input type="number" step="0.01" id="free_period"><br><br>
-  <!-- DAMPING LABEL -->
-  <label for="damping">Galvo Damping: <span style="color:red">*</span></label><br>
-  <small class="description">the instrument's damping constant</small><br>
-  <input type="number" id="damping"><br><br>
-</form>
-</div></div>
-
-<!-- COL 3 -->
-<div class="col">
-<div class="form-section">
-<h2>Equipment Details</h2>
-<!-- EQUIPMENT TABLE -->
-<form id="equipmentForm">
-  <!-- CHANNEL LABEL -->
-  <label for="channel">Channel: <span style="color:red">*</span></label><br>
-  <small class="description">channel code as in SEED format</small><br>
-  <input type="text" id="channel"><br><br>
-   <!-- SENSOR SERIAL NUMBER LABEL -->
-  <label for="sensor_serial_number">Sensor Serial Number: <span style="color:red">*</span></label><br>
-  <small class="description">manufacturer's serial number of seismometer if known</small><br>
-  <input type="number" id="sensor_serial_number"><br><br>
-  <!-- HORIZONTAL 1 DIP/AZIMUTH LABEL -->
-  <label for="h_dip1">Horizontal 1 Dip/Azimuth: <span style="color:red">*</span></label><br>
-  <small class="description">the dip/azimuth of the first horizontal</small><br>
-  <input type="number" step="0.01" id="h_dip1"><br><br>
-  <!-- HORIZONTAL 2 DIP/AZIMUTH LABEL -->
-  <label for="h_dip2">Horizontal 2 Dip/Azimuth: <span style="color:red">*</span></label><br>
-  <small class="description">the dip/azimuth of the second horizontal</small><br>
-  <input type="number" step="0.01" id="h_dip2"><br><br>
-  <!-- VERTICAL DIP/AZIMUTH LABEL -->
-  <label for="v_dip">Vertical Dip/Azimuth: <span style="color:red">*</span></label><br>
-  <small class="description">the dip/azimuth of the vertical </small><br>
-  <input type="number" step="0.01" id="v_dip"><br><br>
-  <!-- RECORDING SYSTEM LABEL -->
-  <label for="recording_system">Recording System: <span style="color:red">*</span></label><br>
-  <input type="text" id="recording_system"><br><br>
-  <!-- RECORDING SERIAL NUMBER LABEL -->
-  <label>Recording Serial Number:</label><br>
-  <small class="description">manufacturer's serial number if known</small><br>
-  <input type="number" id="recording_serial_number"><br><br>
-  <!-- EQUIPMENT GAIN LABEL-->
-  <label>Equipment Gain:</label><br>
-  <small class="description">scale or gain factor (scaler)</small><br>
-  <input type="number" id="equip_gain"><br><br>
-  <!-- PERIOD OF GAIN LABEL -->
-  <label>Period of Gain:</label><br>
-  <small class="description">period at which the gain is valid</small><br>
-  <input type="number" step="0.01" id="period_of_gain"><br><br>
-  <!-- NATURE OF EQUIPMENT LABEL -->
-  <label>Nature of Equipment:</label><br>
-  <small class="description">Mechanical (e.g., Wiechert) or electromagnetic (e.g., Golitsyn)</small><br>
-  <select id="equip_nature">
-  <option value="" disabled selected>Choose...</option>
-  <option value="mechanical">Mechanical</option>
-  <option value="electromagnetic">Electromagnetic</option>
-  </select>
-</form>
-</div></div></div>
-
-<!-- ROW 2 -->
-<div class="row">
-<!-- COL 1 -->
-<div class="col">
-<div class="form-section">
-<h2>Network Details</h2>
-<!-- NETWORK TABLE -->
-<form id="networkForm">
-  <!-- NETWORK ID LABEL -->
-  <label for="network_id">FDSN Network Code: <span style="color:red">*</span></label><br>
-  <small class="description">earliest FDSN Code in use for the station (use SS if not associated with a network)</small><br>
-  <select id="network_id">
-  <option value="" disabled selected>Choose...</option>
-  <option value="CI">CI</option>
-  <option value="SS">SS</option>
-  <option value="other">Other</option>
-  </select><br><br>
-  <!-- NETWORK NAME LABEL -->
-  <label>Network Name:</label><br>
-  <small class="description">network to which the station belongs (e.g. WWSSN, GSN, EREBUS)</small><br>
-  <select id="network_name">
-  <option value="" disabled selected>Choose...</option>
-  <option value="WWSSN">WWSSN</option>
-  <option value="GSN">GSN</option>
-  <option value="EREBUS">EREBUS</option>
-  <option value="SCSN">SCSN</option>
-  <option value="other">Other</option>
-  </select><br><br>
-
-</form>
-</div>
-
-<div class="form-section">
-<h2>Station Details</h2>
-<!-- STATION TABLE -->
-<form id="stationForm">
-  <!-- STATION ID LABEL -->
-  <label for="IR_code">IR Station Code: <span style="color:red">*</span></label><br>
-  <small class="description">station's code in the International Registry (ISC)</small><br>
-  <select id="IR_code">
-  <option value="" disabled selected>Choose...</option>
-  <option value="ANMO">ANMO</option>
-  <option value="HRV">HRV</option>
-  <option value="other">Other</option>
-  </select><br><br>
-  <!-- SITE NAME LABEL -->
-  <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
-  <small class="description">Enter city, state/province, and country (e.g. Albuquerque, New Mexico, USA)</small><br>
-  <input type="text" id="city" name="city" placeholder="City" required>
-  <input type="text" id="state" name="state" placeholder="State/Province" required>
-  <input type="text" id="country" name="country" placeholder="Country" required><br><br>
-  <!-- LONGITUDE LABEL -->
-  <label>Longitude: <span style="color:red">*</span></label><br>
-  <small class="description">longitude using WGS84 datum (value must be float between −180 to 180)</small><br>
-  <input type="number" step="0.000001" id="longitude" min="-180" max="180"><br><br>
-  <!-- LATITUDE LABEL -->
-  <label>Latitude: <span style="color:red">*</span></label><br>
-  <small class="description">latitude using WGS84 datum (value must be float between −90 to 90)</small><br>
-  <input type="number" step="0.000001" id="latitude" min="-90" max="90"><br><br>
-    <!-- ELEVATION LABEL -->
-  <label>Elevation:</label><br>
-  <small class="description">elevation above (+) or below (-) sea level (in meters)</small><br>
-  <input type="number" id="elevation"><br><br>
-    <!-- DEPTH LABEL -->
-  <label>Depth:</label><br>
-  <small class="description">depth below ground surface at specified longitude and latitude (in meters)</small><br>
-  <input type="number" id="depth"><br><br>
-  <!-- OPEN DATE LABEL -->
-  <label>Open Date:</label><br>
-  <small class="description">date when station was opened</small><br>
-  <input type="text" id="open_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
-  <!-- CLOSE DATE LABEL -->
-  <label>Close Date:</label><br>
-  <small class="description">if closed, Date when station was closed. Leave empty if still operating or not known</small><br>
-  <input type="text" id="close_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
-</form>
-</div></div>
-
 <!-- ROW 2 COL 2 -->
 <div class="col">
 <div class="form-section">
@@ -326,11 +326,11 @@
   <!-- START TIME CORRECTION LABEL -->
   <label>Start Time Correction:</label><br>
   <input type="text" id="start_time" name="start_time" placeholder="00:00:00.0000" 
-       pattern="\d{2}:\d{2}:\d{2}\.\d{4}" required><br><br>
+       pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
   <!-- END TIME CORRECTION LABEL -->
   <label>End Time Correction:</label><br>
   <input type="text" id="end_time" name="end_time" placeholder="00:00:00.0000" 
-       pattern="\d{2}:\d{2}:\d{2}\.\d{4}" required><br><br>
+       pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
   <!-- SIDE LABEL -->
   <label>Side:</label><br>
   <small class="description">0 = Front, 1 = Back</small><br>
@@ -402,7 +402,7 @@
   <label>Notes:</label><br>
   <textarea id="CDWP_location_notes"></textarea><br><br>
 </form>
-</div></div></div>
+</div></div></div></div>
 
 
 <button id="SubmitAll">Submit</button>
