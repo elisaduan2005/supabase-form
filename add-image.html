@@ -55,7 +55,7 @@
   </select><br><br>
   <!-- BULLETIN LABEL -->
   <label>Bulletin:</label><br>
-  <small class="description">earthquake phases are present on image. phases were reported to a bulletin or otherwise published.</small><br>
+  <small class="description">earthquake phases are present on image. phases were reported to a bulletin or otherwise published</small><br>
   <input type="text" id="bulletin"><br><br>
   <!-- OCCLUSIONS LABEL -->
   <label>Occlusions:</label><br>
@@ -233,7 +233,7 @@
   <option value="mechanical">Mechanical</option>
   <option value="electromagnetic">Electromagnetic</option>
 </form>
-</div></div></div></div>
+</div></div>
 
 <!-- ROW 2 -->
 <div class="row">
@@ -248,7 +248,7 @@
   <small class="description">earliest FDSN Code in use for the station (use SS if not associated with a network)</small><br>
   <select id="network_id">
   <option value="" disabled selected>Choose...</option>
-  <option value="CN">CN</option>
+  <option value="CI">CI</option>
   <option value="SS">SS</option>
   <option value="other">Other</option>
   </select><br><br>
@@ -265,7 +265,7 @@
   </select><br><br>
 
 </form>
-</div></div>
+</div></div></div>
 
 <div class="form-section">
 <h2>Station Details</h2>
@@ -282,13 +282,13 @@
   </select><br><br>
   <!-- SITE NAME LABEL -->
   <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
-  <small class="description">Enter city, state/province, and country (e.g., Albuquerque, New Mexico, USA)</small><br>
+  <small class="description">Enter city, state/province, and country (e.g. Albuquerque, New Mexico, USA)</small><br>
   <input type="text" id="city" name="city" placeholder="City" required>
   <input type="text" id="state" name="state" placeholder="State/Province" required>
   <input type="text" id="country" name="country" placeholder="Country" required>
   <!-- LONGITUDE LABEL -->
   <label>Longitude: <span style="color:red">*</span></label><br>
-  <small class="description">Longitude using WGS84 datum (−180 to 180)</small><br>
+  <small class="description">longitude using WGS84 datum (value must be float between −180 to 180)</small><br>
   <input type="number" step="0.000001" id="longitude" min="-180" max="180"><br><br>
   <!-- LATITUDE LABEL -->
   <label>Latitude: <span style="color:red">*</span></label><br>
@@ -348,15 +348,15 @@
   <input type="number" id="CDWP_location_gain"><br><br>
   <!-- TO LABEL -->
   <label>To:</label><br>
-  <small class="description">Defined as pendulum free period</small><br>
+  <small class="description">defined as pendulum free period</small><br>
   <input type="number" step="0.01" id="to"><br><br>
   <!-- TG LABEL -->
   <label>Tg:</label><br>
-  <small class="description">Defined as galvanometer free period</small><br>
+  <small class="description">defined as galvanometer free period</small><br>
   <input type="number" step="0.01" id="tg"><br><br>
   <!-- FILENAME LABEL -->
   <label>Filename:</label><br>
-  <small class="description">Image filename</small><br>
+  <small class="description">image filename</small><br>
   <input type="text" id="filename"><br><br>
   <!-- CREATOR LABEL -->
   <label>Creator:</label><br>
