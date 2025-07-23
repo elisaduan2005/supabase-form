@@ -170,7 +170,7 @@
   <option value="" disabled selected>Choose...</option>
   <option value="mechanical">Mechanical</option>
   <option value="electromagnetic">Electromagnetic</option>
-  </select>
+  </select><br><br>
   <!-- GALVO FREE PERIOD LABEL -->
   <label for="free_period">Galvo Free Period: <span style="color:red">*</span></label><br>
   <small class="description">the free period of the instrument</small><br>
@@ -307,8 +307,8 @@
   <small class="description">positive reel to indicate length of vertically offset timemarks, negative reel to indicate length of gapped timemarks, null to indicate no timemarks</small><br>
   <select id="timemark">
   <option value="" disabled selected>Choose...</option>
-  <option value="1.0">1.0</option>
-  <option value="-1.0">-1.0</option>
+  <option value="True">1.0</option>
+  <option value="False">-1.0</option>
   <option value="NULL">Unknown</option>
   </select><br><br>
 </form>
@@ -336,8 +336,8 @@
   <small class="description">0 = Front, 1 = Back</small><br>
   <select id="side">
   <option value="" disabled selected>Choose...</option>
-  <option value="True">Up</option>
-  <option value="False">Down</option>
+  <option value="True">0</option>
+  <option value="False">1</option>
   <option value="NULL">Unknown</option>
   </select><br><br>
   <!-- INSTRUMENT NAME LABEL-->
