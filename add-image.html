@@ -38,11 +38,11 @@
   <input type="number" id="custom_resolution" placeholder="Enter custom value" style="display:none;"><br><br>
   <!-- LENGTH LABEL -->
   <label>Length:</label><br>
-  <small class="description">length (float) of the analog document in cm</small><br>
+  <small class="description">length (float) of the analog document (in cm)</small><br>
   <input type="number" step="0.01" id="length"><br><br>
   <!-- WIDTH LABEL -->
   <label>Width:</label><br>
-  <small class="description">width (float) of the analog document in cm</small><br>
+  <small class="description">width (float) of the analog document (in cm)</small><br>
   <input type="number" step="0.01" id="width"><br><br>
   <!-- PHASE MARKINGS LABEL -->
   <label>Phase Markings:</label><br>
@@ -55,7 +55,7 @@
   </select><br><br>
   <!-- BULLETIN LABEL -->
   <label>Bulletin:</label><br>
-  <small class="description">earthquake phases are present on image. phases were reported to a bulletin or otherwise publlished.</small><br>
+  <small class="description">earthquake phases are present on image. phases were reported to a bulletin or otherwise published.</small><br>
   <input type="text" id="bulletin"><br><br>
   <!-- OCCLUSIONS LABEL -->
   <label>Occlusions:</label><br>
@@ -168,7 +168,7 @@
   <input type="text" id="custom_sensor" placeholder="Enter custom value" style="display:none;"><br><br>
   <!-- NATURE LABEL -->
   <label>Nature of Sensor:</label><br>
-  <input type="text" id="sensor_nature"><br><br>
+  <select id="sensor_nature">
   <option value="" disabled selected>Choose...</option>
   <option value="mechanical">Mechanical</option>
   <option value="electromagnetic">Electromagnetic</option>
@@ -228,6 +228,7 @@
   <!-- NATURE OF EQUIPMENT LABEL -->
   <label>Nature of Equipment:</label><br>
   <small class="description">Mechanical (e.g., Wiechert) or electromagnetic (e.g., Golitsyn)</small><br>
+  <select id="equip_nature">
   <option value="" disabled selected>Choose...</option>
   <option value="mechanical">Mechanical</option>
   <option value="electromagnetic">Electromagnetic</option>
@@ -243,9 +244,9 @@
 <!-- NETWORK TABLE -->
 <form id="networkForm">
   <!-- NETWORK ID LABEL -->
-  <label for="network_id">Network ID: <span style="color:red">*</span></label><br>
+  <label for="network_id">FDSN Network Code: <span style="color:red">*</span></label><br>
   <small class="description">earliest FDSN Code in use for the station (use SS if not associated with a network)</small><br>
-  <select id="network_name">
+  <select id="network_id">
   <option value="" disabled selected>Choose...</option>
   <option value="CN">CN</option>
   <option value="SS">SS</option>
@@ -254,7 +255,7 @@
   <!-- NETWORK NAME LABEL -->
   <label>Network Name:</label><br>
   <small class="description">network to which the station belongs (e.g. WWSSN, GSN, EREBUS)</small><br>
-  <select id="network_id">
+  <select id="network_name">
   <option value="" disabled selected>Choose...</option>
   <option value="WWSSN">WWSSN</option>
   <option value="GSN">GSN</option>
@@ -271,12 +272,12 @@
 <!-- STATION TABLE -->
 <form id="stationForm">
   <!-- STATION ID LABEL -->
-  <label for="IR_code">IR Code: <span style="color:red">*</span></label><br>
+  <label for="IR_code">IR Station Code: <span style="color:red">*</span></label><br>
   <small class="description">station's code in the International Registry (ISC)</small><br>
   <input type="text" id="IR_code"><br><br>
   <!-- SITE NAME LABEL -->
   <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
-  <small class="description">site name: Enter city, state/province, and country (e.g., Albuquerque, New Mexico, USA)</small><br><br>
+  <small class="description">Enter city, state/province, and country (e.g., Albuquerque, New Mexico, USA)</small><br>
   <input type="text" id="city" name="city" placeholder="City" required>
   <input type="text" id="state" name="state" placeholder="State/Province" required>
   <input type="text" id="country" name="country" placeholder="Country" required>
@@ -299,11 +300,11 @@
   <!-- OPEN DATE LABEL -->
   <label>Open Date:</label><br>
   <small class="description">date when station was opened</small><br>
-  <input type="date" id="open_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <input type="text" id="open_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
   <!-- CLOSE DATE LABEL -->
   <label>Close Date:</label><br>
   <small class="description">if closed, Date when station was closed. Leave empty if still operating or not known</small><br>
-  <input type="date" id="close_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <input type="text" id="close_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
 </form>
 </div></div>
 
@@ -318,10 +319,12 @@
   <input type="text" id="station_code_local"><br><br>
   <!-- START TIME CORRECTION LABEL -->
   <label>Start Time Correction:</label><br>
-  <input type="date" id="start_time_correction"><br><br>
+  <input type="text" id="start_time" name="start_time" placeholder="00:00:00.0000" 
+       pattern="\d{2}:\d{2}:\d{2}\.\d{4}" required><br><br>
   <!-- END TIME CORRECTION LABEL -->
   <label>End Time Correction:</label><br>
-  <input type="date" id="end_time_correction"><br><br>
+  <input type="text" id="end_time" name="end_time" placeholder="00:00:00.0000" 
+       pattern="\d{2}:\d{2}:\d{2}\.\d{4}" required>><br><br>
   <!-- SIDE LABEL -->
   <label>Side:</label><br>
   <small class="description">0 = Front, 1 = Back</small><br>
@@ -367,10 +370,10 @@
   <input type="number" id="box_id"><br><br>
   <!-- START DATE LABEL -->
   <label>Start Date:</label><br>
-  <input type="date" id="start_date"><br><br>
+  <input type="text" id="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
   <!-- END DATE LABEL -->
   <label>End Date:</label><br>
-  <input type="date" id="end_date"><br><br>
+  <input type="text" id="end_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
   <!-- CONTAINER LABEL -->
   <label>Container:</label><br>
   <select id="container">
@@ -394,7 +397,6 @@
   <textarea id="CDWP_location_notes"></textarea><br><br>
 </form>
 </div></div></div>
-
 
 
 <button id="SubmitAll">Submit</button>
