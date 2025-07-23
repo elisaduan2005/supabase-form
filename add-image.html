@@ -57,7 +57,7 @@
   </select><br><br>
   <!-- SITE NAME LABEL -->
   <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
-  <small class="description">Enter city, state/province, and country (e.g. Albuquerque, New Mexico, USA)</small><br>
+  <small class="description">city, state/province, and country (e.g. Albuquerque, New Mexico, USA)</small><br>
   <input type="text" id="city" name="city" placeholder="City" required>
   <input type="text" id="state" name="state" placeholder="State/Province" required>
   <input type="text" id="country" name="country" placeholder="Country" required><br><br>
@@ -286,14 +286,7 @@
   <option value="other">Other</option>
   </select>
   <input type="text" id="custom_recording_type" placeholder="Enter custom recording type" style="display:none;"><br><br>
-  <!-- NOTES LABEL -->
-  <label>Notes:</label><br>
-  <textarea id="notes"></textarea><br><br>
-  <!-- OWNER CONTACT LABEL -->
-  <label>Owner Contact:</label><br>
-  <small class="description">contact information for the original owner of the data</small><br>
-  <input type="text" id="owner_contact"><br><br>
-  <!-- SIGNAL LABEL -->
+    <!-- SIGNAL LABEL -->
   <label>Signal:</label><br>
   <small class="description">indicate true if an earthquake signal is present</small><br>
   <select id="signal">
@@ -309,8 +302,15 @@
   <option value="" disabled selected>Choose...</option>
   <option value="True">1.0</option>
   <option value="False">-1.0</option>
-  <option value="NULL">Unknown</option>
+  <option value="NULL">Null</option>
   </select><br><br>
+  <!-- NOTES LABEL -->
+  <label>Notes:</label><br>
+  <textarea id="notes"></textarea><br><br>
+  <!-- OWNER CONTACT LABEL -->
+  <label>Owner Contact:</label><br>
+  <small class="description">contact information for the original owner of the data</small><br>
+  <input type="text" id="owner_contact"><br><br>
 </form>
 </div></div>
 
@@ -388,7 +388,7 @@
   <option value="2000-3000 Hugo Benioff">2000-3000 Hugo Benioff</option>
   <option value="3000 Beno Gutenberg">3000 Beno Gutenberg</option>
   <option value="4000 Charles Richter">4000 Charles Richter</option>
-  </select>
+  </select><br><br>
   <!-- STACK LABEL-->
   <label>Stack:</label><br>
   <input type="number" id="stack"><br><br>
