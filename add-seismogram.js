@@ -141,7 +141,6 @@ document.getElementById('format').addEventListener('change', () => {
     document.getElementById('format').value === 'other' ? 'block' : 'none';
       });
 
-
 document.getElementById('SubmitAll').addEventListener('click', async (e) => {e.preventDefault();
       
 
@@ -209,6 +208,16 @@ const fieldsToValidate = [
   { id: 'timemark', type: 'text', required: false, label: 'Timemark' },
   { id: 'notes', type: 'string', required: false, label: 'Notes' },
   { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
+
+  // ─── CDWP_IMAGE ───
+  { id: 'box_id', type: 'number', required: true, label: 'Box ID' },
+  { id: 'start_date', type: 'date', required: false, label: 'Start Date' },
+  { id: 'end_date', type: 'date', required: false, label: 'End Date' },
+  { id: 'container', type: 'text', required: false, label: 'Container' },
+  { id: 'stack', type: 'number', required: false, label: 'Stack' },
+  { id: 'previous_no', type: 'number', required: false, label: 'Previous Number' },
+  { id: 'exceptions', type: 'text', required: false, label: 'Exceptions' },
+  { id: 'CDWP_location_notes', type: 'text', required: false, label: 'Notes' },
 
 ];
 
@@ -573,6 +582,34 @@ if (imageError) {
   }
 }
 
+// ─── INSERT CDWP_IMAGE TABLE ───
+let CDWP_imageInsertSkipped = false;
+const { error: CDWP_imageError } = await client.from('CDWP_image').insert([{
+box_id: document.getElementById("box_id").value,
+start_date: document.getElementById("start_date")?.value || null,
+end_date: document.getElementById("end_date")?.value || null,
+container: document.getElementById("container")?.value || null,
+stack: document.getElementById("stack")?.value || null,
+previous_no: document.getElementById("previous_no")?.value || null,
+exceptions: document.getElementById("exceptions")?.value || null,
+CDWP_location_notes: document.getElementById("CDWP_location_notes")?.value || null,
+}]);
+
+if (CDWP_imageError) {
+  const msg = CDWP_imageError.message.toLowerCase();
+  if (
+    msg.includes('duplicate') ||
+    msg.includes('already exists') ||
+    msg.includes('violates unique constraint')
+  ) {
+    console.warn("CDWP_Image already exists, skipping insert.");
+    CDWP_imageInsertSkipped = true;
+  } else {
+    resultBox.textContent = 'Error inserting CDWP_image: ' + CDWP_imageError.message;
+    return;
+  }
+}
+
 
 alert('✅ Submission complete!!!');
 
@@ -637,6 +674,15 @@ const formData = {
   timemark: document.getElementById("timemark").value,
   notes: document.getElementById("notes").value,
   owner_contact: document.getElementById("owner_contact").value,
+  // ---- CDWP_IMAGE TABLE ----
+  box_id: document.getElementById("box_id").value,
+  start_date: document.getElementById("start_date").value,
+  end_date: document.getElementById("end_date").value,
+  container: document.getElementById("container").value,
+  stack: document.getElementById("stack").value,
+  previous_no: document.getElementById("previous_no").value,
+  exceptions: document.getElementById("exceptions").value,
+  CDWP_location_notes: document.getElementById("CDWP_location_notes").value,
 };
 
 
