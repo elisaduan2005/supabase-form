@@ -189,8 +189,8 @@ const fieldsToValidate = [
   { id: 'physical_location', type: 'string', required: true, label: 'Physical Location' },
   { id: 'custom_physical_location', type: 'string', required: false, label: 'Custom Physical Location' },
   { id: 'polarity', type: 'text', required: false, label: 'Polarity' },
-  { id: 'start_date', type: 'date', required: true, label: 'Start Date' },
-  { id: 'end_date', type: 'date', required: true, label: 'End Date' },
+  { id: 'start_time', type: 'date', required: true, label: 'Start Time' },
+  { id: 'end_time', type: 'date', required: true, label: 'End Time' },
 
   // ─── IMAGE ───
   { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
@@ -520,8 +520,8 @@ const { error: dataError } = await client.from('data').insert([{
   channel_name: document.getElementById('channel_name')?.value.trim(),
   physical_location: physicallocationCode,
   polarity: polarity,
-  start_date: document.getElementById('start_date')?.value.trim(),
-  end_date: document.getElementById('end_date')?.value.trim()
+  start_time: document.getElementById('start_time')?.value.trim(),
+  end_time: document.getElementById('end_time')?.value.trim()
 }]);
 
 if (dataError) {
@@ -618,8 +618,8 @@ const formData = {
   // ---- DATA TABLE ----
   physical_location: document.getElementById("physical_location").value,
   polarity: document.getElementById("polarity").value,
-  start_date: document.getElementById("start_date").value,
-  end_date: document.getElementById("end_date").value,
+  start_time: document.getElementById("start_time").value,
+  end_time: document.getElementById("end_time").value,
   // ---- IMAGE TABLE ----
   date_scanned: document.getElementById("date_scanned").value,
   resolution: document.getElementById("resolution").value,
