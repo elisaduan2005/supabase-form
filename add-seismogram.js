@@ -310,6 +310,8 @@ let stationCode = (stationCodeRaw === 'other')
   ? document.getElementById('custom_station_code')?.value.trim() || ''
   : stationCodeRaw;
 
+const siteName = `${document.getElementById("city").value}, ${document.getElementById("state").value}, ${document.getElementById("country").value}`;
+
 // ---- LOCATION TABLE ----
 let sensorRaw = document.getElementById('sensor').value;
 let sensorCode = (sensorRaw === 'other')
@@ -380,7 +382,7 @@ let stationInsertSkipped = false;
 const { error: stationError } = await client.from('station').insert([{
   network_code: networkCode,
   station_code: stationCode,
-  site_name: document.getElementById('site_name').value.trim(),
+  site_name: siteName,
   longitude: parseFloat(document.getElementById('longitude').value),
   latitude: parseFloat(document.getElementById('latitude').value),
   elevation: parseInt(document.getElementById('elevation').value) || null,
