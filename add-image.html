@@ -99,10 +99,10 @@
   <input type="text" id="location_code" required><br><br>
   <!-- SENSOR LABEL -->
   <label for="sensor">Sensor: <span style="color:red">*</span></label><br>
-  <small class="description">type of sensing instrument (e.g. Streckheisen STS-2, Ewing, Beniof)</small><br>
+  <small class="description">type of sensing instrument (e.g. Streckeisen STS-2, Ewing, Beniof)</small><br>
   <select id="sensor" required>
   <option value="" disabled selected>Choose...</option>
-  <option value="Streckheisen STS-2">Streckheisen STS-2</option>
+  <option value="Streckeisen STS-2">Streckeisen STS-2</option>
   <option value="WWSSN SP">WWSSN SP</option>
   <option value="WWSSN LP1">WWSSN LP1</option>
   <option value="WWSSN LP2">WWSSN LP2</option>
@@ -209,6 +209,16 @@
   <option value="Down">Down</option>
   <option value="NULL">Unknown</option>
   </select><br><br>
+  <!-- START DATE LABEL-->
+  <label for="start_date">Start Date: <span style="color:red">*</span></label><br>
+  <input type="text" id="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <!-- END DATE LABEL-->
+  <label for="end_date">End Date: <span style="color:red">*</span></label><br>
+  <input type="text" id="end_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <!-- TIME SERIES LABEL-->
+  <label for="time_series_id">Time Series ID: <span style="color:red">*</span></label><br>
+  <small class="description">(placeholder since field is required to import into database)</small><br>
+  <input type="text" id="end_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
 </form>
 </div>
 </div>
@@ -239,6 +249,10 @@
   <option value="other">Other</option>
   </select>
   <input type="number" id="custom_resolution" placeholder="Enter custom value" style="display:none;"><br><br>
+  <!-- FORMAT LABEL -->
+  <label>Format:</label><br>
+  <small class="description">format of image</small><br>
+  <input type="text" id="format"><br><br>
   <!-- LENGTH LABEL -->
   <label>Length:</label><br>
   <small class="description">length (float) of the analog document (in cm)</small><br>
