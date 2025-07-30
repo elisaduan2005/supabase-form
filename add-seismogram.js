@@ -6,6 +6,56 @@
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const resultBox = document.getElementById('Result');  // element to display error message
 
+      async function loadNetworkCodes() {
+    const { data, error } = await client.from('network').select('network_code');
+    if (error) {
+      console.error('Error loading networks:', error.message);
+      return;
+    }
+    const dropdown = document.getElementById('network_code');
+    data.forEach(row => {
+      const opt = document.createElement('option');
+      opt.value = row.network_code;
+      opt.textContent = row.network_code;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    });
+  }
+
+  async function loadNetworkNames() {
+    const { data, error } = await client.from('network').select('network_name');
+    if (error) {
+      console.error('Error loading network names:', error.message);
+      return;
+    }
+    const dropdown = document.getElementById('network_name');
+    data.forEach(row => {
+      const opt = document.createElement('option');
+      opt.value = row.network_name;
+      opt.textContent = row.network_name;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    });
+  }
+
+  async function loadStationCodes() {
+    const { data, error } = await client.from('station').select('station_code');
+    if (error) {
+      console.error('Error loading stations:', error.message);
+      return;
+    }
+    const dropdown = document.getElementById('station_code');
+    data.forEach(row => {
+      const opt = document.createElement('option');
+      opt.value = row.station_code;
+      opt.textContent = row.station_code;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    });
+  }
+
+  // ✅ 2. CALL LOADERS IMMEDIATELY
+  loadNetworkCodes();
+  loadNetworkNames();
+  loadStationCodes();
+  
         // Autofill form ONLY IF just submitted
 
       const savedData = JSON.parse(localStorage.getItem("lastSeismogramSubmission"));
@@ -35,13 +85,36 @@
     if (el) el.dispatchEvent(new Event('change'));
   });
 
+  ['network_code', 'network_name', 'station_code'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.dispatchEvent(new Event('change'));
+});
+
+
     // Don't autofill again on refresh
   sessionStorage.removeItem("shouldAutofill");
 }
   
 
 
-     // ADD OR HIDE CUSTOM FIELD
+// SHOW CUSTOM FIELDS WHEN "OTHER" OPTION IS TOGGLED ------------------------------
+// NETWORK:
+document.getElementById('network_code').addEventListener('change', () => {
+  document.getElementById('custom_network_code').style.display =
+    document.getElementById('network_code').value === 'other' ? 'block' : 'none';
+});
+
+document.getElementById('network_name').addEventListener('change', () => {
+  document.getElementById('custom_network_name').style.display =
+    document.getElementById('network_name').value === 'other' ? 'block' : 'none';
+});
+// STATION:
+document.getElementById('station_code').addEventListener('change', () => {
+  document.getElementById('custom_station_code').style.display =
+    document.getElementById('station_code').value === 'other' ? 'block' : 'none';
+});
+// LOCATION:
+
       document.getElementById('resolution').addEventListener('change', () => {
         document.getElementById('custom_resolution').style.display =
           document.getElementById('resolution').value === 'other' ? 'block' : 'none';
@@ -60,6 +133,22 @@
       
 
 const fieldsToValidate = [
+  // ─── NETWORK ───
+  { id: 'network_code', type: 'string', required: true, label: 'FDSN Network Code' },
+  { id: 'custom_network_code', type: 'string', required: false, label: 'Custom Network Code' },
+  { id: 'network_name', type: 'string', required: false, label: 'Network Name' },
+  { id: 'custom_network_name', type: 'string', required: false, label: 'Custom Network Name' },
+
+  // ─── STATION ───
+  { id: 'station_code', type: 'string', required: true, label: 'Station Code' },
+  { id: 'site_name', type: 'string', required: true, label: 'Site Name' },
+  { id: 'longitude', type: 'number', required: true, label: 'Longitude' },
+  { id: 'latitude', type: 'number', required: true, label: 'Latitude' },
+  { id: 'elevation', type: 'number', required: false, label: 'Elevation' },
+  { id: 'depth', type: 'number', required: false, label: 'Depth' },
+  { id: 'open_date', type: 'date', required: false, label: 'Open Date' },
+  { id: 'close_date', type: 'date', required: false, label: 'Close Date' },
+
   // ─── IMAGE ───
   { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
   { id: 'resolution', type: 'number', required: true, label: 'Resolution' },
@@ -102,6 +191,30 @@ for (let field of fieldsToValidate) {
   if (!el) continue;
 
   let raw = el.value?.trim();
+  // Handle custom network code
+if (field.id === 'network_code' && raw === 'other') {
+  raw = document.getElementById('custom_network_code').value.trim();
+  if (!raw) {
+    alert('Please enter a custom FDSN Network Code.');
+    return;
+  }
+}
+// Handle custom network name
+if (field.id === 'network_name' && raw === 'other') {
+  raw = document.getElementById('custom_network_name').value.trim();
+  if (!raw) {
+    alert('Please enter a custom Network Name.');
+    return;
+  }
+}
+
+if (field.id === 'station_code' && raw === 'other') {
+  raw = document.getElementById('custom_station_code').value.trim();
+  if (!raw) {
+    alert('Please enter a custom Station Code.');
+    return;
+  }
+}
 
   // Handle custom dropdowns
   if (field.id === 'resolution' && raw === 'other') {
@@ -162,7 +275,26 @@ for (let field of fieldsToValidate) {
 
 
 
-//DROP DOWNS
+// DROP DOWNS CODE ------------------------------------------------------------------- 
+// IF SELECT OTHER; PARSE THE CUSTOM VALUE
+// ---- NETWORK TABLE ----
+let networkCodeRaw = document.getElementById('network_code').value;
+let networkCode = (networkCodeRaw === 'other')
+  ? document.getElementById('custom_network_code').value.trim()
+  : networkCodeRaw;
+
+let networkNameRaw = document.getElementById('network_name').value;
+let networkName = (networkNameRaw === 'other')
+  ? document.getElementById('custom_network_name').value.trim()
+  : networkNameRaw;
+
+// ---- STATION TABLE ----
+let stationCodeRaw = document.getElementById('station_code').value;
+let stationCode = (stationCodeRaw === 'other')
+  ? document.getElementById('custom_station_code').value.trim()
+  : stationCodeRaw;
+
+
 // PARSE RESOLUTION EITHER FOR 361 AND CUSTOM VALUES
 let resolutionRaw = document.getElementById('resolution').value;
 let resolutionValue;
@@ -196,7 +328,51 @@ let occlusions = occlusionsRaw === "True" ? true : occlusionsRaw === "False" ? f
 
 const signalRaw = document.getElementById('signal').value;
 let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
-      
+
+// ─── INSERT NETWORK TABLE ───
+let networkInsertSkipped = false;
+
+const { error: networkError } = await client.from('network').insert([{
+  network_code: networkCode,
+  network_name: networkName
+}]);
+
+if (networkError) {
+  const msg = networkError.message.toLowerCase();
+  if (msg.includes('duplicate') || msg.includes('already exists')) {
+    console.warn("Network already exists, skipping insert.");
+    networkInsertSkipped = true;
+  } else {
+    resultBox.textContent = 'Error inserting network: ' + networkError.message;
+    return;
+  }
+}
+
+// ─── INSERT STATION STATION ───
+let stationInsertSkipped = false;
+const { error: stationError } = await client.from('station').insert([{
+  network_code: networkCode,
+  station_code: stationCode,
+  site_name: document.getElementById('site_name').value.trim(),
+  longitude: parseFloat(document.getElementById('longitude').value),
+  latitude: parseFloat(document.getElementById('latitude').value),
+  elevation: parseInt(document.getElementById('elevation').value) || null,
+  depth: parseInt(document.getElementById('depth').value) || null,
+  open_date: document.getElementById('open_date').value || null,
+  close_date: document.getElementById('close_date').value || null
+}]);
+
+if (stationError) {
+  const msg = stationError.message.toLowerCase();
+  if (msg.includes('duplicate') || msg.includes('already exists')) {
+    console.warn("Station already exists, skipping insert.");
+    stationInsertSkipped = true;
+  } else {
+    resultBox.textContent = 'Error inserting station: ' + stationError.message;
+    return;
+  }
+}
+
         // Insert into image table
         const { error: imageError } = await client.from('image').insert([{
           date_scanned: document.getElementById('date_scanned').value || null,
@@ -302,6 +478,22 @@ resultBox.textContent = 'Success! Your record has been added to the database.'
 
 // Save some of the last inputs for default next time
 const formData = {
+  // ---- NETWORK TABLE ----
+  network_code: document.getElementById("network_code").value,
+  custom_network_code: document.getElementById("custom_network_code").value,
+  network_name: document.getElementById("network_name").value,
+  custom_network_name: document.getElementById("custom_network_name").value,
+  //---- STATION TABLE ----
+  station_code: document.getElementById("station_code").value,
+  custom_station_code: document.getElementById("custom_station_code").value,
+  site_name: document.getElementById("site_name").value,
+  longitude: document.getElementById("longitude").value,
+  latitude: document.getElementById("latitude").value,
+  elevation: document.getElementById("elevation").value,
+  depth: document.getElementById("depth").value,
+  open_date: document.getElementById("open_date").value,
+  close_date: document.getElementById("close_date").value,
+
   date_scanned: document.getElementById("date_scanned").value,
   resolution: document.getElementById("resolution").value,
   custom_resolution: document.getElementById("custom_resolution").value,
