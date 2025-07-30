@@ -122,6 +122,11 @@ document.getElementById('recording_nature').addEventListener('change', () => {
   document.getElementById('custom_recording_nature').style.display =
     document.getElementById('recording_nature').value === 'other' ? 'block' : 'none';
 });
+// DATA:
+document.getElementById('physical_location').addEventListener('change', () => {
+  document.getElementById('custom_physical_location').style.display =
+    document.getElementById('physical_location').value === 'other' ? 'block' : 'none';
+});
 // IMAGE: 
 document.getElementById('resolution').addEventListener('change', () => {
   document.getElementById('custom_resolution').style.display =
@@ -180,6 +185,12 @@ const fieldsToValidate = [
   { id: 'recording_nature', type: 'string', required: false, label: 'Recording Nature' },
   { id: 'custom_recording_nature', type: 'string', required: false, label: 'Custom Recording Nature' },
 
+  // ─── DATA ───
+  { id: 'physical_location', type: 'string', required: true, label: 'Physical Location' },
+  { id: 'custom_physical_location', type: 'string', required: false, label: 'Custom Physical Location' },
+  { id: 'polarity', type: 'boolean', required: false, label: 'Polarity' },
+  { id: 'start_date', type: 'date', required: true, label: 'Start Date' },
+  { id: 'end_date', type: 'date', required: true, label: 'End Date' },
 
   // ─── IMAGE ───
   { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
@@ -324,8 +335,13 @@ let recordingnatureCode = (recordingnatureRaw === 'other')
   ? document.getElementById('custom_recording_nature')?.value.trim() || ''
   : recordingnatureRaw;
 
-// ---- IMAGE TABLE ----
+// ---- DATA TABLE ----
+let physicallocationRaw = document.getElementById('physical_location').value;
+let physicallocationCode = (physicallocationRaw === 'other')
+  ? document.getElementById('custom_physical_location')?.value.trim() || ''
+  : physicallocationRaw;
 
+// ---- IMAGE TABLE ----
 //  Resolution: For 400 or custom values
 let resolutionRaw = document.getElementById('resolution').value;
 let resolutionValue;
@@ -347,8 +363,10 @@ let formatCode = (formatRaw === 'other')
   ? document.getElementById('custom_format')?.value.trim() || ''
   : formatRaw;
 
+// FOR UNREQUIRED FIELDS
+// Convert dropdowns to null/unknown for fields that are not required
 
-// Convert dropdowns to null/unknown
+// ---- IMAGE TABLE ----
 const phaseMarkingsRaw = document.getElementById('phase_markings').value;
 let phaseMarkings = phaseMarkingsRaw === "True" ? true : phaseMarkingsRaw === "False" ? false : null;
 
@@ -371,9 +389,25 @@ if (timemarkRaw === "Positive") {
   timemark = "unknown";
 }
 
+// ---- DATA TABLE ----
+
+const polarityRaw = document.getElementById('polarity').value;
+let polarity;
+
+if (polarityRaw === "Positive") {
+  polarity = "positive";
+} else if (polarityRaw === "Negative") {
+  polarity = "negative";
+} else if (polarityRaw === "Null") {
+  polarity = "null";
+} else {
+  polarity = "unknown";
+}
+
+// ───────── INSERTION ──────────
+// note: need to follow database schema
 // ─── INSERT NETWORK TABLE ───
 let networkInsertSkipped = false;
-
 const { error: networkError } = await client.from('network').insert([{
   network_code: networkCode,
   network_name: networkName
@@ -475,6 +509,36 @@ if (channelError) {
     return;
   }
 }
+
+// ─── INSERT DATA TABLE ───
+let dataInsertSkipped = false;
+
+const { error: dataError } = await client.from('data').insert([{
+  network_code: networkCode,
+  station_code: stationCode,
+  location_code: document.getElementById('location_code')?.value.trim(),
+  channel_name: document.getElementById('channel_name')?.value.trim(),
+  physical_location: physicallocationCode,
+  polarity: polarity,
+  start_date: document.getElementById('start_date')?.value.trim(),
+  end_date: document.getElementById('end_date')?.value.trim()
+}]);
+
+if (dataError) {
+  const msg = dataError.message.toLowerCase();
+  if (
+    msg.includes('duplicate') ||
+    msg.includes('already exists') ||
+    msg.includes('violates unique constraint')
+  ) {
+    console.warn("Data already exists, skipping insert.");
+    dataInsertSkipped = true;
+  } else {
+    resultBox.textContent = 'Error inserting data: ' + dataError.message;
+    return;
+  }
+}
+
 // ─── INSERT IMAGE TABLE ───
 let imageInsertSkipped = false;
 
@@ -551,6 +615,11 @@ const formData = {
   period_of_gain: document.getElementById("period_of_gain").value,
   recording_nature: document.getElementById("recording_nature").value,
   custom_recording_nature: document.getElementById("custom_recording_nature").value,
+  // ---- DATA TABLE ----
+  physical_location: document.getElementById("physical_location").value,
+  polarity: document.getElementById("polarity").value,
+  start_date: document.getElementById("start_date").value,
+  end_date: document.getElementById("end_date").value,
   // ---- IMAGE TABLE ----
   date_scanned: document.getElementById("date_scanned").value,
   resolution: document.getElementById("resolution").value,
