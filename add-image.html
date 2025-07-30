@@ -211,7 +211,7 @@
   <!-- RECORDING SYSTEM GAIN LABEL-->
   <label>Recording System Gain:</label><br>
   <small class="description">scale or gain factor (scaler)</small><br>
-  <input type="number" id="recording"><br><br>
+  <input type="number" id="recording_gain"><br><br>
   <!-- PERIOD OF GAIN LABEL -->
   <label>Period of Gain:</label><br>
   <small class="description">period at which the gain is valid</small><br>
@@ -219,11 +219,12 @@
   <!-- RECORDING SYSTEM NATURE LABEL -->
   <label>Recording System Nature:</label><br>
   <small class="description">Mechanical (e.g., Wiechert) or electromagnetic (e.g., Golitsyn)</small><br>
-  <select id="equip_nature">
+  <select id="recording__nature">
   <option value="" disabled selected>Choose...</option>
   <option value="mechanical">Wiechert</option>
   <option value="electromagnetic">Golitsyn</option>
   </select>
+  <input type="text" id="custom_recording_nature" placeholder="Enter custom recording system" style="display:none;"><br><br>
 </form>
 </div>
 
@@ -265,6 +266,7 @@
   <option value="tiff">TIFF</option>
   <option value="other">Other</option>
   </select><br><br>
+  <input type="text" id="custom_format" placeholder="Enter custom format" style="display:none;"><br>
   <!-- LENGTH LABEL -->
   <label>Length:</label><br>
   <small class="description">length (float) of the analog document (in cm)</small><br>

@@ -96,7 +96,6 @@
 }
   
 
-
 // SHOW CUSTOM FIELDS WHEN "OTHER" OPTION IS TOGGLED ------------------------------
 // NETWORK:
 document.getElementById('network_code').addEventListener('change', () => {
@@ -114,26 +113,37 @@ document.getElementById('station_code').addEventListener('change', () => {
     document.getElementById('station_code').value === 'other' ? 'block' : 'none';
 });
 // LOCATION:
-
-      document.getElementById('resolution').addEventListener('change', () => {
-        document.getElementById('custom_resolution').style.display =
-          document.getElementById('resolution').value === 'other' ? 'block' : 'none';
+document.getElementById('sensor').addEventListener('change', () => {
+  document.getElementById('custom_sensor').style.display =
+    document.getElementById('sensor').value === 'other' ? 'block' : 'none';
+});
+// CHANNEL:
+document.getElementById('recording_nature').addEventListener('change', () => {
+  document.getElementById('custom_recording_nature').style.display =
+    document.getElementById('recording_nature').value === 'other' ? 'block' : 'none';
+});
+// IMAGE: 
+document.getElementById('resolution').addEventListener('change', () => {
+  document.getElementById('custom_resolution').style.display =
+     document.getElementById('resolution').value === 'other' ? 'block' : 'none';
+});
+document.getElementById('recording_type').addEventListener('change', () => {
+ document.getElementById('custom_recording_type').style.display =
+    document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
       });
-      document.getElementById('recording_type').addEventListener('change', () => {
-        document.getElementById('custom_recording_type').style.display =
-          document.getElementById('recording_type').value === 'other' ? 'block' : 'none';
+document.getElementById('format').addEventListener('change', () => {
+ document.getElementById('custom_format').style.display =
+    document.getElementById('format').value === 'other' ? 'block' : 'none';
       });
 
-        document.getElementById('sensor').addEventListener('change', () => {
-        document.getElementById('custom_sensor').style.display =
-        document.getElementById('sensor').value === 'other' ? 'block' : 'none';
-         });
-        document.getElementById('SubmitAll').addEventListener('click', async (e) => {
-        e.preventDefault();
+
+document.getElementById('SubmitAll').addEventListener('click', async (e) => {e.preventDefault();
       
 
 const fieldsToValidate = [
   // ─── NETWORK ───
+
+  // note: we need to add custom codes for drop-down vals
   { id: 'network_code', type: 'string', required: true, label: 'FDSN Network Code' },
   { id: 'custom_network_code', type: 'string', required: false, label: 'Custom Network Code' },
   { id: 'network_name', type: 'string', required: false, label: 'Network Name' },
@@ -141,6 +151,7 @@ const fieldsToValidate = [
 
   // ─── STATION ───
   { id: 'station_code', type: 'string', required: true, label: 'Station Code' },
+  { id: 'custom_station_code', type: 'string', required: false, label: 'Custom Station Code' },
   { id: 'site_name', type: 'string', required: true, label: 'Site Name' },
   { id: 'longitude', type: 'number', required: true, label: 'Longitude' },
   { id: 'latitude', type: 'number', required: true, label: 'Latitude' },
@@ -149,10 +160,33 @@ const fieldsToValidate = [
   { id: 'open_date', type: 'date', required: false, label: 'Open Date' },
   { id: 'close_date', type: 'date', required: false, label: 'Close Date' },
 
+  // ─── LOCATION ───
+  { id: 'location_code', type: 'string', required: true, label: 'Location Code' },
+  { id: 'sensor', type: 'string', required: true, label: 'Sensor' },
+  { id: 'custom_sensor', type: 'string', required: false, label: 'Custom Sensor' },
+  { id: 'sensor_nature', type: 'string', required: false, label: 'Sensor Nature' },
+  { id: 'install_date', type: 'date', required: false, label: 'Install Date' },
+
+  // ─── CHANNEL ───
+  { id: 'channel_name', type: 'string', required: true, label: 'Channel Name' },
+  { id: 'free_period', type: 'number', required: true, label: 'Free Period' },
+  { id: 'damping', type: 'number', required: true, label: 'Damping' },
+  { id: 'sensor_serial_number', type: 'number', required: true, label: 'Sensor Serial Number' },
+  { id: 'dip', type: 'number', required: true, label: 'Dip' },
+  { id: 'azimuth', type: 'number', required: true, label: 'Azimuth' },
+  { id: 'recording_serial_number', type: 'number', required: false, label: 'Recording Serial Number' },
+  { id: 'recording_gain', type: 'number', required: false, label: 'Recording Gain' },
+  { id: 'period_of_gain', type: 'number', required: false, label: 'Period of Gain' },
+  { id: 'recording_nature', type: 'string', required: false, label: 'Recording Nature' },
+  { id: 'custom_recording_nature', type: 'string', required: false, label: 'Custom Recording Nature' },
+
+
   // ─── IMAGE ───
   { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
   { id: 'resolution', type: 'number', required: true, label: 'Resolution' },
   { id: 'custom_resolution', type: 'number', required: false, label: 'Custom Resolution' },
+  { id: 'format', type: 'string', required: false, label: 'Format' },
+  { id: 'custom_format', type: 'string', required: false, label: 'Custom Format' },
   { id: 'length', type: 'number', required: false, label: 'Image Length' },
   { id: 'width', type: 'number', required: false, label: 'Image Width' },
   { id: 'phase_markings', type: 'boolean', required: false, label: 'Phase Markings' },
@@ -160,30 +194,11 @@ const fieldsToValidate = [
   { id: 'occlusions', type: 'boolean', required: false, label: 'Occlusions' },
   { id: 'recording_type', type: 'string', required: true, label: 'Recording Type' },
   { id: 'custom_recording_type', type: 'string', required: false, label: 'Custom Recording Type' },
-  { id: 'notes', type: 'string', required: false, label: 'Notes' },
-  { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
   { id: 'signal', type: 'boolean', required: false, label: 'Signal Present' },
   { id: 'timemark', type: 'date', required: false, label: 'Timemark' },
+  { id: 'notes', type: 'string', required: false, label: 'Notes' },
+  { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
 
-  // ─── SENSOR ───
-  { id: 'sensor', type: 'string', required: true, label: 'Sensor' },
-  { id: 'custom_sensor', type: 'string', required: false, label: 'Custom Sensor' },
-  { id: 'sensor_nature', type: 'string', required: false, label: 'Sensor Nature' },
-  { id: 'free_period', type: 'number', required: true, label: 'Galvo Free Period' },
-  { id: 'damping', type: 'number', required: true, label: 'Galvo Damping' },
-
-  // ─── EQUIPMENT ───
-  { id: 'channel', type: 'string', required: true, label: 'Channel' },
-  { id: 'equip_open_date', type: 'date', required: false, label: 'Equipment Open Date' },
-  { id: 'h_dip1', type: 'number', required: true, label: 'Horizontal 1 Dip/Azimuth' },
-  { id: 'h_dip2', type: 'number', required: true, label: 'Horizontal 2 Dip/Azimuth' },
-  { id: 'v_dip', type: 'number', required: true, label: 'Vertical Dip/Azimuth' },
-  { id: 'recording_system', type: 'string', required: true, label: 'Recording System' },
-  { id: 'recording_serial_number', type: 'number', required: false, label: 'Recording Serial Number' },
-  { id: 'equip_gain', type: 'number', required: false, label: 'Equipment Gain' },
-  { id: 'period_of_gain', type: 'number', required: false, label: 'Period of Gain' },
-  { id: 'equip_nature', type: 'string', required: false, label: 'Equipment Nature' },
-  { id: 'sensor_serial_number', type: 'number', required: true, label: 'Sensor Serial Number' }
 ];
 
 for (let field of fieldsToValidate) {
@@ -274,9 +289,10 @@ if (field.id === 'station_code' && raw === 'other') {
 }
 
 
-
 // DROP DOWNS CODE ------------------------------------------------------------------- 
 // IF SELECT OTHER; PARSE THE CUSTOM VALUE
+// CHANNEL_NAME does not need an other value
+
 // ---- NETWORK TABLE ----
 let networkCodeRaw = document.getElementById('network_code').value;
 let networkCode = (networkCodeRaw === 'other')
@@ -294,31 +310,42 @@ let stationCode = (stationCodeRaw === 'other')
   ? document.getElementById('custom_station_code')?.value.trim() || ''
   : stationCodeRaw;
 
+// ---- LOCATION TABLE ----
+let sensorRaw = document.getElementById('sensor').value;
+let sensorCode = (sensorRaw === 'other')
+  ? document.getElementById('custom_sensor')?.value.trim() || ''
+  : sensorRaw;
 
-// PARSE RESOLUTION EITHER FOR 361 AND CUSTOM VALUES
+// ---- CHANNEL TABLE ----
+let recordingnatureRaw = document.getElementById('recording_nature').value;
+let recordingnatureCode = (recordingnatureRaw === 'other')
+  ? document.getElementById('custom_recording_nature')?.value.trim() || ''
+  : recordingnatureRaw;
+
+// ---- IMAGE TABLE ----
+
+//  Resolution: For 400 or custom values
 let resolutionRaw = document.getElementById('resolution').value;
 let resolutionValue;
-if (resolutionRaw === '361 (WWSSN)') {
-  resolutionValue = 361;
+if (resolutionRaw === '400 (WWSSN)') {
+  resolutionValue = 400;
 } else if (resolutionRaw === 'other') {
   resolutionValue = parseInt(document.getElementById('custom_resolution').value);
 } else {
   resolutionValue = parseInt(resolutionRaw);
 }
 
-// PARSE RECORDING TYPE (CUSTOM OR SELECTED)
 let recordingRaw = document.getElementById('recording_type').value;
 let recordingType = (recordingRaw === 'other')
   ? document.getElementById('custom_recording_type').value.trim()
   : recordingRaw;
 
-// PARSE SENSOR TYPE (CUSTOM OR SELECTED)
-let sensorRaw = document.getElementById('sensor').value;
-let sensorValue = (sensorRaw === 'other')
-  ? document.getElementById('custom_sensor').value.trim()
-  : sensorRaw;
+let formatRaw = document.getElementById('format').value;
+let formatCode = (formatRaw === 'other')
+  ? document.getElementById('custom_format')?.value.trim() || ''
+  : formatRaw;
 
-        
+
 // Convert dropdowns to booleans or null
 const phaseMarkingsRaw = document.getElementById('phase_markings').value;
 let phaseMarkings = phaseMarkingsRaw === "True" ? true : phaseMarkingsRaw === "False" ? false : null;
@@ -373,112 +400,110 @@ if (stationError) {
   }
 }
 
-        // Insert into image table
-        const { error: imageError } = await client.from('image').insert([{
-          date_scanned: document.getElementById('date_scanned').value || null,
-          resolution: resolutionValue,
-          length: parseFloat(document.getElementById('length').value),
-          width: parseFloat(document.getElementById('width').value),
-          phase_markings: phaseMarkings,
-          bulletin: document.getElementById('bulletin').value,
-          occlusions: occlusions,
-          recording_type: recordingType,
-          notes: document.getElementById('notes').value,
-          owner_contact: document.getElementById('owner_contact').value,
-          signal: signal,
-          timemark: document.getElementById('timemark').value || null
-        }]);
-        if (imageError) {
-          resultBox.textContent = 'Error inserting image: ' + imageError.message;
-          return;
-        }
+// ─── INSERT LOCATION TABLE ───
+let locationInsertSkipped = false;
 
-
-        
-            // Insert into sensor table
-
-          console.log("Inserting sensor:", {
-  sensor: sensorValue,
-  sensor_nature: document.getElementById('sensor_nature').value,
-  free_period: parseFloat(document.getElementById('free_period').value),
-  damping: parseInt(document.getElementById('damping').value)
-});
-
-
-let sensorInsertSkipped = false;
-
-// Try inserting the sensor row
-const { error: sensorError } = await client.from('sensor').insert([{
-  sensor: sensorValue,
-  sensor_nature: document.getElementById('sensor_nature').value,
-  free_period: parseFloat(document.getElementById('free_period').value),
-  damping: parseInt(document.getElementById('damping').value)
+const { error: locationError } = await client.from('location').insert([{
+  network_code: networkCode,
+  station_code: stationCode,
+  location_code: document.getElementById('location_code')?.value.trim(),
+  sensor: sensorCode,
+  sensor_nature: document.getElementById('sensor_nature')?.value.trim() || null,
+  install_date: document.getElementById('install_date')?.value || null
 }]);
 
-// ⚠️ Handle sensor error only after the insert attempt
-if (sensorError) {
-  const msg = sensorError.message.toLowerCase();
-
-  // If it's a duplicate/unique constraint error, skip and log
+if (locationError) {
+  const msg = locationError.message.toLowerCase();
   if (
     msg.includes('duplicate') ||
     msg.includes('already exists') ||
     msg.includes('violates unique constraint')
   ) {
-    console.warn("Sensor is in database.");
-    sensorInsertSkipped = true;
+    console.warn("Location already exists, skipping insert.");
+    locationInsertSkipped = true;
   } else {
-    // For any other error, stop execution
-    resultBox.textContent = 'Error inserting sensor: ' + sensorError.message;
+    resultBox.textContent = 'Error inserting location: ' + locationError.message;
+    return;
+  }
+}
+
+// ─── INSERT CHANNEL TABLE ───
+let channelInsertSkipped = false;
+
+const { error: channelError } = await client.from('channel').insert([{
+  network_code: networkCode,
+  station_code: stationCode,
+  location_code: document.getElementById('location_code')?.value.trim(),
+  channel_name: document.getElementById('channel_name')?.value.trim(),
+  free_period: parseFloat(document.getElementById('free_period')?.value),
+  damping: parseInt(document.getElementById('damping')?.value),
+  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number')?.value),
+  dip: parseFloat(document.getElementById('dip')?.value),
+  azimuth: parseFloat(document.getElementById('azimuth')?.value),
+  recording_serial_number: parseFloat(document.getElementById('recording_serial_number')?.value) || null,
+  recording_gain: parseInt(document.getElementById('recording_gain')?.value) || null,
+  period_of_gain: parseFloat(document.getElementById('period_of_gain')?.value) || null,
+  recording_nature: document.getElementById('recording_nature')?.value.trim() || null
+}]);
+
+if (channelError) {
+  const msg = channelError.message.toLowerCase();
+  if (
+    msg.includes('duplicate') ||
+    msg.includes('already exists') ||
+    msg.includes('violates unique constraint')
+  ) {
+    console.warn("Channel already exists, skipping insert.");
+    channelInsertSkipped = true;
+  } else {
+    resultBox.textContent = 'Error inserting channel: ' + channelError.message;
+    return;
+  }
+}
+// ─── INSERT IMAGE TABLE ───
+let imageInsertSkipped = false;
+
+const { error: imageError } = await client.from('image').insert([{
+  date_scanned: document.getElementById('date_scanned')?.value || null,
+  resolution: resolutionValue,
+  format: formatCode,
+  length: parseFloat(document.getElementById('length')?.value) || null,
+  width: parseFloat(document.getElementById('width')?.value) || null,
+  phase_markings: phaseMarkings,
+  bulletin: document.getElementById('bulletin')?.value.trim() || null,
+  occlusions: occlusions,
+  recording_type: recordingType,
+  signal: signal,
+  timemark: document.getElementById('timemark')?.value || null,
+  notes: document.getElementById('notes')?.value.trim() || null,
+  owner_contact: document.getElementById('owner_contact')?.value.trim() || null,
+}]);
+
+if (imageError) {
+  const msg = imageError.message.toLowerCase();
+  if (
+    msg.includes('duplicate') ||
+    msg.includes('already exists') ||
+    msg.includes('violates unique constraint')
+  ) {
+    console.warn("Image already exists, skipping insert.");
+    imageInsertSkipped = true;
+  } else {
+    resultBox.textContent = 'Error inserting image: ' + imageError.message;
     return;
   }
 }
 
 
-
-
-let equipmentInsertSkipped = false;
-
-const { error: equipError } = await client.from('equipment').insert([{
-  channel: document.getElementById('channel').value,
-  equip_open_date: document.getElementById('equip_open_date').value || null,
-  h_dip1: parseFloat(document.getElementById('h_dip1').value),
-  h_dip2: parseFloat(document.getElementById('h_dip2').value),
-  v_dip: parseFloat(document.getElementById('v_dip').value),
-  recording_system: document.getElementById('recording_system').value,
-  recording_serial_number: parseInt(document.getElementById('recording_serial_number').value),
-  equip_gain: parseInt(document.getElementById('equip_gain').value),
-  period_of_gain: parseFloat(document.getElementById('period_of_gain').value),
-  equip_nature: document.getElementById('equip_nature').value,
-  sensor_serial_number: parseInt(document.getElementById('sensor_serial_number').value),
-  sensor: sensorValue
-}]);
-
-if (equipError) {
-  const msg = equipError.message.toLowerCase();
-
-  // If it's a duplicate/unique constraint error, skip and log
-  if (
-    msg.includes('duplicate') ||
-    msg.includes('already exists') ||
-    msg.includes('violates unique constraint')
-  ) {
-    console.warn("Equipment is in database.");
-    equipmentInsertSkipped = true;
-  } else {
-    // For any other error, stop execution
-    resultBox.textContent = 'Error inserting equipment: ' + equipError.message;
-    return;
-  }
-}      
-
-alert('✅ Submission complete!');
+alert('✅ Submission complete!!!');
 
 resultBox.textContent = 'Success! Your record has been added to the database.'
 
 // Save some of the last inputs for default next time
 const formData = {
   // ---- NETWORK TABLE ----
+
+  //note: must add for custom drop-down values
   network_code: document.getElementById("network_code").value,
   custom_network_code: document.getElementById("custom_network_code").value,
   network_name: document.getElementById("network_name").value,
@@ -493,10 +518,30 @@ const formData = {
   depth: document.getElementById("depth").value,
   open_date: document.getElementById("open_date").value,
   close_date: document.getElementById("close_date").value,
-
+  // ---- LOCATION TABLE ----
+  location_code: document.getElementById("location_code").value,
+  sensor: document.getElementById("sensor").value,
+  custom_sensor: document.getElementById("custom_sensor").value,
+  sensor_nature: document.getElementById("sensor_nature").value,
+  install_date: document.getElementById("install_date").value,
+  // ---- CHANNEL TABLE ----
+  channel_name: document.getElementById("channel_name").value,
+  free_period: document.getElementById("free_period").value,
+  damping: document.getElementById("damping").value,
+  sensor_serial_number: document.getElementById("sensor_serial_number").value,
+  dip: document.getElementById("dip").value,
+  azimuth: document.getElementById("azimuth").value,
+  recording_serial_number: document.getElementById("recording_serial_number").value,
+  recording_gain: document.getElementById("recording_gain").value,
+  period_of_gain: document.getElementById("period_of_gain").value,
+  recording_nature: document.getElementById("recording_nature").value,
+  custom_recording_nature: document.getElementById("custom_recording_nature").value,
+  // ---- IMAGE TABLE ----
   date_scanned: document.getElementById("date_scanned").value,
   resolution: document.getElementById("resolution").value,
   custom_resolution: document.getElementById("custom_resolution").value,
+  format: document.getElementById("format").value,
+  custom_format: document.getElementById("custom_format").value,
   length: document.getElementById("length").value,
   width: document.getElementById("width").value,
   phase_markings: document.getElementById("phase_markings").value,
@@ -504,19 +549,10 @@ const formData = {
   occlusions: document.getElementById("occlusions").value,
   recording_type: document.getElementById("recording_type").value,
   custom_recording_type: document.getElementById("custom_recording_type").value,
-  notes: document.getElementById("notes").value,
-  owner_contact: document.getElementById("owner_contact").value,
   signal: document.getElementById("signal").value,
   timemark: document.getElementById("timemark").value,
-  sensor: document.getElementById("sensor").value,
-  custom_sensor: document.getElementById("custom_sensor").value,
-  free_period: document.getElementById("free_period").value,
-  damping: document.getElementById("damping").value,
-  channel: document.getElementById("channel").value,
-  h_dip1: document.getElementById("h_dip1").value,
-  h_dip2: document.getElementById("h_dip2").value,
-  v_dip: document.getElementById("v_dip").value,
-  recording_system: document.getElementById("recording_system").value
+  notes: document.getElementById("notes").value,
+  owner_contact: document.getElementById("owner_contact").value,
 };
 
 localStorage.setItem("lastSeismogramSubmission", JSON.stringify(formData));
