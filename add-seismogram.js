@@ -188,7 +188,7 @@ const fieldsToValidate = [
   // ─── DATA ───
   { id: 'physical_location', type: 'string', required: true, label: 'Physical Location' },
   { id: 'custom_physical_location', type: 'string', required: false, label: 'Custom Physical Location' },
-  { id: 'polarity', type: 'boolean', required: false, label: 'Polarity' },
+  { id: 'polarity', type: 'text', required: false, label: 'Polarity' },
   { id: 'start_date', type: 'date', required: true, label: 'Start Date' },
   { id: 'end_date', type: 'date', required: true, label: 'End Date' },
 
@@ -206,7 +206,7 @@ const fieldsToValidate = [
   { id: 'recording_type', type: 'string', required: true, label: 'Recording Type' },
   { id: 'custom_recording_type', type: 'string', required: false, label: 'Custom Recording Type' },
   { id: 'signal', type: 'boolean', required: false, label: 'Signal Present' },
-  { id: 'timemark', type: 'date', required: false, label: 'Timemark' },
+  { id: 'timemark', type: 'text', required: false, label: 'Timemark' },
   { id: 'notes', type: 'string', required: false, label: 'Notes' },
   { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
 
@@ -638,6 +638,7 @@ const formData = {
   notes: document.getElementById("notes").value,
   owner_contact: document.getElementById("owner_contact").value,
 };
+
 
 localStorage.setItem("lastSeismogramSubmission", JSON.stringify(formData));
 sessionStorage.setItem("shouldAutofill", "true"); // Triggers one-time autofill on reload
