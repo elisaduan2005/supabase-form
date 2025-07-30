@@ -20,9 +20,9 @@
 <!-- NETWORK TABLE -->
 <form id="networkForm">
   <!-- NETWORK ID LABEL -->
-  <label for="network_id">FDSN Network Code: <span style="color:red">*</span></label><br>
+  <label for="network_code">FDSN Network Code: <span style="color:red">*</span></label><br>
   <small class="description">earliest FDSN Code in use for the station (use SS if not associated with a network)</small><br>
-  <select id="network_id" required>
+  <select id="network_code" required>
   <option value="" disabled selected>Choose...</option>
   <option value="CI">CI</option>
   <option value="SS">SS</option>
@@ -47,9 +47,9 @@
 <!-- STATION TABLE -->
 <form id="stationForm">
   <!-- STATION ID LABEL -->
-  <label for="IR_code">IR Station Code: <span style="color:red">*</span></label><br>
+  <label for="station_code">IR Station Code: <span style="color:red">*</span></label><br>
   <small class="description">station's code in the International Registry (ISC)</small><br>
-  <select id="IR_code"required>
+  <select id="station_code"required>
   <option value="" disabled selected>Choose...</option>
   <option value="ANMO">ANMO</option>
   <option value="HRV">HRV</option>
@@ -91,61 +91,12 @@
 <!-- COL 2 -->
 <div class="col">
 <div class="form-section">
-<h2>Equipment Details</h2>
-<!-- EQUIPMENT TABLE -->
-<form id="equipmentForm">
-  <!-- CHANNEL LABEL -->
-  <label for="channel">Channel: <span style="color:red">*</span></label><br>
-  <small class="description">channel code as in SEED format</small><br>
-  <input type="text" id="channel" required><br><br>
-   <!-- SENSOR SERIAL NUMBER LABEL -->
-  <label for="sensor_serial_number">Sensor Serial Number: <span style="color:red">*</span></label><br>
-  <small class="description">manufacturer's serial number of seismometer if known</small><br>
-  <input type="number" id="sensor_serial_number" required><br><br>
-  <!-- HORIZONTAL 1 DIP/AZIMUTH LABEL -->
-  <label for="h_dip1">Horizontal 1 Dip/Azimuth: <span style="color:red">*</span></label><br>
-  <small class="description">the dip/azimuth of the first horizontal</small><br>
-  <input type="number" step="0.01" id="h_dip1" required><br><br>
-  <!-- HORIZONTAL 2 DIP/AZIMUTH LABEL -->
-  <label for="h_dip2">Horizontal 2 Dip/Azimuth: <span style="color:red">*</span></label><br>
-  <small class="description">the dip/azimuth of the second horizontal</small><br>
-  <input type="number" step="0.01" id="h_dip2"required><br><br>
-  <!-- VERTICAL DIP/AZIMUTH LABEL -->
-  <label for="v_dip">Vertical Dip/Azimuth: <span style="color:red">*</span></label><br>
-  <small class="description">the dip/azimuth of the vertical </small><br>
-  <input type="number" step="0.01" id="v_dip" required><br><br>
-  <!-- RECORDING SYSTEM LABEL -->
-  <label for="recording_system">Recording System: <span style="color:red">*</span></label><br>
-  <input type="text" id="recording_system" required><br><br>
-  <!-- RECORDING SERIAL NUMBER LABEL -->
-  <label>Recording Serial Number:</label><br>
-  <small class="description">manufacturer's serial number if known</small><br>
-  <input type="number" id="recording_serial_number"><br><br>
-  <!-- EQUIPMENT GAIN LABEL-->
-  <label>Equipment Gain:</label><br>
-  <small class="description">scale or gain factor (scaler)</small><br>
-  <input type="number" id="equip_gain"><br><br>
-  <!-- PERIOD OF GAIN LABEL -->
-  <label>Period of Gain:</label><br>
-  <small class="description">period at which the gain is valid</small><br>
-  <input type="number" step="0.01" id="period_of_gain"><br><br>
-  <!-- NATURE OF EQUIPMENT LABEL -->
-  <label>Nature of Equipment:</label><br>
-  <small class="description">Mechanical (e.g., Wiechert) or electromagnetic (e.g., Golitsyn)</small><br>
-  <select id="equip_nature">
-  <option value="" disabled selected>Choose...</option>
-  <option value="mechanical">Mechanical</option>
-  <option value="electromagnetic">Electromagnetic</option>
-  </select>
-</form>
-</div></div>
-
-<!-- COL 3 -->
-<div class="col">
-<div class="form-section">
-<h2>Sensor Details</h2>
-<!-- SENSOR TABLE -->
-<form id="sensorForm">
+<h2>Location Details</h2>
+<!-- LOCATION TABLE -->
+<form id="locationForm">
+  <!-- LOCATION LABEL -->
+  <label for="location_code">Location Code: <span style="color:red">*</span></label><br>
+  <input type="text" id="location_code" required><br><br>
   <!-- SENSOR LABEL -->
   <label for="sensor">Sensor: <span style="color:red">*</span></label><br>
   <small class="description">type of sensing instrument (e.g. Streckheisen STS-2, Ewing, Beniof)</small><br>
@@ -171,6 +122,29 @@
   <option value="mechanical">Mechanical</option>
   <option value="electromagnetic">Electromagnetic</option>
   </select><br><br>
+   <!-- INSTALL DATE LABEL -->
+  <label>Install Date:</label><br>
+  <small class="description">date when sensor was installed</small><br>
+  <input type="text" id="install_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+</form>
+</div></div>
+
+<!-- COL 3 -->
+<div class="col">
+<div class="form-section">
+<h2> Channel Details</h2>
+<!-- CHANNEL TABLE -->
+<form id="channelForm">
+  <label for="channel_name">Channel: <span style="color:red">*</span></label><br>
+  <small class="description">channel code as in SEED format</small><br>
+  <select id="channel_name">
+  <option value="" disabled selected>Choose...</option>
+  <option value="Z">Z</option>
+  <option value="E">E</option>
+  <option value="N">N</option>
+  <option value="W">W</option>
+  <option value="S">S</option>
+  </select><br><br>
   <!-- GALVO FREE PERIOD LABEL -->
   <label for="free_period">Galvo Free Period: <span style="color:red">*</span></label><br>
   <small class="description">the free period of the instrument</small><br>
@@ -179,9 +153,40 @@
   <label for="damping">Galvo Damping: <span style="color:red">*</span></label><br>
   <small class="description">the instrument's damping constant</small><br>
   <input type="number" id="damping"required><br><br>
+   <!-- SENSOR SERIAL NUMBER LABEL -->
+  <label for="sensor_serial_number">Sensor Serial Number: <span style="color:red">*</span></label><br>
+  <small class="description">manufacturer's serial number of seismometer if known</small><br>
+  <input type="number" id="sensor_serial_number" required><br><br>
+  <!-- DIP LABEL -->
+  <label for="dip">Dip: <span style="color:red">*</span></label><br>
+  <input type="number" step="0.01" id="dip"required><br><br>
+  <!-- AZIMUTH LABEL -->
+  <label for="azimuth">Azimuth: <span style="color:red">*</span></label><br>
+  <input type="number" step="0.01" id="azimuth" required><br><br>
+  <!-- RECORDING SERIAL NUMBER LABEL -->
+  <label>Recording Serial Number:</label><br>
+  <small class="description">manufacturer's serial number if known</small><br>
+  <input type="number" id="recording_serial_number"><br><br>
+  <!-- RECORDING SYSTEM GAIN LABEL-->
+  <label>Recording System Gain:</label><br>
+  <small class="description">scale or gain factor (scaler)</small><br>
+  <input type="number" id="recording"><br><br>
+  <!-- PERIOD OF GAIN LABEL -->
+  <label>Period of Gain:</label><br>
+  <small class="description">period at which the gain is valid</small><br>
+  <input type="number" step="0.01" id="period_of_gain"><br><br>
+  <!-- RECORDING SYSTEM NATURE LABEL -->
+  <label>Recording System Nature:</label><br>
+  <small class="description">Mechanical (e.g., Wiechert) or electromagnetic (e.g., Golitsyn)</small><br>
+  <select id="equip_nature">
+  <option value="" disabled selected>Choose...</option>
+  <option value="mechanical">Wiechert</option>
+  <option value="electromagnetic">Golitsyn</option>
+  </select>
 </form>
 </div>
 <div class="form-section">
+
 <h2>Seismogram Details</h2>
 <!-- DATA TABLE -->
 <form id="dataForm">
@@ -195,17 +200,7 @@
   <option value="Northwestern University">Northwestern University</option>
   <option value="other">Other</option>
   </select><br><br>
-  <!-- COMPONENT LABEL -->
-  <label>Component:</label><br>
-  <select id="component">
-  <option value="" disabled selected>Choose...</option>
-  <option value="Z">Z</option>
-  <option value="E">E</option>
-  <option value="N">N</option>
-  <option value="W">W</option>
-  <option value="S">S</option>
-  </select><br><br>
-    <!-- POLARITY LABEL -->
+  <!-- POLARITY LABEL -->
   <label>Polarity:</label><br>
   <small class="description">ground motion up = up on paper or down on papers</small><br>
   <select id="polarity">
@@ -348,7 +343,7 @@
   <label>Gain:</label><br>
   <input type="number" id="CDWP_location_gain"><br><br>
   <!-- TO LABEL -->
-  <label>To:</label><br>
+  <label>T0:</label><br>
   <small class="description">defined as pendulum free period</small><br>
   <input type="number" step="0.01" id="to"><br><br>
   <!-- TG LABEL -->
