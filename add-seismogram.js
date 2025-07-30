@@ -219,6 +219,18 @@ const fieldsToValidate = [
   { id: 'exceptions', type: 'text', required: false, label: 'Exceptions' },
   { id: 'CDWP_location_notes', type: 'text', required: false, label: 'Notes' },
 
+   // ─── CDWP_IMAGE ───
+  { id: 'station_code_local', type: 'text', required: false, label: 'Local Station Code' },
+  { id: 'start_time_correction', type: 'date', required: false, label: 'Start Time Correction' },
+  { id: 'end_time_correction', type: 'date', required: false, label: 'End Time Correction' },
+  { id: 'side', type: 'text', required: false, label: 'Side' },
+  { id: 'instrument_name', type: 'text', required: false, label: 'Instrument Name' },
+  { id: 'CDWP_location_gain', type: 'number', required: false, label: 'Gain' },
+  { id: 't0', type: 'number', required: false, label: 'T0' },
+  { id: 'tg', type: 'number', required: false, label: 'Tg' },
+  { id: 'filename', type: 'text', required: false, label: 'Filename' },
+  { id: 'CDWP_image_creator', type: 'text', required: false, label: 'Creator' },
+
 ];
 
 for (let field of fieldsToValidate) {
@@ -403,12 +415,10 @@ if (timemarkRaw === "Positive") {
 const polarityRaw = document.getElementById('polarity').value;
 let polarity;
 
-if (polarityRaw === "Positive") {
-  polarity = "positive";
-} else if (polarityRaw === "Negative") {
-  polarity = "negative";
-} else if (polarityRaw === "Null") {
-  polarity = "null";
+if (polarityRaw === "Up") {
+  polarity = "up";
+} else if (polarityRaw === "Down") {
+  polarity = "down";
 } else {
   polarity = "unknown";
 }
@@ -418,10 +428,10 @@ if (polarityRaw === "Positive") {
 const sideRaw = document.getElementById('side').value;
 let side;
 
-if (sideRaw === "Up") {
-  side = "up";
-} else if (sideRaw === "Down") {
-  side = "down";
+if (sideRaw === "0") {
+  side = "0";
+} else if (sideRaw === "1") {
+  side = "1";
 } else {
   side = "unknown";
 }
