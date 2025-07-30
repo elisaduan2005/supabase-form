@@ -193,7 +193,7 @@ for (let field of fieldsToValidate) {
   let raw = el.value?.trim();
   // Handle custom network code
 if (field.id === 'network_code' && raw === 'other') {
-  raw = document.getElementById('custom_network_code').value.trim();
+  raw = document.getElementById('custom_network_code')?.value.trim() || '';
   if (!raw) {
     alert('Please enter a custom FDSN Network Code.');
     return;
@@ -201,7 +201,7 @@ if (field.id === 'network_code' && raw === 'other') {
 }
 // Handle custom network name
 if (field.id === 'network_name' && raw === 'other') {
-  raw = document.getElementById('custom_network_name').value.trim();
+  raw = document.getElementById('custom_network_name')?.value.trim() || '';
   if (!raw) {
     alert('Please enter a custom Network Name.');
     return;
@@ -209,7 +209,7 @@ if (field.id === 'network_name' && raw === 'other') {
 }
 
 if (field.id === 'station_code' && raw === 'other') {
-  raw = document.getElementById('custom_station_code').value.trim();
+  raw = document.getElementById('custom_station_code')?.value.trim() || '';;
   if (!raw) {
     alert('Please enter a custom Station Code.');
     return;
@@ -280,18 +280,18 @@ if (field.id === 'station_code' && raw === 'other') {
 // ---- NETWORK TABLE ----
 let networkCodeRaw = document.getElementById('network_code').value;
 let networkCode = (networkCodeRaw === 'other')
-  ? document.getElementById('custom_network_code').value.trim()
+  ? document.getElementById('custom_network_code')?.value.trim() || ''
   : networkCodeRaw;
 
 let networkNameRaw = document.getElementById('network_name').value;
 let networkName = (networkNameRaw === 'other')
-  ? document.getElementById('custom_network_name').value.trim()
+  ? document.getElementById('custom_network_name')?.value.trim() || ''
   : networkNameRaw;
 
 // ---- STATION TABLE ----
 let stationCodeRaw = document.getElementById('station_code').value;
 let stationCode = (stationCodeRaw === 'other')
-  ? document.getElementById('custom_station_code').value.trim()
+  ? document.getElementById('custom_station_code')?.value.trim() || ''
   : stationCodeRaw;
 
 
