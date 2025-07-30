@@ -27,7 +27,10 @@
   <option value="CI">CI</option>
   <option value="SS">SS</option>
   <option value="other">Other</option>
-  </select><br><br>
+  </select>
+  <input type="text" id="network_code_other" name="network_code_other" 
+       maxlength="6" placeholder="Enter up to 6 characters" style="display:none; margin-top:5px;">
+  <br><br>
   <!-- NETWORK NAME LABEL -->
   <label>Network Name:</label><br>
   <small class="description">network to which the station belongs (e.g. WWSSN, GSN, EREBUS)</small><br>
@@ -46,7 +49,7 @@
 <h2>Station Details</h2>
 <!-- STATION TABLE -->
 <form id="stationForm">
-  <!-- STATION ID LABEL -->
+  <!-- STATION CODE LABEL -->
   <label for="station_code">IR Station Code: <span style="color:red">*</span></label><br>
   <small class="description">station's code in the International Registry (ISC)</small><br>
   <select id="station_code"required>
@@ -54,7 +57,11 @@
   <option value="ANMO">ANMO</option>
   <option value="HRV">HRV</option>
   <option value="other">Other</option>
-  </select><br><br>
+  </select>
+  <input type="text" id="station_code_other" name="station_code_other" 
+       maxlength="5" placeholder="Enter up to 5 characters" style="display:none; margin-top:5px;">
+
+  <br><br>
   <!-- SITE NAME LABEL -->
   <label for="site_name">Site Name: <span style="color:red">*</span></label><br>
   <small class="description">city, state/province, and country (e.g. Albuquerque, New Mexico, USA)</small><br>
@@ -117,17 +124,51 @@
   <input type="text" id="custom_sensor" placeholder="Enter custom value" style="display:none;"><br><br>
   <!-- NATURE LABEL -->
   <label>Nature of Sensor:</label><br>
-  <select id="sensor_nature">
-  <option value="" disabled selected>Choose...</option>
-  <option value="mechanical">Mechanical</option>
-  <option value="electromagnetic">Electromagnetic</option>
-  </select><br><br>
+  <input type="text" id="sensor_nature" required><br><br>
    <!-- INSTALL DATE LABEL -->
   <label>Install Date:</label><br>
   <small class="description">date when sensor was installed</small><br>
   <input type="text" id="install_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
 </form>
-</div></div>
+</div>
+
+
+<div class="form-section">
+<h2>Seismogram Details</h2>
+<!-- DATA TABLE -->
+<form id="dataForm">
+  <!-- PHYSICAL LOCATION LABEL -->
+  <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
+  <small class="description">country, state or province, city, institution, room of original analog document when scanned</small><br>
+  <select id="physical_location" required>
+  <option value="" disabled selected>Choose...</option>
+  <option value="California Department of Water and Power">California Department of Water and Power</option>
+  <option value="Albuquerque Seismic Lab USG">Albuquerque Seismic Lab USGS</option>
+  <option value="Northwestern University">Northwestern University</option>
+  <option value="other">Other</option>
+  </select><br><br>
+  <!-- POLARITY LABEL -->
+  <label>Polarity:</label><br>
+  <small class="description">ground motion up = up on paper or down on papers</small><br>
+  <select id="polarity">
+  <option value="" disabled selected>Choose...</option>
+  <option value="Up">Up</option>
+  <option value="Down">Down</option>
+  <option value="NULL">Unknown</option>
+  </select><br><br>
+  <!-- START DATE LABEL-->
+  <label for="start_date">Start Date: <span style="color:red">*</span></label><br>
+  <input type="text" id="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <!-- END DATE LABEL-->
+  <label for="end_date">End Date: <span style="color:red">*</span></label><br>
+  <input type="text" id="end_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <!-- TIME SERIES LABEL-->
+  <label for="time_series_id">Time Series ID: <span style="color:red">*</span></label><br>
+  <small class="description">(placeholder since field is required to import into database)</small><br>
+  <input type="text" id="end_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+</form>
+</div>
+</div>
 
 <!-- COL 3 -->
 <div class="col">
@@ -185,42 +226,7 @@
   </select>
 </form>
 </div>
-<div class="form-section">
 
-<h2>Seismogram Details</h2>
-<!-- DATA TABLE -->
-<form id="dataForm">
-  <!-- PHYSICAL LOCATION LABEL -->
-  <label for="physical_location">Physical Location: <span style="color:red">*</span></label><br>
-  <small class="description">country, state or province, city, institution, room of original analog document when scanned</small><br>
-  <select id="physical_location" required>
-  <option value="" disabled selected>Choose...</option>
-  <option value="California Department of Water and Power">California Department of Water and Power</option>
-  <option value="Albuquerque Seismic Lab USG">Albuquerque Seismic Lab USGS</option>
-  <option value="Northwestern University">Northwestern University</option>
-  <option value="other">Other</option>
-  </select><br><br>
-  <!-- POLARITY LABEL -->
-  <label>Polarity:</label><br>
-  <small class="description">ground motion up = up on paper or down on papers</small><br>
-  <select id="polarity">
-  <option value="" disabled selected>Choose...</option>
-  <option value="Up">Up</option>
-  <option value="Down">Down</option>
-  <option value="NULL">Unknown</option>
-  </select><br><br>
-  <!-- START DATE LABEL-->
-  <label for="start_date">Start Date: <span style="color:red">*</span></label><br>
-  <input type="text" id="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
-  <!-- END DATE LABEL-->
-  <label for="end_date">End Date: <span style="color:red">*</span></label><br>
-  <input type="text" id="end_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
-  <!-- TIME SERIES LABEL-->
-  <label for="time_series_id">Time Series ID: <span style="color:red">*</span></label><br>
-  <small class="description">(placeholder since field is required to import into database)</small><br>
-  <input type="text" id="end_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
-</form>
-</div>
 </div>
 </div>
 
@@ -251,8 +257,14 @@
   <input type="number" id="custom_resolution" placeholder="Enter custom value" style="display:none;"><br><br>
   <!-- FORMAT LABEL -->
   <label>Format:</label><br>
-  <small class="description">format of image</small><br>
-  <input type="text" id="format"><br><br>
+  <select id="format" required>
+  <option value="" disabled selected>Choose...</option>
+  <option value="jpg">JPG</option>
+  <option value="jpeg">JPEG</option>
+  <option value="png">PNG</option>
+  <option value="tiff">TIFF</option>
+  <option value="other">Other</option>
+  </select><br><br>
   <!-- LENGTH LABEL -->
   <label>Length:</label><br>
   <small class="description">length (float) of the analog document (in cm)</small><br>
