@@ -209,7 +209,7 @@ const fieldsToValidate = [
   { id: 'notes', type: 'string', required: false, label: 'Notes' },
   { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
 
-  // ─── CDWP_IMAGE ───
+  // ─── CDWP_LOCATION ───
   { id: 'box_id', type: 'number', required: true, label: 'Box ID' },
   { id: 'start_date', type: 'date', required: false, label: 'Start Date' },
   { id: 'end_date', type: 'date', required: false, label: 'End Date' },
@@ -583,8 +583,8 @@ if (imageError) {
 }
 
 // ─── INSERT CDWP_IMAGE TABLE ───
-let CDWP_imageInsertSkipped = false;
-const { error: CDWP_imageError } = await client.from('CDWP_image').insert([{
+let CDWP_locationInsertSkipped = false;
+const { error: CDWP_locationError } = await client.from('CDWP_location').insert([{
 box_id: document.getElementById("box_id").value,
 start_date: document.getElementById("start_date")?.value || null,
 end_date: document.getElementById("end_date")?.value || null,
@@ -595,17 +595,17 @@ exceptions: document.getElementById("exceptions")?.value || null,
 CDWP_location_notes: document.getElementById("CDWP_location_notes")?.value || null,
 }]);
 
-if (CDWP_imageError) {
-  const msg = CDWP_imageError.message.toLowerCase();
+if (CDWP_locationError) {
+  const msg = CDWP_locationError.message.toLowerCase();
   if (
     msg.includes('duplicate') ||
     msg.includes('already exists') ||
     msg.includes('violates unique constraint')
   ) {
-    console.warn("CDWP_Image already exists, skipping insert.");
-    CDWP_imageInsertSkipped = true;
+    console.warn("CDWP_Location already exists, skipping insert.");
+    CDWP_locationInsertSkipped = true;
   } else {
-    resultBox.textContent = 'Error inserting CDWP_image: ' + CDWP_imageError.message;
+    resultBox.textContent = 'Error inserting CDWP_Location: ' + CDWP_locationError.message;
     return;
   }
 }
@@ -674,7 +674,7 @@ const formData = {
   timemark: document.getElementById("timemark").value,
   notes: document.getElementById("notes").value,
   owner_contact: document.getElementById("owner_contact").value,
-  // ---- CDWP_IMAGE TABLE ----
+  // ---- CDWP_LOCATION TABLE ----
   box_id: document.getElementById("box_id").value,
   start_date: document.getElementById("start_date").value,
   end_date: document.getElementById("end_date").value,
