@@ -413,6 +413,19 @@ if (polarityRaw === "Positive") {
   polarity = "unknown";
 }
 
+// ---- CDWP_image TABLE ----
+
+const sideRaw = document.getElementById('side').value;
+let side;
+
+if (sideRaw === "Up") {
+  side = "up";
+} else if (sideRaw === "Down") {
+  side = "down";
+} else {
+  side = "unknown";
+}
+
 // ───────── INSERTION ──────────
 // note: need to follow database schema
 // ─── INSERT NETWORK TABLE ───
@@ -582,7 +595,7 @@ if (imageError) {
   }
 }
 
-// ─── INSERT CDWP_IMAGE TABLE ───
+// ─── INSERT CDWP_LOCATION TABLE ───
 let CDWP_locationInsertSkipped = false;
 const { error: CDWP_locationError } = await client.from('CDWP_location').insert([{
 box_id: document.getElementById("box_id").value,
@@ -610,6 +623,35 @@ if (CDWP_locationError) {
   }
 }
 
+// ─── INSERT CDWP_IMAGE TABLE ───
+let CDWP_imageInsertSkipped = false;
+const { error: CDWP_imageError } = await client.from('CDWP_image').insert([{
+station_code_local: document.getElementById("station_code_local").value,
+start_time_correction: document.getElementById("start_time_correctio").value,
+end_time_correctio: document.getElementById("end_time_correctio").value,
+side: document.getElementById("side").value,
+instrument_name: document.getElementById("instrument_name").value,
+CDWP_location_gain: document.getElementById("CDWP_location_gain").value,
+t0: document.getElementById("t0").value,
+tg: document.getElementById("tg").value,
+filename: document.getElementById("filename").value,
+CDWP_image_creator: document.getElementById("CDWP_image_creator").value,
+}]);
+
+if (CDWP_imageError) {
+  const msg = CDWP_imageError.message.toLowerCase();
+  if (
+    msg.includes('duplicate') ||
+    msg.includes('already exists') ||
+    msg.includes('violates unique constraint')
+  ) {
+    console.warn("CDWP_Image already exists, skipping insert.");
+    CDWP_imageInsertSkipped = true;
+  } else {
+    resultBox.textContent = 'Error inserting CDWP_Image: ' + CDWP_imageError.message;
+    return;
+  }
+}
 
 alert('✅ Submission complete!!!');
 
@@ -683,6 +725,17 @@ const formData = {
   previous_no: document.getElementById("previous_no").value,
   exceptions: document.getElementById("exceptions").value,
   CDWP_location_notes: document.getElementById("CDWP_location_notes").value,
+  // ---- CDWP_IMAGE TABLE ----
+  station_code_local: document.getElementById("station_code_local").value,
+  start_time_correction: document.getElementById("start_time_correctio").value,
+  end_time_correctio: document.getElementById("end_time_correctio").value,
+  side: document.getElementById("side").value,
+  instrument_name: document.getElementById("instrument_name").value,
+  CDWP_location_gain: document.getElementById("CDWP_location_gain").value,
+  t0: document.getElementById("t0").value,
+  tg: document.getElementById("tg").value,
+  filename: document.getElementById("filename").value,
+  CDWP_image_creator: document.getElementById("CDWP_image_creator").value,
 };
 
 
