@@ -348,7 +348,7 @@ let formatCode = (formatRaw === 'other')
   : formatRaw;
 
 
-// Convert dropdowns to booleans or null
+// Convert dropdowns to null/unknown
 const phaseMarkingsRaw = document.getElementById('phase_markings').value;
 let phaseMarkings = phaseMarkingsRaw === "True" ? true : phaseMarkingsRaw === "False" ? false : null;
 
@@ -357,6 +357,19 @@ let occlusions = occlusionsRaw === "True" ? true : occlusionsRaw === "False" ? f
 
 const signalRaw = document.getElementById('signal').value;
 let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
+
+const timemarkRaw = document.getElementById('timemark').value;
+let timemark;
+
+if (timemarkRaw === "Positive") {
+  timemark = "positive";
+} else if (timemarkRaw === "Negative") {
+  timemark = "negative";
+} else if (timemarkRaw === "Null") {
+  timemark = "null";
+} else {
+  timemark = "unknown";
+}
 
 // ─── INSERT NETWORK TABLE ───
 let networkInsertSkipped = false;
@@ -476,7 +489,7 @@ const { error: imageError } = await client.from('image').insert([{
   occlusions: occlusions,
   recording_type: recordingType,
   signal: signal,
-  timemark: document.getElementById('timemark')?.value || null,
+  timemark: document.getElementById('timemark')?.value.trim() || null,
   notes: document.getElementById('notes')?.value.trim() || null,
   owner_contact: document.getElementById('owner_contact')?.value.trim() || null,
 }]);
@@ -513,7 +526,7 @@ const formData = {
   //---- STATION TABLE ----
   station_code: document.getElementById("station_code").value,
   custom_station_code: document.getElementById("custom_station_code").value,
-  site_name: document.getElementById("site_name").value,
+  site_name: siteName,
   longitude: document.getElementById("longitude").value,
   latitude: document.getElementById("latitude").value,
   elevation: document.getElementById("elevation").value,
