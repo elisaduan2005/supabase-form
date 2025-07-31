@@ -6,6 +6,14 @@
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const resultBox = document.getElementById('Result');  // element to display error message
 
+
+      const toNullableBool = (val) => {
+  if (!val) return null;         // empty → null
+  if (val.toLowerCase() === 'true') return true;
+  if (val.toLowerCase() === 'false') return false;
+  return null;                   // "unknown" or any other → null
+};
+
       async function loadNetworkCodes() {
     const { data, error } = await client.from('network').select('network_code');
     if (error) {
@@ -220,7 +228,7 @@ const fieldsToValidate = [
   { id: 'timemark', type: 'text', required: false, label: 'Timemark' },
   { id: 'notes', type: 'string', required: false, label: 'Notes' },
   { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
-  { id: 'location_record', type: 'text', required: false, label: 'Location Record' },
+  { id: 'location_record', type: 'text', required: true, label: 'Location Record' },
   { id: 'vectorized', type: 'boolean', required: true, label: 'Vectorized' },
   { id: 'recording_gain', type: 'number', required: false, label: 'Recording Gain' },
 
@@ -326,8 +334,8 @@ if (field.id === 'station_code' && raw === 'other') {
       isValid = !isNaN(Date.parse(raw));
       break;
     case 'boolean':
-      isValid = raw === '' || raw === null || ['true', 'false'].includes(raw.toLowerCase());
-      break;
+    isValid = raw === '' || raw === null || ['true', 'false', 'unknown'].includes(raw.toLowerCase());
+    break;
     default:
       isValid = false;
   }
@@ -629,7 +637,7 @@ if (dataInsertSkipped) {
 let imageInsertSkipped = false;
 
 const { error: imageError } = await client.from('image').insert([{
-  pid: dataPid,
+  pid: dataPid ,
   date_scanned: document.getElementById('date_scanned')?.value || null,
   DOI: document.getElementById('DOI')?.value || null,
   resolution: resolutionValue,
@@ -645,7 +653,7 @@ const { error: imageError } = await client.from('image').insert([{
   notes: document.getElementById('notes')?.value.trim() || null,
   owner_contact: document.getElementById('owner_contact')?.value.trim() || null,
   recording_gain: parseInt(document.getElementById('recording_gain')?.value) || null,
-  location_record: document.getElementById('location_record')?.value.trim(),
+  location_record: location_record,
   vectorized: vectorized
 }]);
 

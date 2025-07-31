@@ -288,7 +288,7 @@
   <small class="description">DOI if one has been assigned</small><br>
   <input type="text" id="DOI"> <br><br>
   <!-- LOCATION OF ORIGINAL RECORD LABEL-->
-  <label>Location of original record: <span style="color:red">*</span></label><br>
+  <label for="location_record">Location of original record: <span style="color:red">*</span></label><br>
   <small class="description">room, institution, city, state/province, and country of original analog document when scanned</small><br>
   <input type="text" id="image_room" name="room" placeholder="Room" required>
   <input type="text" id="image_institution" name="institution" placeholder="Institution" required>
@@ -414,11 +414,11 @@
   <input type="text" id="station_code_local"><br><br>
   <!-- START TIME CORRECTION LABEL -->
   <label>Start Time Correction:</label><br>
-  <input type="text" id="start_time_correction" name="start_date" placeholder="00:00:00.0000" 
+  <input type="text" id="start_time_correction" name="start_time_correction" placeholder="00:00:00.0000" 
        pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
   <!-- END TIME CORRECTION LABEL -->
   <label>End Time Correction:</label><br>
-  <input type="text" id="end_time_correction" name="end_date" placeholder="00:00:00.0000" 
+  <input type="text" id="end_time_correction" name="end_time_correction" placeholder="00:00:00.0000" 
        pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
   <!-- SIDE LABEL -->
   <label>Side:</label><br>
