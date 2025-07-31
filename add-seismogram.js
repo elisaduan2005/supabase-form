@@ -833,18 +833,18 @@ const formData = {
   stack: document.getElementById("stack").value,
   previous_no: document.getElementById("previous_no").value,
   exceptions: document.getElementById("exceptions").value,
-  CDWP_location_notes: document.getElementById("CDWP_location_notes").value,
+  CDWP_location_notes: document.getElementById("cdwp_location_notes").value,
   // ---- CDWP_IMAGE TABLE ----
   station_code_local: document.getElementById("station_code_local").value,
   start_time_correction: document.getElementById("start_time_correction").value,
   end_time_correctio: document.getElementById("end_time_correction").value,
   side: document.getElementById("side").value,
   instrument_name: document.getElementById("instrument_name").value,
-  CDWP_location_gain: document.getElementById("CDWP_location_gain").value,
+  CDWP_location_gain: document.getElementById("cdwp_location_gain").value,
   t0: document.getElementById("t0").value,
   tg: document.getElementById("tg").value,
   filename: document.getElementById("filename").value,
-  CDWP_image_creator: document.getElementById("CDWP_image_creator").value,
+  CDWP_image_creator: document.getElementById("cdwp_image_creator").value,
 };
 
 
