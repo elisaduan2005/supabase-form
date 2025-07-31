@@ -225,7 +225,7 @@ const fieldsToValidate = [
   { id: 'recording_gain', type: 'number', required: false, label: 'Recording Gain' },
 
   // ─── CDWP_LOCATION ───
-  { id: 'box_id', type: 'number', required: true, label: 'Box ID' },
+  { id: 'box_id', type: 'number', required: false, label: 'Box ID' },
   { id: 'start_date', type: 'date', required: false, label: 'Start Date' },
   { id: 'end_date', type: 'date', required: false, label: 'End Date' },
   { id: 'container', type: 'text', required: false, label: 'Container' },
