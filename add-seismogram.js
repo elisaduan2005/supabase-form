@@ -318,6 +318,9 @@ if (field.id === 'station_code' && raw === 'other') {
     case 'string':
       isValid = typeof raw === 'string';
       break;
+    case 'text':  // ✅ treat text same as string
+    isValid = typeof raw === 'string';
+    break;
     case 'date':
       isValid = !isNaN(Date.parse(raw));
       break;
@@ -434,6 +437,9 @@ if (polarityRaw === "Up") {
 } else if (polarityRaw === "Down") {
   polarity = "down";
 } else {
+  polarity = "unknown";
+}
+if (!polarityRaw) {
   polarity = "unknown";
 }
 
