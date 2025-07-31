@@ -160,7 +160,6 @@ const fieldsToValidate = [
   { id: 'longitude', type: 'number', required: true, label: 'Longitude' },
   { id: 'latitude', type: 'number', required: true, label: 'Latitude' },
   { id: 'elevation', type: 'number', required: false, label: 'Elevation' },
-  { id: 'depth', type: 'number', required: false, label: 'Depth' },
   { id: 'open_date', type: 'date', required: false, label: 'Open Date' },
   { id: 'close_date', type: 'date', required: false, label: 'Close Date' },
 
@@ -169,6 +168,7 @@ const fieldsToValidate = [
   { id: 'sensor', type: 'string', required: true, label: 'Sensor' },
   { id: 'custom_sensor', type: 'string', required: false, label: 'Custom Sensor' },
   { id: 'sensor_nature', type: 'string', required: false, label: 'Sensor Nature' },
+  { id: 'depth', type: 'number', required: false, label: 'Depth' },
   { id: 'install_date', type: 'date', required: false, label: 'Install Date' },
 
   // ─── CHANNEL ───
@@ -179,10 +179,16 @@ const fieldsToValidate = [
   { id: 'dip', type: 'number', required: true, label: 'Dip' },
   { id: 'azimuth', type: 'number', required: true, label: 'Azimuth' },
   { id: 'recording_serial_number', type: 'number', required: false, label: 'Recording Serial Number' },
-  { id: 'recording_gain', type: 'number', required: false, label: 'Recording Gain' },
   { id: 'period_of_gain', type: 'number', required: false, label: 'Period of Gain' },
   { id: 'recording_nature', type: 'string', required: false, label: 'Recording Nature' },
   { id: 'custom_recording_nature', type: 'string', required: false, label: 'Custom Recording Nature' },
+  { id: 'R', type: 'number', required: false, label: 'R' },
+  { id: 'r', type: 'number', required: false, label: 'r' },
+  { id: 'a', type: 'number', required: false, label: 'a' },
+  { id: 'b', type: 'number', required: false, label: 'b' },
+  { id: 'd', type: 'number', required: false, label: 'd' },
+  { id: 'FDSN_time_series', type: 'number', required: false, label: 'FDSN_time_series' },
+
 
   // ─── DATA ───
   { id: 'physical_location', type: 'string', required: true, label: 'Physical Location' },
@@ -190,9 +196,14 @@ const fieldsToValidate = [
   { id: 'polarity', type: 'text', required: false, label: 'Polarity' },
   { id: 'start_time', type: 'date', required: true, label: 'Start Time' },
   { id: 'end_time', type: 'date', required: true, label: 'End Time' },
+  { id: 'time_correction', type: 'number', required: true, label: 'Time Correction' },
+  { id: 'data_notes', type: 'text', required: true, label: 'Notes' },
+  { id: 'source_of_info', type: 'text', required: true, label: 'Source of Information' },
+  { id: 'data_creation', type: 'date', required: true, label: 'Date Creation' },
 
   // ─── IMAGE ───
   { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
+  { id: 'DOI', type: 'text', required: false, label: 'DOI' },
   { id: 'resolution', type: 'number', required: true, label: 'Resolution' },
   { id: 'custom_resolution', type: 'number', required: false, label: 'Custom Resolution' },
   { id: 'format', type: 'string', required: false, label: 'Format' },
@@ -208,6 +219,9 @@ const fieldsToValidate = [
   { id: 'timemark', type: 'text', required: false, label: 'Timemark' },
   { id: 'notes', type: 'string', required: false, label: 'Notes' },
   { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
+  { id: 'location_record', type: 'text', required: false, label: 'Location Record' },
+  { id: 'vectorized', type: 'boolean', required: true, label: 'Vectorized' },
+  { id: 'recording_gain', type: 'number', required: false, label: 'Recording Gain' },
 
   // ─── CDWP_LOCATION ───
   { id: 'box_id', type: 'number', required: true, label: 'Box ID' },
@@ -343,7 +357,7 @@ let stationCode = (stationCodeRaw === 'other')
   : stationCodeRaw;
 
 const siteName = `${document.getElementById("city").value}, ${document.getElementById("state").value}, ${document.getElementById("country").value}`;
-
+const location_record = `${document.getElementById("image_room").value},${document.getElementById("image_institution").value},${document.getElementById("image_city").value}, ${document.getElementById("image_state").value}, ${document.getElementById("image_country").value}`;
 // ---- LOCATION TABLE ----
 let sensorRaw = document.getElementById('sensor').value;
 let sensorCode = (sensorRaw === 'other')
@@ -465,7 +479,6 @@ const { error: stationError } = await client.from('station').insert([{
   longitude: parseFloat(document.getElementById('longitude').value),
   latitude: parseFloat(document.getElementById('latitude').value),
   elevation: parseInt(document.getElementById('elevation').value) || null,
-  depth: parseInt(document.getElementById('depth').value) || null,
   open_date: document.getElementById('open_date').value || null,
   close_date: document.getElementById('close_date').value || null
 }]);
@@ -490,6 +503,7 @@ const { error: locationError } = await client.from('location').insert([{
   location_code: document.getElementById('location_code')?.value.trim(),
   sensor: sensorCode,
   sensor_nature: document.getElementById('sensor_nature')?.value.trim() || null,
+  depth: parseInt(document.getElementById('depth').value) || null,
   install_date: document.getElementById('install_date')?.value || null
 }]);
 
@@ -522,9 +536,14 @@ const { error: channelError } = await client.from('channel').insert([{
   dip: parseFloat(document.getElementById('dip')?.value),
   azimuth: parseFloat(document.getElementById('azimuth')?.value),
   recording_serial_number: parseFloat(document.getElementById('recording_serial_number')?.value) || null,
-  recording_gain: parseInt(document.getElementById('recording_gain')?.value) || null,
   period_of_gain: parseFloat(document.getElementById('period_of_gain')?.value) || null,
-  recording_nature: document.getElementById('recording_nature')?.value.trim() || null
+  recording_nature: document.getElementById('recording_nature')?.value.trim() || null,
+  paper_speed: parseFloat(document.getElementById('paper_speed')?.value) || null,
+  R: parseFloat(document.getElementById('R')?.value) || null,
+  r: parseFloat(document.getElementById('r')?.value) || null,
+  a: parseFloat(document.getElementById('a')?.value) || null,
+  b: parseFloat(document.getElementById('b')?.value) || null,
+  d: parseFloat(document.getElementById('d')?.value) || null,
 }]);
 
 if (channelError) {
@@ -553,7 +572,11 @@ const { error: dataError } = await client.from('data').insert([{
   physical_location: physicallocationCode,
   polarity: polarity,
   start_time: document.getElementById('start_time')?.value.trim(),
-  end_time: document.getElementById('end_time')?.value.trim()
+  end_time: document.getElementById('end_time')?.value.trim(),
+  time_correction: parseFloat(document.getElementById('time_correction')?.value) || null,
+  data_notes: document.getElementById('data_notes')?.value.trim()|| null,
+  source_of_info: document.getElementById('source_of_info')?.value.trim()|| null,
+  date_creation: document.getElementById('date_Creation')?.value.trim()|| null,
 }]);
 
 if (dataError) {
@@ -576,6 +599,7 @@ let imageInsertSkipped = false;
 
 const { error: imageError } = await client.from('image').insert([{
   date_scanned: document.getElementById('date_scanned')?.value || null,
+  DOI: document.getElementById('date_scanned')?.value || null,
   resolution: resolutionValue,
   format: formatCode,
   length: parseFloat(document.getElementById('length')?.value) || null,
@@ -588,6 +612,9 @@ const { error: imageError } = await client.from('image').insert([{
   timemark: document.getElementById('timemark')?.value.trim() || null,
   notes: document.getElementById('notes')?.value.trim() || null,
   owner_contact: document.getElementById('owner_contact')?.value.trim() || null,
+  recording_gain: parseInt(document.getElementById('recording_gain')?.value) || null,
+  location_record: document.getElementById('owner_contact')?.value.trim(),
+  vectorized: document.getElementById('vectorized').value === "True" ? true : document.getElementById('vectorized').value === "False" ? false : null,
 }]);
 
 if (imageError) {
@@ -637,8 +664,8 @@ if (CDWP_locationError) {
 let CDWP_imageInsertSkipped = false;
 const { error: CDWP_imageError } = await client.from('CDWP_image').insert([{
 station_code_local: document.getElementById("station_code_local").value,
-start_time_correction: document.getElementById("start_time_correctio").value,
-end_time_correctio: document.getElementById("end_time_correctio").value,
+start_time_correction: document.getElementById("start_time_correction").value,
+end_time_correctio: document.getElementById("end_time_correction").value,
 side: document.getElementById("side").value,
 instrument_name: document.getElementById("instrument_name").value,
 CDWP_location_gain: document.getElementById("CDWP_location_gain").value,
@@ -663,9 +690,11 @@ if (CDWP_imageError) {
   }
 }
 
-alert('✅ Submission complete!!!');
+if (!networkError && !stationError && !locationError && !channelError && !dataError && !imageError && !CDWP_locationError && !CDWP_imageError) {
+    alert('✅ Submission complete!!!');
+    resultBox.textContent = 'Success! Your record has been added to the database.';
 
-resultBox.textContent = 'Success! Your record has been added to the database.'
+
 
 // Save some of the last inputs for default next time
 const formData = {
@@ -683,7 +712,6 @@ const formData = {
   longitude: document.getElementById("longitude").value,
   latitude: document.getElementById("latitude").value,
   elevation: document.getElementById("elevation").value,
-  depth: document.getElementById("depth").value,
   open_date: document.getElementById("open_date").value,
   close_date: document.getElementById("close_date").value,
   // ---- LOCATION TABLE ----
@@ -691,6 +719,7 @@ const formData = {
   sensor: document.getElementById("sensor").value,
   custom_sensor: document.getElementById("custom_sensor").value,
   sensor_nature: document.getElementById("sensor_nature").value,
+  depth: document.getElementById("depth").value,
   install_date: document.getElementById("install_date").value,
   // ---- CHANNEL TABLE ----
   channel_name: document.getElementById("channel_name").value,
@@ -700,27 +729,41 @@ const formData = {
   dip: document.getElementById("dip").value,
   azimuth: document.getElementById("azimuth").value,
   recording_serial_number: document.getElementById("recording_serial_number").value,
-  recording_gain: document.getElementById("recording_gain").value,
   period_of_gain: document.getElementById("period_of_gain").value,
   recording_nature: document.getElementById("recording_nature").value,
   custom_recording_nature: document.getElementById("custom_recording_nature").value,
+  paper_speed: document.getElementById("paper_speed").value,
+  R: document.getElementById("R").value,
+  r: document.getElementById("r").value,
+  a: document.getElementById("a").value,
+  b: document.getElementById("b").value,
+  d: document.getElementById("d").value,
+  FDSN_time_series: document.getElementById("FDSN_time_series").value,
   // ---- DATA TABLE ----
   physical_location: document.getElementById("physical_location").value,
   polarity: document.getElementById("polarity").value,
   start_time: document.getElementById("start_time").value,
   end_time: document.getElementById("end_time").value,
+  time_correction: document.getElementById("time_correction").value,
+  data_notes: document.getElementById("data_notes").value,
+  source_of_info: document.getElementById("source_of_info").value,
+  data_creation: document.getElementById("data_creation").value,
   // ---- IMAGE TABLE ----
   date_scanned: document.getElementById("date_scanned").value,
+  DOI: document.getElementById("DOI").value,
   resolution: document.getElementById("resolution").value,
   custom_resolution: document.getElementById("custom_resolution").value,
+  location_record: document.getElementById("location_record").value,
   format: document.getElementById("format").value,
   custom_format: document.getElementById("custom_format").value,
   length: document.getElementById("length").value,
   width: document.getElementById("width").value,
   phase_markings: document.getElementById("phase_markings").value,
+  vectorized: document.getElementById("vectorized").value,
   bulletin: document.getElementById("bulletin").value,
   occlusions: document.getElementById("occlusions").value,
   recording_type: document.getElementById("recording_type").value,
+  recording_gain: document.getElementById("recording_gain").value,
   custom_recording_type: document.getElementById("custom_recording_type").value,
   signal: document.getElementById("signal").value,
   timemark: document.getElementById("timemark").value,
@@ -737,8 +780,8 @@ const formData = {
   CDWP_location_notes: document.getElementById("CDWP_location_notes").value,
   // ---- CDWP_IMAGE TABLE ----
   station_code_local: document.getElementById("station_code_local").value,
-  start_time_correction: document.getElementById("start_time_correctio").value,
-  end_time_correctio: document.getElementById("end_time_correctio").value,
+  start_time_correction: document.getElementById("start_time_correction").value,
+  end_time_correctio: document.getElementById("end_time_correction").value,
   side: document.getElementById("side").value,
   instrument_name: document.getElementById("instrument_name").value,
   CDWP_location_gain: document.getElementById("CDWP_location_gain").value,
@@ -753,6 +796,6 @@ localStorage.setItem("lastSeismogramSubmission", JSON.stringify(formData));
 sessionStorage.setItem("shouldAutofill", "true"); // Triggers one-time autofill on reload
 location.reload();
 
-      });
+     } });
     });
 

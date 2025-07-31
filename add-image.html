@@ -361,6 +361,10 @@
   <option value="other">Other</option>
   </select>
   <input type="text" id="custom_recording_type" placeholder="Enter custom recording type" style="display:none;"><br><br>
+  <!-- RECORDING SYSTEM GAIN LABEL-->
+  <label>Recording System Gain:</label><br>
+  <small class="description">scale or gain factor (scaler)</small><br>
+  <input type="number" id="recording_gain"><br><br>
   <!-- SIGNAL LABEL -->
   <label>Signal:</label><br>
   <small class="description">indicate true if an earthquake signal is present</small><br>
@@ -389,10 +393,6 @@
   <option value="False">False</option>
   <option value="null">Unknown</option>
   </select><br><br>
-  <!-- RECORDING SYSTEM GAIN LABEL-->
-  <label>Recording System Gain:</label><br>
-  <small class="description">scale or gain factor (scaler)</small><br>
-  <input type="number" id="recording_gain"><br><br>
   <!-- NOTES LABEL -->
   <label>Notes:</label><br>
   <textarea id="notes"></textarea><br><br>
@@ -414,11 +414,11 @@
   <input type="text" id="station_code_local"><br><br>
   <!-- START TIME CORRECTION LABEL -->
   <label>Start Time Correction:</label><br>
-  <input type="text" id="start_date" name="start_date" placeholder="00:00:00.0000" 
+  <input type="text" id="start_time_correction" name="start_date" placeholder="00:00:00.0000" 
        pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
   <!-- END TIME CORRECTION LABEL -->
   <label>End Time Correction:</label><br>
-  <input type="text" id="end_date" name="end_date" placeholder="00:00:00.0000" 
+  <input type="text" id="end_time_correction" name="end_date" placeholder="00:00:00.0000" 
        pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
   <!-- SIDE LABEL -->
   <label>Side:</label><br>
