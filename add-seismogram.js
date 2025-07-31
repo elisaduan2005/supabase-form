@@ -634,9 +634,10 @@ if (dataInsertSkipped) {
 
 
 // ─── INSERT IMAGE TABLE ───
+let imageId = null;
 let imageInsertSkipped = false;
 
-const { error: imageError } = await client.from('image').insert([{
+const { data: insertedImage, error: imageError } = await client.from('image').insert([{
   pid: dataPid ,
   date_scanned: document.getElementById('date_scanned')?.value || null,
   DOI: document.getElementById('DOI')?.value || null,
@@ -655,7 +656,9 @@ const { error: imageError } = await client.from('image').insert([{
   recording_gain: parseInt(document.getElementById('recording_gain')?.value) || null,
   location_record: location_record,
   vectorized: vectorized
-}]);
+}])
+  .select('image_id')
+  .single();
 
 if (imageError) {
   const msg = imageError.message.toLowerCase();
@@ -670,11 +673,22 @@ if (imageError) {
     resultBox.textContent = 'Error inserting image: ' + imageError.message;
     return;
   }
+ 
+} else {
+  imageId = insertedImage?.image_id || null;
+}
+
+if (imageInsertSkipped) {
+  const { data: existingImage } = await client.from('image')
+    .select('image_id')
+    .eq('pid', dataPid) // or other unique identifier
+    .single();
+  imageId = existingImage?.image_id || null;
 }
 
 // ─── INSERT CDWP_LOCATION TABLE ───
 let CDWP_locationInsertSkipped = false;
-const { error: CDWP_locationError } = await client.from('CDWP_location').insert([{
+const { error: CDWP_locationError } = await client.from('cdwp_location').insert([{
 box_id: document.getElementById("box_id").value,
 start_date: document.getElementById("start_date")?.value || null,
 end_date: document.getElementById("end_date")?.value || null,
@@ -702,7 +716,9 @@ if (CDWP_locationError) {
 
 // ─── INSERT CDWP_IMAGE TABLE ───
 let CDWP_imageInsertSkipped = false;
-const { error: CDWP_imageError } = await client.from('CDWP_image').insert([{
+const { error: CDWP_imageError } = await client.from('cdwp_image').insert([{
+image_id: imageId,
+box_id: document.getElementById("box_id").value,
 station_code_local: document.getElementById("station_code_local").value,
 start_time_correction: document.getElementById("start_time_correction").value,
 end_time_correction: document.getElementById("end_time_correction").value,
