@@ -80,10 +80,6 @@
   <label>Elevation:</label><br>
   <small class="description">elevation above (+) or below (-) sea level (in meters)</small><br>
   <input type="number" id="elevation"><br><br>
-    <!-- DEPTH LABEL -->
-  <label>Depth:</label><br>
-  <small class="description">depth below ground surface at specified longitude and latitude (in meters)</small><br>
-  <input type="number" id="depth"><br><br>
   <!-- OPEN DATE LABEL -->
   <label>Open Date:</label><br>
   <small class="description">date when station was opened</small><br>
@@ -125,6 +121,10 @@
   <!-- NATURE LABEL -->
   <label>Nature of Sensor:</label><br>
   <input type="text" id="sensor_nature" required><br><br>
+  <!-- DEPTH LABEL -->
+  <label>Depth:</label><br>
+  <small class="description">depth below ground surface at specified longitude and latitude (in meters)</small><br>
+  <input type="number" id="depth"><br><br>
    <!-- INSTALL DATE LABEL -->
   <label>Install Date:</label><br>
   <small class="description">date when sensor was installed</small><br>
@@ -159,9 +159,27 @@
   </select><br><br>
   <!-- START TIME LABEL-->
   <label for="start_time">Start Date: <span style="color:red">*</span></label><br>
+  <small class="description">the time of the first sample in the image</small><br>
   <input type="text" id="start_time" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
   <!-- END TIME LABEL-->
   <label for="end_time">End Date: <span style="color:red">*</span></label><br>
+  <small class="description">the time of the last sample in the image</small><br>
+  <input type="text" id="end_time" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <!-- TIME CORRECTION LABEL -->
+  <label>Time Correction:</label><br>
+  <small class="description">any time correction applied to the data</small><br>
+  <input type="text" id="time_correction" name="time_correction" placeholder="00:00:00.0000" pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
+  <!-- NOTES LABEL -->
+  <label>Notes:</label><br>
+  <textarea id="data_notes"></textarea><br><br>
+  <!-- SOURCE OF INFORMATION LABEL -->
+  <label>Source of Information:</label><br>
+  <small class="description">information about source of metadata entered - e.g., lat/lon adopted from a 
+    published source, or response assumed based on X information or publication</small><br>
+  <input type="text" id="source_of_info"><br><br>
+   <!-- DATE OF METADATA CREATION LABEL-->
+  <label for="date_creation">Date of Metadata Creation: </label><br>
+  <small class="description">date and time when the metadata was created or last updated</small><br>
   <input type="text" id="end_time" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
 </form>
 </div>
@@ -205,10 +223,6 @@
   <label>Recording Serial Number:</label><br>
   <small class="description">manufacturer's serial number if known</small><br>
   <input type="number" id="recording_serial_number"><br><br>
-  <!-- RECORDING SYSTEM GAIN LABEL-->
-  <label>Recording System Gain:</label><br>
-  <small class="description">scale or gain factor (scaler)</small><br>
-  <input type="number" id="recording_gain"><br><br>
   <!-- PERIOD OF GAIN LABEL -->
   <label>Period of Gain:</label><br>
   <small class="description">period at which the gain is valid</small><br>
@@ -223,6 +237,34 @@
   <option value="other">Other</option>
   </select>
   <input type="text" id="custom_recording_nature" placeholder="Enter custom recording system" style="display:none;"><br><br>
+  <!-- PAPER SPEED LABEL -->
+  <label>Paper Speed:</label><br>
+  <small class="description">paper speed (linear velocity of paper) (in meters/s)</small><br>
+  <input type="number" step="0.01" id="paper_speed"><br><br>
+  <!-- R LABEL -->
+  <label>R:</label><br>
+  <small class="description">length of the writing arm, from its rotating axis to the the tip of the needle (in meters/s)</small><br>
+  <input type="number" step="0.01" id="R"><br><br>
+  <!-- r LABEL -->
+  <label>r:</label><br>
+  <small class="description">radius of the drive cylinder bearing the smoked paper (in meters/s)</small><br>
+  <input type="number" step="0.01" id="r"><br><br>
+  <!-- a LABEL -->
+  <label>a:</label><br>
+  <small class="description">distance from the rotating arm axis to the driving cylinder axis (in meters/s)</small><br>
+  <input type="number" step="0.01" id="a"><br><br>
+  <!-- b LABEL -->
+  <label>b:</label><br>
+  <small class="description">shift of the arm axis to the base line on the smoked paper (in meters/s)</small><br>
+  <input type="number" step="0.01" id="b"><br><br>
+  <!-- d LABEL -->
+  <label>d:</label><br>
+  <small class="description">length of 1 minute on paper (in meters/s)</small><br>
+  <input type="number" step="0.01" id="d"><br><br>
+  <!-- FDSN TIME SERIES ID LABEL -->
+  <label>FDSN Time Series ID:</label><br>
+  <small class="description">proposed new FDSN Time series identifier</small><br>
+  <input type="text" id="FDSN_time_series"><br><br>
 </form>
 </div>
 
@@ -241,6 +283,18 @@
   <label>Date Scanned:</label><br>
   <small class="description">date the image was scanned</small><br>
   <input type="text" id="date_scanned" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}"> <br><br>
+  <!-- DATE SCANNED LABEL-->
+  <label>DOI of scanned image:</label><br>
+  <small class="description">DOI if one has been assigned</small><br>
+  <input type="text" id="DOI"> <br><br>
+  <!-- LOCATION OF ORIGINAL RECORD LABEL-->
+  <label>Location of original record: <span style="color:red">*</span></label><br>
+  <small class="description">room, institution, city, state/province, and country of original analog document when scanned</small><br>
+  <input type="text" id="image_room" name="room" placeholder="Room" required>
+  <input type="text" id="image_institution" name="institution" placeholder="Institution" required>
+  <input type="text" id="image_city" name="city" placeholder="City" required>
+  <input type="text" id="image_state" name="state" placeholder="State/Province" required>
+  <input type="text" id="image_country" name="country" placeholder="Country" required><br><br>
   <!-- RESOLUTION LABEL -->
   <!-- red asterisk for required label -->
   <label for="resolution">Resolution: <span style="color:red">*</span></label><br>
@@ -307,14 +361,14 @@
   <option value="other">Other</option>
   </select>
   <input type="text" id="custom_recording_type" placeholder="Enter custom recording type" style="display:none;"><br><br>
-    <!-- SIGNAL LABEL -->
+  <!-- SIGNAL LABEL -->
   <label>Signal:</label><br>
   <small class="description">indicate true if an earthquake signal is present</small><br>
   <select id="signal">
-    <option value="" disabled selected>Choose...</option>
-    <option value="True">True</option>
-    <option value="False">False</option>
-    <option value="null">Unknown</option>
+  <option value="" disabled selected>Choose...</option>
+  <option value="True">True</option>
+  <option value="False">False</option>
+  <option value="null">Unknown</option>
   </select><br><br>
   <!-- TIMEMARK LABEL -->
   <label>Timemark:</label><br>
@@ -324,8 +378,21 @@
   <option value="positive">Positive</option>
   <option value="negative">Negative</option>
   <option value="null">Null</option>
-  <option value="unknwon">Unknown</option>
+  <option value="unknown">Unknown</option>
   </select><br><br>
+  <!-- VECTORIZED LABEL -->
+  <label>Vectorized: <span style="color:red">*</span></label><br>
+  <small class="description">indicate whether the trace in the image has been vectorized</small><br>
+  <select id="vectorized">
+  <option value="" disabled selected>Choose...</option>
+  <option value="True">True</option>
+  <option value="False">False</option>
+  <option value="null">Unknown</option>
+  </select><br><br>
+  <!-- RECORDING SYSTEM GAIN LABEL-->
+  <label>Recording System Gain:</label><br>
+  <small class="description">scale or gain factor (scaler)</small><br>
+  <input type="number" id="recording_gain"><br><br>
   <!-- NOTES LABEL -->
   <label>Notes:</label><br>
   <textarea id="notes"></textarea><br><br>
@@ -347,11 +414,11 @@
   <input type="text" id="station_code_local"><br><br>
   <!-- START TIME CORRECTION LABEL -->
   <label>Start Time Correction:</label><br>
-  <input type="text" id="start_time" name="start_time" placeholder="00:00:00.0000" 
+  <input type="text" id="start_date" name="start_date" placeholder="00:00:00.0000" 
        pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
   <!-- END TIME CORRECTION LABEL -->
   <label>End Time Correction:</label><br>
-  <input type="text" id="end_time" name="end_time" placeholder="00:00:00.0000" 
+  <input type="text" id="end_date" name="end_date" placeholder="00:00:00.0000" 
        pattern="\d{2}:\d{2}:\d{2}\.\d{4}" ><br><br>
   <!-- SIDE LABEL -->
   <label>Side:</label><br>
