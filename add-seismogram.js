@@ -148,6 +148,7 @@ const fieldsToValidate = [
   // ─── NETWORK ───
 
   // note: we need to add custom codes for drop-down vals
+  // match label with GUI
   { id: 'network_code', type: 'string', required: true, label: 'FDSN Network Code' },
   { id: 'custom_network_code', type: 'string', required: false, label: 'Custom Network Code' },
   { id: 'network_name', type: 'string', required: false, label: 'Network Name' },
@@ -194,12 +195,12 @@ const fieldsToValidate = [
   { id: 'physical_location', type: 'string', required: true, label: 'Physical Location' },
   { id: 'custom_physical_location', type: 'string', required: false, label: 'Custom Physical Location' },
   { id: 'polarity', type: 'text', required: false, label: 'Polarity' },
-  { id: 'start_time', type: 'date', required: true, label: 'Start Time' },
-  { id: 'end_time', type: 'date', required: true, label: 'End Time' },
-  { id: 'time_correction', type: 'number', required: true, label: 'Time Correction' },
-  { id: 'data_notes', type: 'text', required: true, label: 'Notes' },
-  { id: 'source_of_info', type: 'text', required: true, label: 'Source of Information' },
-  { id: 'data_creation', type: 'date', required: true, label: 'Date Creation' },
+  { id: 'start_time', type: 'date', required: true, label: 'Start Date' },
+  { id: 'end_time', type: 'date', required: true, label: 'End Date' },
+  { id: 'time_correction', type: 'number', required: false, label: 'Time Correction' },
+  { id: 'data_notes', type: 'text', required: false, label: 'Notes' },
+  { id: 'source_of_info', type: 'text', required: false, label: 'Source of Information' },
+  { id: 'data_creation', type: 'date', required: false, label: 'Date Creation' },
 
   // ─── IMAGE ───
   { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
@@ -325,7 +326,7 @@ if (field.id === 'station_code' && raw === 'other') {
       isValid = !isNaN(Date.parse(raw));
       break;
     case 'boolean':
-      isValid = ['true', 'false'].includes(raw.toLowerCase());
+      isValid = raw === '' || raw === null || ['true', 'false'].includes(raw.toLowerCase());
       break;
     default:
       isValid = false;
@@ -426,6 +427,14 @@ if (timemarkRaw === "Positive") {
 } else {
   timemark = "unknown";
 }
+
+
+const vectorizedRaw = document.getElementById('vectorized').value;
+let vectorized = null; // default to null
+
+if (vectorizedRaw === "True") vectorized = true;
+else if (vectorizedRaw === "False") vectorized = false;
+else vectorized = null;
 
 // ---- DATA TABLE ----
 
@@ -550,6 +559,7 @@ const { error: channelError } = await client.from('channel').insert([{
   a: parseFloat(document.getElementById('a')?.value) || null,
   b: parseFloat(document.getElementById('b')?.value) || null,
   d: parseFloat(document.getElementById('d')?.value) || null,
+  FDSN_time_series: document.getElementById("FDSN_time_series").value
 }]);
 
 if (channelError) {
@@ -568,44 +578,60 @@ if (channelError) {
 }
 
 // ─── INSERT DATA TABLE ───
+let dataPid = null;
 let dataInsertSkipped = false;
 
-const { error: dataError } = await client.from('data').insert([{
-  network_code: networkCode,
-  station_code: stationCode,
-  location_code: document.getElementById('location_code')?.value.trim(),
-  channel_name: document.getElementById('channel_name')?.value.trim(),
-  physical_location: physicallocationCode,
-  polarity: polarity,
-  start_time: document.getElementById('start_time')?.value.trim(),
-  end_time: document.getElementById('end_time')?.value.trim(),
-  time_correction: parseFloat(document.getElementById('time_correction')?.value) || null,
-  data_notes: document.getElementById('data_notes')?.value.trim()|| null,
-  source_of_info: document.getElementById('source_of_info')?.value.trim()|| null,
-  date_creation: document.getElementById('date_Creation')?.value.trim()|| null,
-}]);
+const { data: insertedData, error: dataError } = await client.from('data')
+  .insert([{
+    network_code: networkCode,
+    station_code: stationCode,
+    location_code: document.getElementById('location_code')?.value.trim(),
+    channel_name: document.getElementById('channel_name')?.value.trim(),
+    physical_location: physicallocationCode,
+    polarity: polarity,
+    start_time: document.getElementById('start_time')?.value.trim(),
+    end_time: document.getElementById('end_time')?.value.trim(),
+    time_correction: parseFloat(document.getElementById('time_correction')?.value) || null,
+    data_notes: document.getElementById('data_notes')?.value.trim() || null,
+    source_of_info: document.getElementById('source_of_info')?.value.trim() || null,
+    date_creation: document.getElementById('date_creation')?.value.trim() || null,
+  }])
+  .select('pid')
+  .single();
 
 if (dataError) {
   const msg = dataError.message.toLowerCase();
-  if (
-    msg.includes('duplicate') ||
-    msg.includes('already exists') ||
-    msg.includes('violates unique constraint')
-  ) {
+  if (msg.includes('duplicate') || msg.includes('already exists') || msg.includes('violates unique constraint')) {
     console.warn("Data already exists, skipping insert.");
     dataInsertSkipped = true;
   } else {
     resultBox.textContent = 'Error inserting data: ' + dataError.message;
     return;
   }
+} else {
+  dataPid = insertedData?.pid || null;
 }
+
+// fetch PID from data table if we skipped the insert due to duplicate
+if (dataInsertSkipped) {
+  const { data: existingData } = await client.from('data')
+    .select('pid')
+    .eq('network_code', networkCode)
+    .eq('station_code', stationCode)
+    .eq('channel_name', document.getElementById('channel_name').value.trim())
+    .single();
+
+  dataPid = existingData?.pid || null;
+}
+
 
 // ─── INSERT IMAGE TABLE ───
 let imageInsertSkipped = false;
 
 const { error: imageError } = await client.from('image').insert([{
+  pid: dataPid,
   date_scanned: document.getElementById('date_scanned')?.value || null,
-  DOI: document.getElementById('date_scanned')?.value || null,
+  DOI: document.getElementById('DOI')?.value || null,
   resolution: resolutionValue,
   format: formatCode,
   length: parseFloat(document.getElementById('length')?.value) || null,
@@ -619,8 +645,8 @@ const { error: imageError } = await client.from('image').insert([{
   notes: document.getElementById('notes')?.value.trim() || null,
   owner_contact: document.getElementById('owner_contact')?.value.trim() || null,
   recording_gain: parseInt(document.getElementById('recording_gain')?.value) || null,
-  location_record: document.getElementById('owner_contact')?.value.trim(),
-  vectorized: document.getElementById('vectorized').value === "True" ? true : document.getElementById('vectorized').value === "False" ? false : null,
+  location_record: document.getElementById('location_record')?.value.trim(),
+  vectorized: vectorized
 }]);
 
 if (imageError) {
@@ -671,7 +697,7 @@ let CDWP_imageInsertSkipped = false;
 const { error: CDWP_imageError } = await client.from('CDWP_image').insert([{
 station_code_local: document.getElementById("station_code_local").value,
 start_time_correction: document.getElementById("start_time_correction").value,
-end_time_correctio: document.getElementById("end_time_correction").value,
+end_time_correction: document.getElementById("end_time_correction").value,
 side: document.getElementById("side").value,
 instrument_name: document.getElementById("instrument_name").value,
 CDWP_location_gain: document.getElementById("CDWP_location_gain").value,
