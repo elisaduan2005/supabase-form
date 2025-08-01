@@ -383,6 +383,7 @@ if (!validationPassed) {
   return;
 }
 
+console.log("✅ All validations passed. Proceeding with inserts...");
 
 // DROP DOWNS CODE ------------------------------------------------------------------- 
 // IF SELECT OTHER; PARSE THE CUSTOM VALUE
