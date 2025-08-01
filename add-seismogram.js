@@ -274,6 +274,17 @@ for (let field of fieldsToValidate) {
   const el = document.getElementById(field.id);
   if (!el) continue;
 
+  if (field.id === 'longitude' || field.id === 'latitude') {
+    const val = parseFloat(raw);
+    const min = (field.id === 'longitude') ? -180 : -90;
+    const max = (field.id === 'longitude') ? 180 : 90;
+
+    if (isNaN(val) || val < min || val > max) {
+        alert(`❌ ${field.label} must be a float between ${min} and ${max}.`);
+        return;
+    }
+}
+
   let raw = el.value?.trim();
   // Handle custom network code
 if (field.id === 'network_code' && raw === 'other') {
@@ -437,11 +448,11 @@ const vectorizedRaw = document.getElementById('vectorized').value.trim().toLower
 let vectorized;
 
 if (vectorizedRaw === "true") {
-  vectorized = true;
+  vectorized = "true";
 } else if (vectorizedRaw === "false") {
-  vectorized = false;
+  vectorized = "false";
 } else {
-  vectorized = null;
+  vectorized = "unknown";
 }
 
 const timemarkRaw = document.getElementById('timemark').value;
