@@ -6,8 +6,6 @@
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const resultBox = document.getElementById('Result');  // element to display error message
 
-    
-    
 
     const parseBoolOrNull = (val) => {
     if (!val) return null; // empty → null
