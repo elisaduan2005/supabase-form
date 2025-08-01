@@ -712,16 +712,16 @@ let CDWP_imageInsertSkipped = false;
 const { error: CDWP_imageError } = await client.from('cdwp_image').insert([{
 image_id: imageId,
 box_id: parseInt(document.getElementById("box_id").value),
-station_code_local: document.getElementById("station_code_local").value,
-start_time_correction: document.getElementById("start_time_correction").value,
-end_time_correction: document.getElementById("end_time_correction").value,
-side: document.getElementById("side").value,
-instrument_name: document.getElementById("instrument_name").value,
-cdwp_location_gain: document.getElementById("cdwp_location_gain").value,
-t0: document.getElementById("t0").value,
-tg: document.getElementById("tg").value,
-filename: document.getElementById("filename").value,
-cdwp_image_creator: document.getElementById("cdwp_image_creator").value,
+station_code_local: document.getElementById("station_code_local").value  || null,
+start_time_correction: document.getElementById("start_time_correction").value || null,
+end_time_correction: document.getElementById("end_time_correction").value || null,
+side: document.getElementById("side").value || null,
+instrument_name: document.getElementById("instrument_name").value || null,
+cdwp_location_gain: document.getElementById("cdwp_location_gain").value || null,
+t0: document.getElementById("t0").value || null,
+tg: document.getElementById("tg").value || null,
+filename: document.getElementById("filename").value || null,
+cdwp_image_creator: document.getElementById("cdwp_image_creator").value || null,
 }]);
 
 if (CDWP_imageError) {
