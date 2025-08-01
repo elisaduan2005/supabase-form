@@ -240,7 +240,7 @@ const fieldsToValidate = [
   { id: 'stack', type: 'number', required: false, label: 'Stack' },
   { id: 'previous_no', type: 'number', required: false, label: 'Previous Number' },
   { id: 'exceptions', type: 'text', required: false, label: 'Exceptions' },
-  { id: 'CDWP_location_notes', type: 'text', required: false, label: 'Notes' },
+  { id: 'cdwp_location_notes', type: 'text', required: false, label: 'Notes' },
 
    // ─── CDWP_IMAGE ───
   { id: 'station_code_local', type: 'text', required: false, label: 'Local Station Code' },
@@ -248,11 +248,11 @@ const fieldsToValidate = [
   { id: 'end_time_correction', type: 'date', required: false, label: 'End Time Correction' },
   { id: 'side', type: 'text', required: false, label: 'Side' },
   { id: 'instrument_name', type: 'text', required: false, label: 'Instrument Name' },
-  { id: 'CDWP_location_gain', type: 'number', required: false, label: 'Gain' },
+  { id: 'cdwp_location_gain', type: 'number', required: false, label: 'Gain' },
   { id: 't0', type: 'number', required: false, label: 'T0' },
   { id: 'tg', type: 'number', required: false, label: 'Tg' },
   { id: 'filename', type: 'text', required: false, label: 'Filename' },
-  { id: 'CDWP_image_creator', type: 'text', required: false, label: 'Creator' },
+  { id: 'cdwp_image_creator', type: 'text', required: false, label: 'Creator' },
 
 ];
 
@@ -414,8 +414,12 @@ let formatCode = (formatRaw === 'other')
 // Convert dropdowns to null/unknown for fields that are not required
 
 // ---- IMAGE TABLE ----
-const phaseMarkingsRaw = document.getElementById('phase_markings').value;
-let phaseMarkings = phaseMarkingsRaw === "True" ? true : phaseMarkingsRaw === "False" ? false : null;
+const phaseMarkingsRaw = document.getElementById('phase_markings').value?.toLowerCase();
+let phaseMarkings = null;
+
+if (phaseMarkingsRaw === "true") phaseMarkings = true;
+else if (phaseMarkingsRaw === "false") phaseMarkings = false;
+else phaseMarkings = null;
 
 const occlusionsRaw = document.getElementById('occlusions').value;
 let occlusions = occlusionsRaw === "True" ? true : occlusionsRaw === "False" ? false : null;
@@ -696,7 +700,7 @@ container: document.getElementById("container")?.value || null,
 stack: document.getElementById("stack")?.value || null,
 previous_no: document.getElementById("previous_no")?.value || null,
 exceptions: document.getElementById("exceptions")?.value || null,
-CDWP_location_notes: document.getElementById("CDWP_location_notes")?.value || null,
+CDWP_location_notes: document.getElementById("cdwp_location_notes")?.value || null,
 }]);
 
 if (CDWP_locationError) {
@@ -724,11 +728,11 @@ start_time_correction: document.getElementById("start_time_correction").value,
 end_time_correction: document.getElementById("end_time_correction").value,
 side: document.getElementById("side").value,
 instrument_name: document.getElementById("instrument_name").value,
-CDWP_location_gain: document.getElementById("CDWP_location_gain").value,
+CDWP_location_gain: document.getElementById("cdwp_location_gain").value,
 t0: document.getElementById("t0").value,
 tg: document.getElementById("tg").value,
 filename: document.getElementById("filename").value,
-CDWP_image_creator: document.getElementById("CDWP_image_creator").value,
+CDWP_image_creator: document.getElementById("cdwp_image_creator").value,
 }]);
 
 if (CDWP_imageError) {
