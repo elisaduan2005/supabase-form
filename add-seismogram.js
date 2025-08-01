@@ -280,7 +280,52 @@ for (let field of fieldsToValidate) {
 
   let raw = el.value?.trim();
 
-  // ✅ Longitude/Latitude check
+  // required check first
+  if (!raw || raw === '') {
+    if (field.required) {
+      validationPassed = false;
+      errorMessage = `❌ ${field.label} is required.`;
+      break;
+    } else {
+      continue;
+    }
+  }
+
+  // handle "other" custom inputs
+  if (field.id === 'network_code' && raw === 'other') {
+    raw = document.getElementById('custom_network_code')?.value.trim() || '';
+    if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom FDSN Network Code.'; break; }
+  }
+  if (field.id === 'network_name' && raw === 'other') {
+    raw = document.getElementById('custom_network_name')?.value.trim() || '';
+    if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom Network Name.'; break; }
+  }
+  if (field.id === 'station_code' && raw === 'other') {
+    raw = document.getElementById('custom_station_code')?.value.trim() || '';
+    if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom Station Code.'; break; }
+  }
+  if (field.id === 'sensor' && raw === 'other') {
+    raw = document.getElementById('custom_sensor').value.trim();
+    if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom sensor.'; break; }
+  }
+  if (field.id === 'physical_location' && raw === 'other') {
+    raw = document.getElementById('custom_physical_location')?.value.trim() || '';
+    if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom physical location.'; break; }
+  }
+  if (field.id === 'resolution' && raw === 'other') {
+    raw = document.getElementById('custom_resolution').value.trim();
+    if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom resolution.'; break; }
+  }
+  if (field.id === 'recording_type' && raw === 'other') {
+    raw = document.getElementById('custom_recording_type').value.trim();
+    if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom recording type.'; break; }
+  }
+  if (field.id === 'format' && raw === 'other') {
+    raw = document.getElementById('custom_format')?.value.trim() || '';
+    if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom format (4 letters).'; break; }
+  }
+
+  // special check for longitude/latitude
   if (field.id === 'longitude' || field.id === 'latitude') {
     const val = parseFloat(raw);
     if (isNaN(val)) {
@@ -292,99 +337,34 @@ for (let field of fieldsToValidate) {
     const max = (field.id === 'longitude') ? 180 : 90;
     if (val < min || val > max) {
       validationPassed = false;
-      errorMessage = `❌ ${field.label} must be a float between ${min} and ${max}.`;
+      errorMessage = `❌ ${field.label} must be between ${min} and ${max}.`;
       break;
     }
   }
 
-  //
-  if (field.id === 'network_code' && raw === 'other') {
-    raw = document.getElementById('custom_network_code')?.value.trim() || '';
-    if (!raw) {
-      validationPassed = false;
-      errorMessage = '❌ Please enter a custom FDSN Network Code.';
-      break;
-    }
-  }
-
-  if (field.id === 'network_name' && raw === 'other') {
-    raw = document.getElementById('custom_network_name')?.value.trim() || '';
-    if (!raw) {
-      validationPassed = false;
-      errorMessage = '❌ Please enter a custom Network Name.';
-      break;
-    }
-  }
-
-  if (field.id === 'station_code' && raw === 'other') {
-    raw = document.getElementById('custom_station_code')?.value.trim() || '';
-    if (!raw) {
-      validationPassed = false;
-      errorMessage = '❌ Please enter a custom Station Code.';
-      break;
-    }
-  }
-  if (field.id === 'sensor' && raw === 'other') {
-    raw = document.getElementById('custom_sensor').value.trim();
-    if (!raw) {
-      validationPassed = false;
-      errorMessage = '❌ Please enter a custom sensor.';
-      break;
-    }
-  }
-  if (field.id === 'physical_location' && raw === 'other') {
-  raw = document.getElementById('custom_physical_location')?.value.trim() || '';
-  if (!raw) {
-    validationPassed = false;
-    errorMessage = '❌ Please enter a custom physical location.';
-    break;
-  }
-}
-
-  
-  if (field.id === 'resolution' && raw === 'other') {
-    raw = document.getElementById('custom_resolution').value.trim();
-    if (!raw) {
-      validationPassed = false;
-      errorMessage = '❌ Please enter a custom resolution.';
-      break;
-    }
-  }
-
-  if (field.id === 'recording_type' && raw === 'other') {
-    raw = document.getElementById('custom_recording_type').value.trim();
-    if (!raw) {
-      validationPassed = false;
-      errorMessage = '❌ Please enter a custom recording type.';
-      break;
-    }
-  }
-
-  if (field.id === 'format' && raw === 'other') {
-  raw = document.getElementById('custom_format')?.value.trim() || '';
-  if (!raw) {
-    validationPassed = false;
-    errorMessage = '❌ Please enter a custom format (4 letters).';
-    break;
-  }
-}
-
-  if (field.required && (!raw || raw === '')) {
-    validationPassed = false;
-    errorMessage = `❌ ${field.label} is required.`;
-    break;
-  }
-
-  if (!field.required && (!raw || raw === '')) continue;
-
+  // applies to required and optional non-empty fields
   switch (field.type) {
     case 'number':
-      const numberPattern = /^-?\d+(\.\d+)?$/;
-      if (!numberPattern.test(raw)) {
+      if (isNaN(raw)) {
         validationPassed = false;
         errorMessage = `❌ ${field.label} must be a numeric value (e.g., 123.45).`;
       }
       break;
+
+    case 'date':
+      if (isNaN(Date.parse(raw))) {
+        validationPassed = false;
+        errorMessage = `❌ ${field.label} must be a valid date.`;
+      }
+      break;
+
+    case 'boolean':
+      if (!['true', 'false', 'unknown'].includes(raw.toLowerCase())) {
+        validationPassed = false;
+        errorMessage = `❌ ${field.label} must be either true, false, or unknown.`;
+      }
+      break;
+
     case 'string':
     case 'text':
       if (typeof raw !== 'string') {
@@ -392,29 +372,14 @@ for (let field of fieldsToValidate) {
         errorMessage = `❌ ${field.label} must be a text value.`;
       }
       break;
-    case 'date':
-      if (isNaN(Date.parse(raw))) {
-        validationPassed = false;
-        errorMessage = `❌ ${field.label} must be a valid date.`;
-      }
-      break;
-    case 'boolean':
-      if (!(raw === '' || raw === null || ['true', 'false', 'unknown'].includes(raw.toLowerCase()))) {
-        validationPassed = false;
-        errorMessage = `❌ ${field.label} must be either true, false, or unknown.`;
-      }
-      break;
-    default:
-      validationPassed = false;
-      errorMessage = `❌ Unknown validation type for ${field.label}.`;
   }
 
   if (!validationPassed) break;
 }
 
-// stop submission if any validation fails
+// Stop submission if validation fails
 if (!validationPassed) {
-  alert(errorMessage + "\n\n ⚠️ Submission aborted. Please fix the errors and try again.");
+  alert(errorMessage + "\n\n⚠️ Submission aborted. Please fix the errors and try again.");
   return;
 }
 
