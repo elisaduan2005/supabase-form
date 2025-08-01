@@ -159,27 +159,6 @@ document.getElementById('format').addEventListener('change', () => {
 
 document.getElementById('SubmitAll').addEventListener('click', async (e) => {e.preventDefault();
 
-// validate site name (City, State, Country)
-    const city = document.getElementById("city").value.trim();
-    const state = document.getElementById("state").value.trim();
-    const country = document.getElementById("country").value.trim();
-
-    if (!city || !state || !country) {
-    alert("❌ Please fill out City, State/Province, and Country for Site Name.");
-    return;
-    }
-
-    // validate location record (Room, Institution, City, State, Country)
-    const image_room = document.getElementById("image_room").value.trim();
-    const image_institution = document.getElementById("image_institution").value.trim();
-    const image_city = document.getElementById("image_city").value.trim();
-    const image_state = document.getElementById("image_state").value.trim();
-    const image_country = document.getElementById("image_country").value.trim();
-
-    if (!image_room || !image_institution|| !image_city || !image_state || !image_country) {
-    alert("❌ Please fill out Room, Institution, City, State/Province, and Country for Location Record.");
-    return;
-    }
 
 const fieldsToValidate = [
   // ─── NETWORK ───
@@ -194,7 +173,9 @@ const fieldsToValidate = [
   // ─── STATION ───
   { id: 'station_code', type: 'string', required: true, label: 'Station Code' },
   { id: 'custom_station_code', type: 'string', required: false, label: 'Custom Station Code' },
-  { id: 'site_name', type: 'string', required: true, label: 'Site Name' },
+  { id: 'city', type: 'string', required: true, label: 'City' },
+  { id: 'state', type: 'string', required: true, label: 'State/Province' },
+  { id: 'country', type: 'string', required: true, label: 'Country' },
   { id: 'longitude', type: 'number', required: true, label: 'Longitude' },
   { id: 'latitude', type: 'number', required: true, label: 'Latitude' },
   { id: 'elevation', type: 'number', required: false, label: 'Elevation' },
@@ -257,7 +238,11 @@ const fieldsToValidate = [
   { id: 'timemark', type: 'text', required: false, label: 'Timemark' },
   { id: 'notes', type: 'string', required: false, label: 'Notes' },
   { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
-  { id: 'location_record', type: 'text', required: true, label: 'Location Record' },
+  { id: 'image_room', type: 'string', required: true, label: 'Room' },
+  { id: 'image_institution', type: 'string', required: true, label: 'Institution' },
+  { id: 'image_city', type: 'string', required: true, label: 'City (Location Record)' },
+  { id: 'image_state', type: 'string', required: true, label: 'State/Province (Location Record)' },
+  { id: 'image_country', type: 'string', required: true, label: 'Country (Location Record)' },
   { id: 'vectorized', type: 'text', required: true, label: 'Vectorized' },
   { id: 'recording_gain', type: 'number', required: false, label: 'Recording Gain' },
 
