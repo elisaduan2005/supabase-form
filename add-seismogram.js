@@ -351,12 +351,17 @@ if (field.id === 'station_code' && raw === 'other') {
   let isValid = true;
   switch (field.type) {
     case 'number':
-      isValid = !isNaN(parseFloat(raw));
-      break;
+    // stricting regex for only digits, optional decimal, and optional minus sign
+    const numberPattern = /^-?\d+(\.\d+)?$/;
+    if (!numberPattern.test(raw)) {
+    alert(`❌ ${field.label} must be a numeric value (e.g., 123.45).`);
+    return;
+    }
+    break;
     case 'string':
       isValid = typeof raw === 'string';
       break;
-    case 'text':  // ✅ treat text same as string
+    case 'text':
     isValid = typeof raw === 'string';
     break;
     case 'date':
