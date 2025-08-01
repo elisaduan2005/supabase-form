@@ -839,7 +839,6 @@ const formData = {
   notes: document.getElementById("notes").value,
   owner_contact: document.getElementById("owner_contact").value,
   // ---- CDWP_LOCATION TABLE ----
-  box_id: document.getElementById("box_id").value,
   start_date: document.getElementById("start_date").value,
   end_date: document.getElementById("end_date").value,
   container: document.getElementById("container").value,
