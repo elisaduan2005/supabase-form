@@ -7,27 +7,7 @@
       const resultBox = document.getElementById('Result');  // element to display error message
 
     
-    // validate site name (City, State, Country)
-    const city = document.getElementById("city").value.trim();
-    const state = document.getElementById("state").value.trim();
-    const country = document.getElementById("country").value.trim();
-
-    if (!city || !state || !country) {
-    alert("❌ Please fill out City, State/Province, and Country for Site Name.");
-    return;
-    }
-
-    // validate location record (Room, Institution, City, State, Country)
-    const image_room = document.getElementById("image_room").value.trim();
-    const image_institution = document.getElementById("image_institution").value.trim();
-    const image_city = document.getElementById("image_city").value.trim();
-    const image_state = document.getElementById("image_state").value.trim();
-    const image_country = document.getElementById("image_country").value.trim();
-
-    if (!image_room || !image_institution|| !image_city || !image_state || !image_country) {
-    alert("❌ Please fill out Room, Institution, City, State/Province, and Country for Location Record.");
-    return;
-    }
+    
 
     const parseBoolOrNull = (val) => {
     if (!val) return null; // empty → null
@@ -180,7 +160,28 @@ document.getElementById('format').addEventListener('change', () => {
       });
 
 document.getElementById('SubmitAll').addEventListener('click', async (e) => {e.preventDefault();
-      
+
+// validate site name (City, State, Country)
+    const city = document.getElementById("city").value.trim();
+    const state = document.getElementById("state").value.trim();
+    const country = document.getElementById("country").value.trim();
+
+    if (!city || !state || !country) {
+    alert("❌ Please fill out City, State/Province, and Country for Site Name.");
+    return;
+    }
+
+    // validate location record (Room, Institution, City, State, Country)
+    const image_room = document.getElementById("image_room").value.trim();
+    const image_institution = document.getElementById("image_institution").value.trim();
+    const image_city = document.getElementById("image_city").value.trim();
+    const image_state = document.getElementById("image_state").value.trim();
+    const image_country = document.getElementById("image_country").value.trim();
+
+    if (!image_room || !image_institution|| !image_city || !image_state || !image_country) {
+    alert("❌ Please fill out Room, Institution, City, State/Province, and Country for Location Record.");
+    return;
+    }
 
 const fieldsToValidate = [
   // ─── NETWORK ───
