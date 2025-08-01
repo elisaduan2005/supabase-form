@@ -658,6 +658,8 @@ const { data: insertedImage, error: imageError } = await client.from('image').in
   .select('image_id')
   .single();
 
+  
+
 if (imageError) {
   const msg = imageError.message.toLowerCase();
   if (
@@ -685,6 +687,8 @@ if (imageInsertSkipped) {
 }
 
 // ─── INSERT CDWP_LOCATION TABLE ───
+
+
 let cdwpLocationId = null;
 let CDWP_locationInsertSkipped = false;
 const { data: insertedLocation, error: CDWP_locationError } = await client.from('cdwp_location').insert([{
@@ -727,6 +731,7 @@ if (CDWP_locationInsertSkipped) {
   cdwpLocationId = existingLocation?.id || null;
 }
 // ─── INSERT CDWP_IMAGE TABLE ───
+
 let CDWP_imageInsertSkipped = false;
 const { error: CDWP_imageError } = await client.from('cdwp_image').insert([{
 image_id: imageId,
