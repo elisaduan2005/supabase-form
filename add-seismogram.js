@@ -730,35 +730,33 @@ if (CDWP_locationInsertSkipped) {
     .maybeSingle();
   cdwpLocationId = existingLocation?.id || null;
 }
-// ─── INSERT CDWP_IMAGE TABLE ───
 
+// ─── INSERT CDWP_IMAGE TABLE ───
+let cdwpImageId = null;
 let CDWP_imageInsertSkipped = false;
-const { error: CDWP_imageError } = await client.from('cdwp_image').insert([{
-image_id: imageId,
-cdwp_location_uuid: cdwpLocationId,
-station_code_local: document.getElementById("station_code_local").value  || null,
-start_time_correction:parseFloat(document.getElementById("start_time_correction").value) || null,
-end_time_correction: parseFloat(document.getElementById("end_time_correction").value) || null,
-side: document.getElementById("side").value || null,
-instrument_name: document.getElementById("instrument_name").value || null,
-cdwp_location_gain: document.getElementById("cdwp_location_gain").value || null,
-t0: document.getElementById("t0").value || null,
-tg: document.getElementById("tg").value || null,
-filename: document.getElementById("filename").value || null,
-cdwp_image_creator: document.getElementById("cdwp_image_creator").value || null,
+
+const { data: insertedCDWPImage, error: CDWP_imageError } = await client.from('cdwp_image').insert([{
+  image_id: imageId,
+  cdwp_location_id: cdwpLocationId,
+  station_code_local: document.getElementById("station_code_local").value || null,
+  start_time_correction: parseFloat(document.getElementById("start_time_correction").value) || null,
+  end_time_correction: parseFloat(document.getElementById("end_time_correction").value) || null,
+  side: document.getElementById("side").value || null,
+  instrument_name: document.getElementById("instrument_name").value || null,
+  cdwp_location_gain: document.getElementById("cdwp_location_gain").value || null,
+  t0: document.getElementById("t0").value || null,
+  tg: document.getElementById("tg").value || null,
+  filename: document.getElementById("filename").value || null,
+  cdwp_image_creator: document.getElementById("cdwp_image_creator").value || null,
 }]);
 
 if (CDWP_imageError) {
   const msg = CDWP_imageError.message.toLowerCase();
-  if (
-    msg.includes('duplicate') ||
-    msg.includes('already exists') ||
-    msg.includes('violates unique constraint')
-  ) {
+  if (msg.includes('duplicate') || msg.includes('already exists') || msg.includes('violates unique constraint')) {
     console.warn("CDWP_Image already exists, skipping insert.");
     CDWP_imageInsertSkipped = true;
   } else {
-    console.error("CDWP_Image Insert Error:", CDWP_imageError); // full error object
+    console.error("CDWP_Image Insert Error:", CDWP_imageError);
     resultBox.textContent = 'Error inserting CDWP_Image: ' + CDWP_imageError.message;
     return;
   }
