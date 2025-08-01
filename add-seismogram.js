@@ -689,7 +689,7 @@ container: document.getElementById("container")?.value || null,
 stack: document.getElementById("stack")?.value || null,
 previous_no: document.getElementById("previous_no")?.value || null,
 exceptions: document.getElementById("exceptions")?.value || null,
-CDWP_location_notes: document.getElementById("cdwp_location_notes")?.value || null,
+cdwp_location_notes: document.getElementById("cdwp_location_notes")?.value || null,
 }]);
 
 if (CDWP_locationError) {
@@ -717,11 +717,11 @@ start_time_correction: document.getElementById("start_time_correction").value,
 end_time_correction: document.getElementById("end_time_correction").value,
 side: document.getElementById("side").value,
 instrument_name: document.getElementById("instrument_name").value,
-CDWP_location_gain: document.getElementById("cdwp_location_gain").value,
+cdwp_location_gain: document.getElementById("cdwp_location_gain").value,
 t0: document.getElementById("t0").value,
 tg: document.getElementById("tg").value,
 filename: document.getElementById("filename").value,
-CDWP_image_creator: document.getElementById("cdwp_image_creator").value,
+cdwp_image_creator: document.getElementById("cdwp_image_creator").value,
 }]);
 
 if (CDWP_imageError) {
@@ -826,18 +826,18 @@ const formData = {
   stack: document.getElementById("stack").value,
   previous_no: document.getElementById("previous_no").value,
   exceptions: document.getElementById("exceptions").value,
-  CDWP_location_notes: document.getElementById("cdwp_location_notes").value,
+  cdwp_location_notes: document.getElementById("cdwp_location_notes").value,
   // ---- CDWP_IMAGE TABLE ----
   station_code_local: document.getElementById("station_code_local").value,
   start_time_correction: document.getElementById("start_time_correction").value,
   end_time_correctio: document.getElementById("end_time_correction").value,
   side: document.getElementById("side").value,
   instrument_name: document.getElementById("instrument_name").value,
-  CDWP_location_gain: document.getElementById("cdwp_location_gain").value,
+  cdwp_location_gain: document.getElementById("cdwp_location_gain").value,
   t0: document.getElementById("t0").value,
   tg: document.getElementById("tg").value,
   filename: document.getElementById("filename").value,
-  CDWP_image_creator: document.getElementById("cdwp_image_creator").value,
+  cdwp_image_creator: document.getElementById("cdwp_image_creator").value,
 };
 
 
