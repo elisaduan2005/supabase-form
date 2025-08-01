@@ -734,6 +734,7 @@ if (CDWP_imageError) {
     console.warn("CDWP_Image already exists, skipping insert.");
     CDWP_imageInsertSkipped = true;
   } else {
+    console.error("CDWP_Image Insert Error:", CDWP_imageError); // full error object
     resultBox.textContent = 'Error inserting CDWP_Image: ' + CDWP_imageError.message;
     return;
   }
