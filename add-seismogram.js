@@ -223,6 +223,11 @@ const fieldsToValidate = [
   // ─── IMAGE ───
   { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
   { id: 'DOI', type: 'text', required: false, label: 'DOI' },
+  { id: 'image_room', type: 'string', required: true, label: 'Room' },
+  { id: 'image_institution', type: 'string', required: true, label: 'Institution' },
+  { id: 'image_city', type: 'string', required: true, label: 'City (Location Record)' },
+  { id: 'image_state', type: 'string', required: true, label: 'State/Province (Location Record)' },
+  { id: 'image_country', type: 'string', required: true, label: 'Country (Location Record)' },
   { id: 'resolution', type: 'number', required: true, label: 'Resolution' },
   { id: 'custom_resolution', type: 'number', required: false, label: 'Custom Resolution' },
   { id: 'format', type: 'string', required: false, label: 'Format' },
@@ -238,11 +243,6 @@ const fieldsToValidate = [
   { id: 'timemark', type: 'text', required: false, label: 'Timemark' },
   { id: 'notes', type: 'string', required: false, label: 'Notes' },
   { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
-  { id: 'image_room', type: 'string', required: true, label: 'Room' },
-  { id: 'image_institution', type: 'string', required: true, label: 'Institution' },
-  { id: 'image_city', type: 'string', required: true, label: 'City (Location Record)' },
-  { id: 'image_state', type: 'string', required: true, label: 'State/Province (Location Record)' },
-  { id: 'image_country', type: 'string', required: true, label: 'Country (Location Record)' },
   { id: 'vectorized', type: 'text', required: true, label: 'Vectorized' },
   { id: 'recording_gain', type: 'number', required: false, label: 'Recording Gain' },
 
@@ -753,7 +753,7 @@ let CDWP_imageInsertSkipped = false;
 
 const { data: insertedCDWPImage, error: CDWP_imageError } = await client.from('cdwp_image').insert([{
   image_id: imageId,
-  cdwp_location_id: cdwpLocationId,
+  cdwp_location_uuid: cdwpLocationId,
   station_code_local: document.getElementById("station_code_local").value || null,
   start_time_correction: parseFloat(document.getElementById("start_time_correction").value) || null,
   end_time_correction: parseFloat(document.getElementById("end_time_correction").value) || null,
