@@ -252,8 +252,8 @@ const fieldsToValidate = [
 
    // ─── CDWP_IMAGE ───
   { id: 'station_code_local', type: 'text', required: false, label: 'Local Station Code' },
-  { id: 'start_time_correction', type: 'date', required: false, label: 'Start Time Correction' },
-  { id: 'end_time_correction', type: 'date', required: false, label: 'End Time Correction' },
+  { id: 'start_time_correction', type: 'number', required: false, label: 'Start Time Correction' },
+  { id: 'end_time_correction', type: 'number', required: false, label: 'End Time Correction' },
   { id: 'side', type: 'text', required: false, label: 'Side' },
   { id: 'instrument_name', type: 'text', required: false, label: 'Instrument Name' },
   { id: 'cdwp_location_gain', type: 'number', required: false, label: 'Gain' },
@@ -713,8 +713,8 @@ const { error: CDWP_imageError } = await client.from('cdwp_image').insert([{
 image_id: imageId,
 box_id: parseInt(document.getElementById("box_id").value),
 station_code_local: document.getElementById("station_code_local").value  || null,
-start_time_correction: document.getElementById("start_time_correction").value || null,
-end_time_correction: document.getElementById("end_time_correction").value || null,
+start_time_correction:parseFloat(document.getElementById("start_time_correction").value) || null,
+end_time_correction: parseFloat(document.getElementById("end_time_correction").value) || null,
 side: document.getElementById("side").value || null,
 instrument_name: document.getElementById("instrument_name").value || null,
 cdwp_location_gain: document.getElementById("cdwp_location_gain").value || null,
