@@ -730,7 +730,7 @@ if (CDWP_locationInsertSkipped) {
 let CDWP_imageInsertSkipped = false;
 const { error: CDWP_imageError } = await client.from('cdwp_image').insert([{
 image_id: imageId,
-cdwp_location_id: cdwpLocationId,
+cdwp_location_uuid: cdwpLocationId,
 station_code_local: document.getElementById("station_code_local").value  || null,
 start_time_correction:parseFloat(document.getElementById("start_time_correction").value) || null,
 end_time_correction: parseFloat(document.getElementById("end_time_correction").value) || null,
