@@ -466,7 +466,6 @@ if (sideRaw === "0") {
 }
 
 
-
 // ───────── INSERTION ──────────
 // note: need to follow database schema
 // ─── INSERT NETWORK TABLE ───
