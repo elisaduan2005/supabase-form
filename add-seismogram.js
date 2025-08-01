@@ -6,6 +6,28 @@
       const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const resultBox = document.getElementById('Result');  // element to display error message
 
+    
+    // validate site name (City, State, Country)
+    const city = document.getElementById("city").value.trim();
+    const state = document.getElementById("state").value.trim();
+    const country = document.getElementById("country").value.trim();
+
+    if (!city || !state || !country) {
+    alert("❌ Please fill out City, State/Province, and Country for Site Name.");
+    return;
+    }
+
+    // validate location record (Room, Institution, City, State, Country)
+    const image_room = document.getElementById("image_room").value.trim();
+    const image_institution = document.getElementById("image_institution").value.trim();
+    const image_city = document.getElementById("image_city").value.trim();
+    const image_state = document.getElementById("image_state").value.trim();
+    const image_country = document.getElementById("image_country").value.trim();
+
+    if (!image_room || !image_institution|| !image_city || !image_state || !image_country) {
+    alert("❌ Please fill out Room, Institution, City, State/Province, and Country for Location Record.");
+    return;
+    }
 
     const parseBoolOrNull = (val) => {
     if (!val) return null; // empty → null
@@ -237,7 +259,7 @@ const fieldsToValidate = [
   { id: 'notes', type: 'string', required: false, label: 'Notes' },
   { id: 'owner_contact', type: 'string', required: false, label: 'Owner Contact' },
   { id: 'location_record', type: 'text', required: true, label: 'Location Record' },
-  { id: 'vectorized', type: 'boolean', required: true, label: 'Vectorized' },
+  { id: 'vectorized', type: 'text', required: true, label: 'Vectorized' },
   { id: 'recording_gain', type: 'number', required: false, label: 'Recording Gain' },
 
   // ─── CDWP_LOCATION ───
@@ -426,7 +448,17 @@ let formatCode = (formatRaw === 'other')
 const phaseMarkings = parseBoolOrNull(document.getElementById('phase_markings').value);
 const occlusions = parseBoolOrNull(document.getElementById('occlusions').value);
 const signal = parseBoolOrNull(document.getElementById('signal').value);
-const vectorized = parseBoolOrNull(document.getElementById('vectorized').value);
+
+const vectorizedRaw = document.getElementById('vectorized').value.trim().toLowerCase();
+let vectorized;
+
+if (vectorizedRaw === "true") {
+  vectorized = true;
+} else if (vectorizedRaw === "false") {
+  vectorized = false;
+} else {
+  vectorized = null;
+}
 
 const timemarkRaw = document.getElementById('timemark').value;
 let timemark = null;
