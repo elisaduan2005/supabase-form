@@ -7,12 +7,20 @@
       const resultBox = document.getElementById('Result');  // element to display error message
 
 
-      const toNullableBool = (val) => {
-  if (!val) return null;         // empty → null
-  if (val.toLowerCase() === 'true') return true;
-  if (val.toLowerCase() === 'false') return false;
-  return null;                   // "unknown" or any other → null
-};
+    const parseBoolOrNull = (val) => {
+    if (!val) return null; // empty → null
+    const lower = val.toLowerCase();
+    if (lower === "true") return true;
+    if (lower === "false") return false;
+    return null; // unknown → null
+    };
+
+    const parseTextWithUnknown = (val, allowed = []) => {
+    if (!val) return "unknown";
+    const lower = val.toLowerCase();
+    if (allowed.includes(lower)) return lower;
+    return "unknown"; // default if it's not in the allowed set
+    };
 
       async function loadNetworkCodes() {
     const { data, error } = await client.from('network').select('network_code');
@@ -414,55 +422,35 @@ let formatCode = (formatRaw === 'other')
 // Convert dropdowns to null/unknown for fields that are not required
 
 // ---- IMAGE TABLE ----
-const phaseMarkingsRaw = document.getElementById('phase_markings').value?.toLowerCase();
-let phaseMarkings = null;
 
-if (phaseMarkingsRaw === "true") phaseMarkings = true;
-else if (phaseMarkingsRaw === "false") phaseMarkings = false;
-else phaseMarkings = null;
-
-const occlusionsRaw = document.getElementById('occlusions').value;
-let occlusions = occlusionsRaw === "True" ? true : occlusionsRaw === "False" ? false : null;
-
-const signalRaw = document.getElementById('signal').value;
-let signal = signalRaw === "True" ? true : signalRaw === "False" ? false : null;
+const phaseMarkings = parseBoolOrNull(document.getElementById('phase_markings').value);
+const occlusions = parseBoolOrNull(document.getElementById('occlusions').value);
+const signal = parseBoolOrNull(document.getElementById('signal').value);
+const vectorized = parseBoolOrNull(document.getElementById('vectorized').value);
 
 const timemarkRaw = document.getElementById('timemark').value;
-let timemark;
+let timemark = null;
 
-if (timemarkRaw === "Positive") {
-  timemark = "positive";
-} else if (timemarkRaw === "Negative") {
-  timemark = "negative";
-} else if (timemarkRaw === "Null") {
-  timemark = "null";
-} else {
-  timemark = "unknown";
+if (timemarkRaw) {
+  const lower = timemarkRaw.toLowerCase();
+  if (lower === "null") {
+    timemark = null;
+  } else if (["positive", "negative", "unknown"].includes(lower)) {
+    timemark = lower;
+  } else {
+    timemark = "unknown";
+  }
 }
 
-
-const vectorizedRaw = document.getElementById('vectorized').value;
-let vectorized = null; // default to null
-
-if (vectorizedRaw === "True") vectorized = true;
-else if (vectorizedRaw === "False") vectorized = false;
-else vectorized = null;
 
 // ---- DATA TABLE ----
 
-const polarityRaw = document.getElementById('polarity').value;
-let polarity;
+const polarity = parseTextWithUnknown(
+  document.getElementById('polarity').value,
+  ["up", "down", "unknown"]
+);
 
-if (polarityRaw === "Up") {
-  polarity = "up";
-} else if (polarityRaw === "Down") {
-  polarity = "down";
-} else {
-  polarity = "unknown";
-}
-if (!polarityRaw) {
-  polarity = "unknown";
-}
+
 
 // ---- CDWP_image TABLE ----
 
@@ -476,6 +464,8 @@ if (sideRaw === "0") {
 } else {
   side = "unknown";
 }
+
+
 
 // ───────── INSERTION ──────────
 // note: need to follow database schema
