@@ -274,18 +274,22 @@ for (let field of fieldsToValidate) {
   const el = document.getElementById(field.id);
   if (!el) continue;
 
-  if (field.id === 'longitude' || field.id === 'latitude') {
-    const val = parseFloat(raw);
-    const min = (field.id === 'longitude') ? -180 : -90;
-    const max = (field.id === 'longitude') ? 180 : 90;
+  let raw = el.value?.trim();
 
-    if (isNaN(val) || val < min || val > max) {
-        alert(`❌ ${field.label} must be a float between ${min} and ${max}.`);
-        return;
-    }
+  if (field.id === 'longitude' || field.id === 'latitude') {
+  const val = parseFloat(raw);
+  if (isNaN(val)) {
+    alert(`❌ ${field.label} must be a numeric value.`);
+    return;
+  }
+  const min = (field.id === 'longitude') ? -180 : -90;
+  const max = (field.id === 'longitude') ? 180 : 90;
+  if (val < min || val > max) {
+    alert(`❌ ${field.label} must be a float between ${min} and ${max}.`);
+    return;
+  }
 }
 
-  let raw = el.value?.trim();
   // Handle custom network code
 if (field.id === 'network_code' && raw === 'other') {
   raw = document.getElementById('custom_network_code')?.value.trim() || '';
@@ -476,8 +480,6 @@ const polarity = parseTextWithUnknown(
   document.getElementById('polarity').value,
   ["up", "down", "unknown"]
 );
-
-
 
 // ---- CDWP_image TABLE ----
 
