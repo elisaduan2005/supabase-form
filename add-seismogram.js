@@ -216,7 +216,7 @@ const fieldsToValidate = [
   { id: 'time_correction', type: 'number', required: false, label: 'Time Correction' },
   { id: 'data_notes', type: 'text', required: false, label: 'Notes' },
   { id: 'source_of_info', type: 'text', required: false, label: 'Source of Information' },
-  { id: 'data_creation', type: 'date', required: false, label: 'Date Creation' },
+  { id: 'date_creation', type: 'date', required: false, label: 'Date Creation' },
 
   // ─── IMAGE ───
   { id: 'date_scanned', type: 'date', required: false, label: 'Date Scanned' },
@@ -377,7 +377,7 @@ let stationCode = (stationCodeRaw === 'other')
   : stationCodeRaw;
 
 const siteName = `${document.getElementById("city").value}, ${document.getElementById("state").value}, ${document.getElementById("country").value}`;
-const location_record = `${document.getElementById("image_room").value},${document.getElementById("image_institution").value},${document.getElementById("image_city").value}, ${document.getElementById("image_state").value}, ${document.getElementById("image_country").value}`;
+const location_record = `${document.getElementById("image_room").value}, ${document.getElementById("image_institution").value}, ${document.getElementById("image_city").value}, ${document.getElementById("image_state").value}, ${document.getElementById("image_country").value}`;
 // ---- LOCATION TABLE ----
 let sensorRaw = document.getElementById('sensor').value;
 let sensorCode = (sensorRaw === 'other')
@@ -682,7 +682,7 @@ if (imageInsertSkipped) {
 // ─── INSERT CDWP_LOCATION TABLE ───
 let CDWP_locationInsertSkipped = false;
 const { error: CDWP_locationError } = await client.from('cdwp_location').insert([{
-box_id: document.getElementById("box_id").value,
+box_id: parseInt(document.getElementById("box_id").value),
 start_date: document.getElementById("start_date")?.value || null,
 end_date: document.getElementById("end_date")?.value || null,
 container: document.getElementById("container")?.value || null,
@@ -711,7 +711,7 @@ if (CDWP_locationError) {
 let CDWP_imageInsertSkipped = false;
 const { error: CDWP_imageError } = await client.from('cdwp_image').insert([{
 image_id: imageId,
-box_id: document.getElementById("box_id").value,
+box_id: parseInt(document.getElementById("box_id").value),
 station_code_local: document.getElementById("station_code_local").value,
 start_time_correction: document.getElementById("start_time_correction").value,
 end_time_correction: document.getElementById("end_time_correction").value,
@@ -796,7 +796,7 @@ const formData = {
   time_correction: document.getElementById("time_correction").value,
   data_notes: document.getElementById("data_notes").value,
   source_of_info: document.getElementById("source_of_info").value,
-  data_creation: document.getElementById("data_creation").value,
+  date_creation: document.getElementById("date_creation").value,
   // ---- IMAGE TABLE ----
   date_scanned: document.getElementById("date_scanned").value,
   DOI: document.getElementById("DOI").value,
