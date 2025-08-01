@@ -672,7 +672,6 @@ if (imageError) {
     resultBox.textContent = 'Error inserting image: ' + imageError.message;
     return;
   }
- 
 } else {
   imageId = insertedImage?.image_id || null;
 }
@@ -686,9 +685,10 @@ if (imageInsertSkipped) {
 }
 
 // ─── INSERT CDWP_LOCATION TABLE ───
+let cdwpLocationId = null;
 let CDWP_locationInsertSkipped = false;
-const { error: CDWP_locationError } = await client.from('cdwp_location').insert([{
-box_id: parseInt(document.getElementById("box_id").value),
+const { data: insertedLocation, error: CDWP_locationError } = await client.from('cdwp_location').insert([{
+box_id: parseInt(document.getElementById("box_id").value) || null,
 start_date: document.getElementById("start_date")?.value || null,
 end_date: document.getElementById("end_date")?.value || null,
 container: document.getElementById("container")?.value || null,
@@ -696,7 +696,9 @@ stack: document.getElementById("stack")?.value || null,
 previous_no: document.getElementById("previous_no")?.value || null,
 exceptions: document.getElementById("exceptions")?.value || null,
 cdwp_location_notes: document.getElementById("cdwp_location_notes")?.value || null,
-}]);
+}])
+  .select('id')
+  .single();
 
 if (CDWP_locationError) {
   const msg = CDWP_locationError.message.toLowerCase();
@@ -712,13 +714,23 @@ if (CDWP_locationError) {
     resultBox.textContent = 'Error inserting CDWP_Location: ' + CDWP_locationError.message;
     return;
   }
+} else {
+  cdwpLocationId = insertedLocation?.id || null;
 }
 
+if (CDWP_locationInsertSkipped) {
+  const { data: existingLocation } = await client
+    .from('cdwp_location')
+    .select('id')
+    .eq('box_id', parseInt(document.getElementById("box_id").value)) // only if not null
+    .maybeSingle();
+  cdwpLocationId = existingLocation?.id || null;
+}
 // ─── INSERT CDWP_IMAGE TABLE ───
 let CDWP_imageInsertSkipped = false;
 const { error: CDWP_imageError } = await client.from('cdwp_image').insert([{
 image_id: imageId,
-box_id: parseInt(document.getElementById("box_id").value),
+cdwp_location_id: cdwpLocationId,
 station_code_local: document.getElementById("station_code_local").value  || null,
 start_time_correction:parseFloat(document.getElementById("start_time_correction").value) || null,
 end_time_correction: parseFloat(document.getElementById("end_time_correction").value) || null,
@@ -838,7 +850,7 @@ const formData = {
   // ---- CDWP_IMAGE TABLE ----
   station_code_local: document.getElementById("station_code_local").value,
   start_time_correction: document.getElementById("start_time_correction").value,
-  end_time_correctio: document.getElementById("end_time_correction").value,
+  end_time_correction: document.getElementById("end_time_correction").value,
   side: document.getElementById("side").value,
   instrument_name: document.getElementById("instrument_name").value,
   cdwp_location_gain: document.getElementById("cdwp_location_gain").value,
