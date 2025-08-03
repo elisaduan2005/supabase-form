@@ -824,10 +824,23 @@ if (CDWP_imageError) {
   }
 }
 
-if (!networkError && !stationError && !locationError && !channelError && !dataError && !imageError && !CDWP_locationError && !CDWP_imageError) {
-    alert('✅ Submission complete!!!');
-    resultBox.textContent = 'Success! Your record has been added to the database.';
+let anyInserted = false; // tracks if at least one insert succeeded
 
+if (!networkError) anyInserted = true;
+if (!stationError) anyInserted = true;
+if (!locationError) anyInserted = true;
+if (!channelError) anyInserted = true;
+if (!dataError) anyInserted = true;
+if (!imageError) anyInserted = true;
+if (!CDWP_locationError) anyInserted = true;
+if (!CDWP_imageError) anyInserted = true;
+if (anyInserted) {
+    alert('✅ Submission complete!');
+    resultBox.textContent = 'Success! Your record has been added to the database successfully.';
+} else {
+    alert('❌ Submission aborted. No records were inserted.');
+    resultBox.textContent = 'Error: Submission failed. See console for details.';
+}
 
 
 // Save some of the last inputs for default next time
