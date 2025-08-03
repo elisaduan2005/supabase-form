@@ -224,7 +224,7 @@ const fieldsToValidate = [
   { id: 'a', type: 'number', required: false, label: 'a' },
   { id: 'b', type: 'number', required: false, label: 'b' },
   { id: 'd', type: 'number', required: false, label: 'd' },
-  { id: 'FDSN_time_series', type: 'number', required: false, label: 'FDSN_time_series' },
+  { id: 'FDSN_time_series', type: 'string', required: false, label: 'FDSN_time_series' },
 
 
   // ─── DATA ───
@@ -824,24 +824,27 @@ if (CDWP_imageError) {
   }
 }
 
-let anyInserted = false; // tracks if at least one insert succeeded
+let allSkipped = true;
 
-if (!networkError) anyInserted = true;
-if (!stationError) anyInserted = true;
-if (!locationError) anyInserted = true;
-if (!channelError) anyInserted = true;
-if (!dataError) anyInserted = true;
-if (!imageError) anyInserted = true;
-if (!CDWP_locationError) anyInserted = true;
-if (!CDWP_imageError) anyInserted = true;
+if (!networkError && !networkInsertSkipped) { anyInserted = true; allSkipped = false; }
+if (!stationError && !stationInsertSkipped) { anyInserted = true; allSkipped = false; }
+if (!locationError && !locationInsertSkipped) { anyInserted = true; allSkipped = false; }
+if (!channelError && !channelInsertSkipped) { anyInserted = true; allSkipped = false; }
+if (!dataError && !dataInsertSkipped) { anyInserted = true; allSkipped = false; }
+if (!imageError && !imageInsertSkipped) { anyInserted = true; allSkipped = false; }
+if (!CDWP_locationError && !CDWP_locationInsertSkipped) { anyInserted = true; allSkipped = false; }
+if (!CDWP_imageError && !CDWP_imageInsertSkipped) { anyInserted = true; allSkipped = false; }
+
 if (anyInserted) {
     alert('✅ Submission complete!');
-    resultBox.textContent = 'Success! Your record has been added to the database successfully.';
+    resultBox.textContent = 'Success! Record was inserted successfully.';
+} else if (allSkipped) {
+    alert('⚠️ Submission failed: All records already exist (skipped).');
+    resultBox.textContent = 'Warning: All inserts were skipped because the records already exist.';
 } else {
     alert('❌ Submission aborted. No records were inserted.');
     resultBox.textContent = 'Error: Submission failed. See console for details.';
 }
-
 
 // Save some of the last inputs for default next time
 const formData = {
@@ -900,7 +903,7 @@ const formData = {
   DOI: document.getElementById("DOI").value,
   resolution: document.getElementById("resolution").value,
   custom_resolution: document.getElementById("custom_resolution").value,
-  location_record: document.getElementById("location_record").value,
+  location_record: location_record,
   format: document.getElementById("format").value,
   custom_format: document.getElementById("custom_format").value,
   length: document.getElementById("length").value,
@@ -946,6 +949,6 @@ setTimeout(() => {
 }, 500); // reload after 0.5s
 
 
-     } });
+     });
     });
 
