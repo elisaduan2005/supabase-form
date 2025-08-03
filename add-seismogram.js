@@ -21,57 +21,74 @@
     if (allowed.includes(lower)) return lower;
     return "unknown"; // default if it's not in the allowed set
     };
+    
+    async function loadNetworkCodes() {
+  const { data, error } = await client.from('network').select('network_code');
+  if (error) {
+    console.error('Error loading networks:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('network_code');
+  const seen = new Set();
 
-      async function loadNetworkCodes() {
-    const { data, error } = await client.from('network').select('network_code');
-    if (error) {
-      console.error('Error loading networks:', error.message);
-      return;
-    }
-    const dropdown = document.getElementById('network_code');
-    data.forEach(row => {
+
+  Array.from(dropdown.options).forEach(opt => seen.add(opt.value));
+
+  data.forEach(row => {
+    if (row.network_code && !seen.has(row.network_code)) {
+      seen.add(row.network_code);
       const opt = document.createElement('option');
       opt.value = row.network_code;
       opt.textContent = row.network_code;
       dropdown.insertBefore(opt, dropdown.lastElementChild);
-    });
-  }
-
-  async function loadNetworkNames() {
-    const { data, error } = await client.from('network').select('network_name');
-    if (error) {
-      console.error('Error loading network names:', error.message);
-      return;
     }
-    const dropdown = document.getElementById('network_name');
-    data.forEach(row => {
+  });
+}
+
+async function loadNetworkNames() {
+  const { data, error } = await client.from('network').select('network_name');
+  if (error) {
+    console.error('Error loading network names:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('network_name');
+  const seen = new Set(Array.from(dropdown.options).map(opt => opt.value));
+
+  data.forEach(row => {
+    if (row.network_name && !seen.has(row.network_name)) {
+      seen.add(row.network_name);
       const opt = document.createElement('option');
       opt.value = row.network_name;
       opt.textContent = row.network_name;
       dropdown.insertBefore(opt, dropdown.lastElementChild);
-    });
-  }
-
-  async function loadStationCodes() {
-    const { data, error } = await client.from('station').select('station_code');
-    if (error) {
-      console.error('Error loading stations:', error.message);
-      return;
     }
-    const dropdown = document.getElementById('station_code');
-    data.forEach(row => {
+  });
+}
+
+async function loadStationCodes() {
+  const { data, error } = await client.from('station').select('station_code');
+  if (error) {
+    console.error('Error loading stations:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('station_code');
+  const seen = new Set(Array.from(dropdown.options).map(opt => opt.value));
+
+  data.forEach(row => {
+    if (row.station_code && !seen.has(row.station_code)) {
+      seen.add(row.station_code);
       const opt = document.createElement('option');
       opt.value = row.station_code;
       opt.textContent = row.station_code;
       dropdown.insertBefore(opt, dropdown.lastElementChild);
-    });
-  }
+    }
+  });
+}
 
-  // ✅ 2. CALL LOADERS IMMEDIATELY
-  loadNetworkCodes();
-  loadNetworkNames();
-  loadStationCodes();
-  
+loadNetworkCodes();
+loadNetworkNames();
+loadStationCodes();
+
         // Autofill form ONLY IF just submitted
 
       const savedData = JSON.parse(localStorage.getItem("lastSeismogramSubmission"));
@@ -271,26 +288,28 @@ const fieldsToValidate = [
 
 ];
 
+
+
 let validationPassed = true;
 let errorMessage = "";
 
-for (let field of fieldsToValidate) {
+
+  for (let field of fieldsToValidate) {
   const el = document.getElementById(field.id);
   if (!el) continue;
 
   let raw = el.value?.trim();
 
-  // required check first
-  if (!raw || raw === '') {
+  // 1. Handle required fields
+  if (!raw) {
     if (field.required) {
       validationPassed = false;
       errorMessage = `❌ ${field.label} is required.`;
       break;
     } else {
-      continue;
+      continue; // optional empty → skip validation
     }
   }
-
   // handle "other" custom inputs
   if (field.id === 'network_code' && raw === 'other') {
     raw = document.getElementById('custom_network_code')?.value.trim() || '';
@@ -341,20 +360,21 @@ for (let field of fieldsToValidate) {
       break;
     }
   }
-
-  // applies to required and optional non-empty fields
   switch (field.type) {
     case 'number':
-      if (isNaN(raw)) {
-        validationPassed = false;
-        errorMessage = `❌ ${field.label} must be a numeric value (e.g., 123.45).`;
-      }
-      break;
+  // even if optional, check that it's a valid number when user typed something
+  if (raw !== "" && isNaN(Number(raw))) {
+    validationPassed = false;
+    errorMessage = `❌ ${field.label} must be a numeric value (e.g., 123.45).`;
+    break;
+  }
+  break;
 
     case 'date':
       if (isNaN(Date.parse(raw))) {
         validationPassed = false;
-        errorMessage = `❌ ${field.label} must be a valid date.`;
+        errorMessage = `❌ ${field.label} must be a valid date (YYYY-MM-DD).`;
+        break;
       }
       break;
 
@@ -362,6 +382,7 @@ for (let field of fieldsToValidate) {
       if (!['true', 'false', 'unknown'].includes(raw.toLowerCase())) {
         validationPassed = false;
         errorMessage = `❌ ${field.label} must be either true, false, or unknown.`;
+        break;
       }
       break;
 
@@ -369,12 +390,13 @@ for (let field of fieldsToValidate) {
     case 'text':
       if (typeof raw !== 'string') {
         validationPassed = false;
-        errorMessage = `❌ ${field.label} must be a text value.`;
+        errorMessage = `❌ ${field.label} must be text.`;
+        break;
       }
       break;
   }
 
-  if (!validationPassed) break;
+  if (!validationPassed) break; // stop on first error
 }
 
 // stop submission if validation fails
@@ -603,7 +625,7 @@ const { error: channelError } = await client.from('channel').insert([{
   a: parseFloat(document.getElementById('a')?.value) || null,
   b: parseFloat(document.getElementById('b')?.value) || null,
   d: parseFloat(document.getElementById('d')?.value) || null,
-  FDSN_time_series: document.getElementById("FDSN_time_series").value
+  FDSN_time_series: fdsn_identifier
 }]);
 
 if (channelError) {
