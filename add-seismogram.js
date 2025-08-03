@@ -85,9 +85,140 @@ async function loadStationCodes() {
   });
 }
 
+
+async function loadSensors() {
+  const { data, error } = await client.from('location').select('sensor');
+  if (error) {
+    console.error('Error loading sensors:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('sensor');
+  const seen = new Set(Array.from(dropdown.options).map(opt => opt.value));
+
+  data.forEach(row => {
+    if (row.sensor && !seen.has(row.sensor)) {
+      seen.add(row.sensor);
+      const opt = document.createElement('option');
+      opt.value = row.sensor;
+      opt.textContent = row.sensor;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    }
+  });
+}
+
+
+async function loadPhysicalLocations() {
+  const { data, error } = await client.from('data').select('physical_location');
+  if (error) {
+    console.error('Error loading physical locations:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('physical_location');
+  const seen = new Set(Array.from(dropdown.options).map(opt => opt.value));
+
+  data.forEach(row => {
+    if (row.physical_location && !seen.has(row.physical_location)) {
+      seen.add(row.physical_location);
+      const opt = document.createElement('option');
+      opt.value = row.physical_location;
+      opt.textContent = row.physical_location;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    }
+  });
+}
+
+
+async function loadRecordingNatures() {
+  const { data, error } = await client.from('image').select('recording_nature');
+  if (error) {
+    console.error('Error loading recording natures:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('recording_nature');
+  const seen = new Set(Array.from(dropdown.options).map(opt => opt.value));
+
+  data.forEach(row => {
+    if (row.recording_nature && !seen.has(row.recording_nature)) {
+      seen.add(row.recording_nature);
+      const opt = document.createElement('option');
+      opt.value = row.recording_nature;
+      opt.textContent = row.recording_nature;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    }
+  });
+}
+
+
+async function loadResolutions() {
+  const { data, error } = await client.from('image').select('resolution');
+  if (error) {
+    console.error('Error loading resolutions:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('resolution');
+  const seen = new Set(Array.from(dropdown.options).map(opt => opt.value));
+
+  data.forEach(row => {
+    if (row.resolution && !seen.has(row.resolution)) {
+      seen.add(row.resolution);
+      const opt = document.createElement('option');
+      opt.value = row.resolution;
+      opt.textContent = row.resolution;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    }
+  });
+}
+
+
+async function loadFormats() {
+  const { data, error } = await client.from('image').select('format');
+  if (error) {
+    console.error('Error loading formats:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('format');
+  const seen = new Set(Array.from(dropdown.options).map(opt => opt.value));
+
+  data.forEach(row => {
+    if (row.format && !seen.has(row.format)) {
+      seen.add(row.format);
+      const opt = document.createElement('option');
+      opt.value = row.format;
+      opt.textContent = row.format;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    }
+  });
+}
+
+async function loadRecordingTypes() {
+  const { data, error } = await client.from('image').select('recording_type');
+  if (error) {
+    console.error('Error loading recording types:', error.message);
+    return;
+  }
+  const dropdown = document.getElementById('recording_type');
+  const seen = new Set(Array.from(dropdown.options).map(opt => opt.value));
+
+  data.forEach(row => {
+    if (row.recording_type && !seen.has(row.recording_type)) {
+      seen.add(row.recording_type);
+      const opt = document.createElement('option');
+      opt.value = row.recording_type;
+      opt.textContent = row.recording_type;
+      dropdown.insertBefore(opt, dropdown.lastElementChild);
+    }
+  });
+}
+
 loadNetworkCodes();
 loadNetworkNames();
 loadStationCodes();
+loadSensors();
+loadPhysicalLocations();
+loadRecordingNatures();
+loadResolutions();
+loadFormats();
+loadRecordingTypes();
 
         // Autofill form ONLY IF just submitted
 
