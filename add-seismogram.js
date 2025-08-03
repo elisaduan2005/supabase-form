@@ -344,7 +344,6 @@ let errorMessage = "";
     if (!raw) { validationPassed = false; errorMessage = '❌ Please enter a custom format (4 letters).'; break; }
   }
 
-  // special check for longitude/latitude
   if (field.id === 'longitude' || field.id === 'latitude') {
     const val = parseFloat(raw);
     if (isNaN(val)) {
@@ -359,7 +358,8 @@ let errorMessage = "";
       errorMessage = `❌ ${field.label} must be between ${min} and ${max}.`;
       break;
     }
-  }
+    continue;
+}
   switch (field.type) {
     case 'number':
   // even if optional, check that it's a valid number when user typed something
@@ -543,6 +543,7 @@ if (networkError) {
     console.warn("Network already exists, skipping insert.");
     networkInsertSkipped = true;
   } else {
+    alert("❌ Network Insert Error: " + networkError.message);
     console.error("Network Insert Error:", networkError); // full error object
     resultBox.textContent = 'Error inserting network: ' + networkError.message;
     return;
@@ -568,6 +569,7 @@ if (stationError) {
     console.warn("Station already exists, skipping insert.");
     stationInsertSkipped = true;
   } else {
+    alert("❌ Station Insert Error: " + stationError.message);
     console.error("Station Insert Error:", stationError); // full error object
     resultBox.textContent = 'Error inserting station: ' + stationError.message;
     return;
@@ -597,6 +599,7 @@ if (locationError) {
     console.warn("Location already exists, skipping insert.");
     locationInsertSkipped = true;
   } else {
+    alert("❌ Location Insert Error: " + locationError.message);
     console.error("Location Insert Error:", locationError); // full error object
     resultBox.textContent = 'Error inserting location: ' + locationError.message;
     return;
@@ -638,6 +641,7 @@ if (channelError) {
     console.warn("Channel already exists, skipping insert.");
     channelInsertSkipped = true;
   } else {
+    alert("❌ Channel Insert Error: " + channelError.message);
     console.error("Channel Insert Error:", channelError); // full error object
     resultBox.textContent = 'Error inserting channel: ' + channelError.message;
     return;
@@ -672,6 +676,7 @@ if (dataError) {
     console.warn("Data already exists, skipping insert.");
     dataInsertSkipped = true;
   } else {
+    alert("❌ Data Insert Error: " + dataError.message);
     console.error("Data Insert Error:", dataError); // full error object
     resultBox.textContent = 'Error inserting data: ' + dataError.message;
     return;
@@ -732,6 +737,7 @@ if (imageError) {
     console.warn("Image already exists, skipping insert.");
     imageInsertSkipped = true;
   } else {
+    alert("❌ Image Insert Error: " + imageError.message);
     console.error("Image Insert Error:", imageError); // full error object
     resultBox.textContent = 'Error inserting image: ' + imageError.message;
     return;
@@ -776,6 +782,7 @@ if (CDWP_locationError) {
     console.warn("CDWP_Location already exists, skipping insert.");
     CDWP_locationInsertSkipped = true;
   } else {
+    alert("❌ CDWP_Location Insert Error: " + CDWP_locationError.message);
     console.error("CDWP_Location Insert Error:", CDWP_locationError); // full error object
     resultBox.textContent = 'Error inserting CDWP_Location: ' + CDWP_locationError.message;
     return;
@@ -818,6 +825,7 @@ if (CDWP_imageError) {
     console.warn("CDWP_Image already exists, skipping insert.");
     CDWP_imageInsertSkipped = true;
   } else {
+    alert("❌ CDWP_Image Insert Error: " + CDWP_imageError.message);
     console.error("CDWP_Image Insert Error:", CDWP_imageError);
     resultBox.textContent = 'Error inserting CDWP_Image: ' + CDWP_imageError.message;
     return;
