@@ -377,7 +377,7 @@ for (let field of fieldsToValidate) {
   if (!validationPassed) break;
 }
 
-// Stop submission if validation fails
+// stop submission if validation fails
 if (!validationPassed) {
   alert(errorMessage + "\n\n⚠️ Submission aborted. Please fix the errors and try again.");
   return;
@@ -419,6 +419,8 @@ let recordingnatureRaw = document.getElementById('recording_nature').value;
 let recordingnatureCode = (recordingnatureRaw === 'other')
   ? document.getElementById('custom_recording_nature')?.value.trim() || ''
   : recordingnatureRaw;
+
+const fdsn_identifier = `${networkCode}_${stationCode}_${document.getElementById('location_code').value.trim()}_${document.getElementById('channel_name').value.trim()}`;
 
 // ---- DATA TABLE ----
 let physicallocationRaw = document.getElementById('physical_location').value;
@@ -903,7 +905,11 @@ const formData = {
 
 localStorage.setItem("lastSeismogramSubmission", JSON.stringify(formData));
 sessionStorage.setItem("shouldAutofill", "true"); // Triggers one-time autofill on reload
-location.reload();
+//delay reload so alert always shows
+setTimeout(() => {
+  location.reload();
+}, 500); // reload after 0.5s
+
 
      } });
     });
