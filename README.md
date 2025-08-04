@@ -12,7 +12,7 @@ Our initial data collection efforts will focus on archives housed at Northwester
 Our database schema adheres to FOLDS (Federation of Online Legacy Data in Seismology), a standardized framework designed to acquire, manage, and distribute metadata and digital versions of legacy seismic data.  
 Following the 2021 meeting of the International Association of Seismology and Physics of the Earth’s Interior (IASPEI), held under the International Union of Geodesy and Geophysics (IUGG), a Proposal Review Team was formed. 
 This team included representatives from the Institute of Geophysical Research, University of Colorado Boulder, and Institut Cartogràfic i Geològic de Catalunya, and identified 18 required, 21 recommended, and 12 optional metadata elements.
-The FOLDS framework was introduced to our team through a presentation by Tim Ahern (EarthScope Emeritus) and Lorraine Hwang (UC Davis). With FOLDS as our guiding standard, we have iteratively designed our database schema over the past four weeks, incorporating feedback from Professor Susan van der Lee and Lucas Schribel, as well as external input from Ahern and Hwang.
+The FOLDS framework was introduced to our team through a presentation by Tim Ahern (EarthScope Emeritus) and Lorraine Hwang (UC Davis). With FOLDS as our guiding standard, we have iteratively designed our database schema over the past four weeks, incorporating feedback from Professor Susan van der Lee and Graduate Student Lucas Schribel, as well as external input from Ahern and Hwang.
 These efforts ensure our metadata structure is fully aligned with FOLDS and compatible with worldwide standardized frameworks.
 
 ---
