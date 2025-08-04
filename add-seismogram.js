@@ -32,11 +32,9 @@
     return null;
   }
 
-
   const filePath = `seismograms/${Date.now()}_${file.name}`;
 
-
-  const { data, error } = await supabase.storage
+  const { data, error } = await client.storage
     .from('image')
     .upload(filePath, file, {
       cacheControl: '3600',
@@ -49,13 +47,14 @@
     return null;
   }
 
-
-  const { data: publicData } = supabase.storage
+  const { data: publicData } = client.storage
     .from('image')
     .getPublicUrl(filePath);
 
-  return publicData.publicUrl; 
+  return publicData.publicUrl;
 }
+
+
 
     async function loadNetworkCodes() {
   const { data, error } = await client.from('network').select('network_code');
@@ -164,7 +163,7 @@ async function loadPhysicalLocations() {
 
 
 async function loadRecordingNatures() {
-  const { data, error } = await client.from('image').select('recording_nature');
+  const { data, error } = await client.from('channel').select('recording_nature');
   if (error) {
     console.error('Error loading recording natures:', error.message);
     return;
