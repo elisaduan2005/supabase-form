@@ -29,12 +29,12 @@ Our system consists of:
 ---
 ## Features
 - Metadata input form for submitting seismogram records following FOLDS standards
-- Viewing tables from the databse
+- Table viewer from database
 - Interactive data viewer for managing existing records  
 - Searchable database for locating records by metadata fields  
 
 ---
 ## Form
-Access the deployed site here:  
+Site:
 [https://elisaduan2005.github.io/supabase-form/](https://elisaduan2005.github.io/supabase-form/)
 
