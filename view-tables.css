@@ -28,38 +28,50 @@ a.back-home:hover {
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
-/* Headings use Times New Roman for a classic look */
-h1, h2 {
-  font-family: 'Times New Roman', Times, serif;
-  color: #222;
-}
+
 h1 {
+  font-family: 'Times New Roman', Times, serif;
   text-align: center;
   margin-bottom: 30px;
   font-size: 2rem;
-}
-h2 {
-  text-align: center;
-  margin-top: 0;
-  font-size: 1.5rem;
+  color: #222;
 }
 
-/* Card Styling */
-.card {
+h2 {
+  font-family: 'Times New Roman', Times, serif;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #222;
+}
+
+
+#tablesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+
+.table-container {
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin-bottom: 30px;
+  width: 80%;
+  max-width: 1000px;
+  box-sizing: border-box;
   transition: transform 0.2s ease-in-out;
 }
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.table-container:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-.card h2 { margin-bottom: 15px; }
 
-/* Table Styling */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -70,6 +82,7 @@ th {
   background: #333;
   color: #fff;
   padding: 8px;
+  text-align: left;
 }
 td {
   border: 1px solid #ddd;
@@ -77,9 +90,11 @@ td {
   text-align: left;
   background: #fafafa;
 }
-tr:nth-child(even) td { background: #f5f5f5; }
+tr:nth-child(even) td {
+  background: #f5f5f5;
+}
 
-/* Pagination Buttons */
+
 button {
   margin: 10px 5px 0 5px;
   padding: 6px 12px;
