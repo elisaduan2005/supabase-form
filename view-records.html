@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>View Records</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    th {
+      background: #333;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Database Records</h1>
+  <table id="recordsTable">
+    <thead>
+      <tr id="tableHeader"></tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <script src="view-records.js"></script>
+</body>
+</html>
