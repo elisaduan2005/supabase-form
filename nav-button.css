@@ -32,7 +32,7 @@ body {
 h1 {
   font-family: 'Times New Roman', Times, serif;
   font-size: 4rem;
-  color: #fff;
+  color: rgb(79, 96, 112);
   margin-bottom: 60px;
   text-align: center;
 }
@@ -55,7 +55,7 @@ h1 {
   font-size: 1rem;
   font-weight: bold;
   color: #fff;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, rgb(79, 96, 112), rgb(38, 51, 66));
   border-radius: 6px;
   text-decoration: none;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -63,7 +63,7 @@ h1 {
 }
 
 .nav-button:hover {
-  background: linear-gradient(135deg, #0056b3, #003d80);
+  background: linear-gradient(135deg, rgb(79, 96, 112), rgb(38, 51, 66));
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
