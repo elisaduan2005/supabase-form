@@ -1,12 +1,14 @@
 
 body {
+  margin: 0;
+}
+
+.center-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; 
-  min-height: 100vh;
-  margin: 0;
-  background: #fff; 
+  align-items: center;
+  min-height: 100vh; /* full screen height */
 }
 
 
