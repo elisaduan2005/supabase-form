@@ -9,7 +9,7 @@ body {
 
 a.back-home {
   display: inline-block;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   padding: 8px 16px;
   font-size: 1rem;
   font-weight: bold;
@@ -31,7 +31,7 @@ a.back-home:hover {
 h1 {
   font-family: 'Times New Roman', Times, serif;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
   font-size: 2rem;
   color: #222;
 }
@@ -98,9 +98,20 @@ tr:nth-child(even) td {
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;  
+  padding-bottom: 10px;
+}
+.row-container::-webkit-scrollbar {
+  height: 8px;
+}
+.row-container::-webkit-scrollbar-thumb {
+  background: rgba(38, 51, 66, 0.4);
+  border-radius: 4px;
+}
+.row-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(38, 51, 66, 0.6);
 }
 
 button {
