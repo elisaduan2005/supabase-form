@@ -75,9 +75,14 @@ async function renderTable(tableName, page = 0) {
 async function fetchAllTables() {
   const container = document.getElementById('tablesContainer');
   container.innerHTML = '';
-  for (const tableName of tables) {
+
+  const row = document.createElement('div');
+  row.classList.add('row-container');
+  container.appendChild(row);
+
+  for (const [index, tableName] of tables.entries()) {
     const section = document.createElement('div');
-    section.classList.add('table-container'); 
+    section.classList.add('table-container');
 
     const title = document.createElement('h2');
     title.textContent = `${tableName} Table`;
@@ -88,7 +93,12 @@ async function fetchAllTables() {
     inner.textContent = 'Loading...';
     section.appendChild(inner);
 
-    container.appendChild(section);
+    if (index < 3) {
+      row.appendChild(section);
+    } else {
+      container.appendChild(section);
+    }
+
     renderTable(tableName, 0);
   }
 }

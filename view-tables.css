@@ -31,7 +31,7 @@ a.back-home:hover {
 h1 {
   font-family: 'Times New Roman', Times, serif;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   font-size: 2rem;
   color: #222;
 }
@@ -68,7 +68,7 @@ h2 {
 }
 .table-container:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgb(38, 51, 66);
+  box-shadow: 0 2px 6px rgb(38, 51, 66);
 }
 
 
@@ -79,7 +79,7 @@ table {
   font-size: 0.95rem;
 }
 th {
-  background: #333;
+  background: rgb(38, 51, 66);
   color: #fff;
   padding: 8px;
   text-align: left;
@@ -88,12 +88,20 @@ td {
   border: 1px solid #ddd;
   padding: 6px;
   text-align: left;
-  background: #fafafa;
+  background: #fff;
 }
 tr:nth-child(even) td {
-  background: #f5f5f5;
+  background: #fff;
 }
 
+.row-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
 button {
   margin: 10px 5px 0 5px;
