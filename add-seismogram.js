@@ -22,6 +22,41 @@
     return "unknown"; // default if it's not in the allowed set
     };
     
+  
+  async function uploadSeismogramImage() {
+  const fileInput = document.getElementById('image_file');
+  const file = fileInput.files[0];
+
+  if (!file) {
+    console.warn('No image file selected.');
+    return null;
+  }
+
+
+  const filePath = `seismograms/${Date.now()}_${file.name}`;
+
+
+  const { data, error } = await supabase.storage
+    .from('image')
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
+
+  if (error) {
+    console.error('Image upload failed:', error.message);
+    alert('Image upload failed: ' + error.message);
+    return null;
+  }
+
+
+  const { data: publicData } = supabase.storage
+    .from('image')
+    .getPublicUrl(filePath);
+
+  return publicData.publicUrl; 
+}
+
     async function loadNetworkCodes() {
   const { data, error } = await client.from('network').select('network_code');
   if (error) {
@@ -307,6 +342,7 @@ document.getElementById('format').addEventListener('change', () => {
 
 document.getElementById('SubmitAll').addEventListener('click', async (e) => {e.preventDefault();
 
+const uploadedImageUrl = await uploadSeismogramImage();
 
 const fieldsToValidate = [
   // ─── NETWORK ───
@@ -783,6 +819,7 @@ if (channelError) {
 let dataPid = null;
 let dataInsertSkipped = false;
 
+
 const { data: insertedData, error: dataError } = await client.from('data')
   .insert([{
     network_code: networkCode,
@@ -834,6 +871,7 @@ let imageId = null;
 let imageInsertSkipped = false;
 
 const { data: insertedImage, error: imageError } = await client.from('image').insert([{
+  image_path: uploadedImageUrl || null,
   pid: dataPid ,
   date_scanned: document.getElementById('date_scanned')?.value || null,
   DOI: document.getElementById('DOI')?.value || null,
