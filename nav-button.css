@@ -1,0 +1,18 @@
+.nav-button {
+  display: inline-block;
+  margin: 5px 10px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 5px;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+.nav-button:hover {
+  background: linear-gradient(135deg, #0056b3, #003d80);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
