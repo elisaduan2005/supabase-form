@@ -1,0 +1,101 @@
+
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background: #fafafa;
+  margin: 20px;
+  line-height: 1.5;
+  color: #333;
+}
+
+
+a.back-home {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+a.back-home:hover {
+  background: linear-gradient(135deg, #0056b3, #003d80);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* Headings use Times New Roman for a classic look */
+h1, h2 {
+  font-family: 'Times New Roman', Times, serif;
+  color: #222;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+h2 {
+  text-align: center;
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+/* Card Styling */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+  transition: transform 0.2s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.card h2 { margin-bottom: 15px; }
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+th {
+  background: #333;
+  color: #fff;
+  padding: 8px;
+}
+td {
+  border: 1px solid #ddd;
+  padding: 6px;
+  text-align: left;
+  background: #fafafa;
+}
+tr:nth-child(even) td { background: #f5f5f5; }
+
+/* Pagination Buttons */
+button {
+  margin: 10px 5px 0 5px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0056b3, #003d80);
+  transform: scale(1.03);
+}

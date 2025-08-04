@@ -1,0 +1,99 @@
+const SUPABASE_URL = 'https://ndysyydnaxtkwjikicoc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const tables = ['network','station','location','channel','data','image','cdwp_image','cdwp_location'];
+const pageSize = 50;
+
+async function fetchTable(tableName, page = 0) {
+  const start = page * pageSize;
+  const end = start + pageSize - 1;
+  return await client.from(tableName).select('*').range(start, end);
+}
+
+async function renderTable(tableName, page = 0) {
+  const container = document.getElementById(`table-${tableName}`);
+  container.innerHTML = '';
+  const { data, error } = await fetchTable(tableName, page);
+
+  if (error) {
+    container.innerHTML = `<p style="color:red;">Error loading ${tableName}: ${error.message}</p>`;
+    return;
+  }
+
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+
+  if (data.length > 0) {
+    Object.keys(data[0]).forEach(col => {
+      const th = document.createElement('th');
+      th.textContent = col;
+      headerRow.appendChild(th);
+    });
+  } else {
+    const th = document.createElement('th');
+    th.textContent = '(No Columns)';
+    headerRow.appendChild(th);
+  }
+
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  if (data.length > 0) {
+    data.forEach(row => {
+      const tr = document.createElement('tr');
+      Object.values(row).forEach(val => {
+        const td = document.createElement('td');
+        td.textContent = val ?? 'NULL';
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  } else {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.textContent = 'No data found.';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+
+  table.appendChild(tbody);
+  container.appendChild(table);
+
+  const nav = document.createElement('div');
+  const prev = document.createElement('button');
+  prev.textContent = 'Previous';
+  prev.disabled = page === 0;
+  prev.onclick = () => renderTable(tableName, page - 1);
+  const next = document.createElement('button');
+  next.textContent = 'Next';
+  next.disabled = data.length < pageSize;
+  next.onclick = () => renderTable(tableName, page + 1);
+  nav.appendChild(prev);
+  nav.appendChild(next);
+  container.appendChild(nav);
+}
+
+async function fetchAllTables() {
+  const container = document.getElementById('tablesContainer');
+  container.innerHTML = '';
+  for (const tableName of tables) {
+    const section = document.createElement('div');
+    section.classList.add('card');
+    const title = document.createElement('h2');
+    title.textContent = `Table: ${tableName}`;
+    section.appendChild(title);
+
+    const inner = document.createElement('div');
+    inner.id = `table-${tableName}`;
+    inner.textContent = 'Loading...';
+    section.appendChild(inner);
+
+    container.appendChild(section);
+    renderTable(tableName, 0);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', fetchAllTables);
