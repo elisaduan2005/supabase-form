@@ -76,11 +76,7 @@ async function fetchAllTables() {
   const container = document.getElementById('tablesContainer');
   container.innerHTML = '';
 
-  const row = document.createElement('div');
-  row.classList.add('row-container');
-  container.appendChild(row);
-
-  for (const [index, tableName] of tables.entries()) {
+  for (const tableName of tables) { 
     const section = document.createElement('div');
     section.classList.add('table-container');
 
@@ -93,13 +89,7 @@ async function fetchAllTables() {
     inner.textContent = 'Loading...';
     section.appendChild(inner);
 
-    if (index < 3) {
-      row.appendChild(section);
-    } else {
-      container.appendChild(section);
-    }
-
-    renderTable(tableName, 0);
+    container.appendChild(section);
   }
 }
 
