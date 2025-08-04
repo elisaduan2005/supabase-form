@@ -77,7 +77,7 @@ async function fetchAllTables() {
   container.innerHTML = '';
   for (const tableName of tables) {
     const section = document.createElement('div');
-    section.classList.add('table-container'); // ✅ matches form card style
+    section.classList.add('table-container'); 
 
     const title = document.createElement('h2');
     title.textContent = `Table: ${tableName}`;

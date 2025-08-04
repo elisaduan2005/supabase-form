@@ -14,7 +14,7 @@ a.back-home {
   font-size: 1rem;
   font-weight: bold;
   color: #fff;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, rgb(79, 96, 112), rgb(38, 51, 66));
   border: none;
   border-radius: 5px;
   text-decoration: none;
@@ -22,7 +22,7 @@ a.back-home {
   transition: all 0.3s ease;
 }
 a.back-home:hover {
-  background: linear-gradient(135deg, #0056b3, #003d80);
+  background: linear-gradient(135deg, rgb(79, 96, 112), rgb(38, 51, 66));
   transform: translateY(-1px);
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
