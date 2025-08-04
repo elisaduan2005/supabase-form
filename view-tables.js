@@ -90,6 +90,7 @@ async function fetchAllTables() {
     section.appendChild(inner);
 
     container.appendChild(section);
+    renderTable(tableName);
   }
 }
 
