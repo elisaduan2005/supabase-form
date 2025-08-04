@@ -76,7 +76,7 @@ h2 {
 .table-container table {
   display: block;
   overflow-x: auto;
-  min-width: 500px;
+  min-width: 1000px;
   max-width: 100%;
   white-space: nowrap; 
 }
