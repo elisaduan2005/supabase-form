@@ -1,6 +1,23 @@
 
 body {
   margin: 0;
+  background: url('IMG_6066.JPG') repeat center center;
+  background-size: cover;
+  font-family: 'Times New Roman', Times, serif;
+  animation: moveBackground 30s linear infinite;
+}
+
+/* Animation that slowly moves the background */
+@keyframes moveBackground {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .center-wrapper {
