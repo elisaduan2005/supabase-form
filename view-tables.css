@@ -3,6 +3,7 @@
   max-width: 1000px;
   display: flex;
   justify-content: flex-start;
+  align-self: flex-start;
   margin-bottom: 5px;     
 }
 
