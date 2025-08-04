@@ -80,7 +80,7 @@ async function fetchAllTables() {
     section.classList.add('table-container'); 
 
     const title = document.createElement('h2');
-    title.textContent = `Table: ${tableName}`;
+    title.textContent = `${tableName} Table`;
     section.appendChild(title);
 
     const inner = document.createElement('div');

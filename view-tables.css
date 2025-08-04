@@ -31,7 +31,7 @@ a.back-home:hover {
 h1 {
   font-family: 'Times New Roman', Times, serif;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   font-size: 2rem;
   color: #222;
 }
@@ -58,16 +58,17 @@ h2 {
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 8px rgb(38, 51, 66);
   padding: 20px;
-  width: 80%;
-  max-width: 1000px;
+  width: auto;           
+  max-width: none; 
+  display: inline-block;
   box-sizing: border-box;
   transition: transform 0.2s ease-in-out;
 }
 .table-container:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgb(38, 51, 66);
 }
 
 
@@ -97,7 +98,7 @@ tr:nth-child(even) td {
 button {
   margin: 10px 5px 0 5px;
   padding: 6px 12px;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, rgb(79, 96, 112), rgb(38, 51, 66));
   color: white;
   border: none;
   border-radius: 5px;
@@ -110,6 +111,6 @@ button:disabled {
   cursor: not-allowed;
 }
 button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #0056b3, #003d80);
+  background: linear-gradient(135deg, rgb(79, 96, 112), rgb(38, 51, 66));
   transform: scale(1.03);
 }
