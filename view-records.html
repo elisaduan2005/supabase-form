@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>View All Tables</title>
+  <title>View All Records</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
@@ -20,27 +20,22 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keXN5eWRuYXh0a3dqaWtpY29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNTQsImV4cCI6MjA2NzE1NjI1NH0.9LN1walCptD8bJkULcFjL2arqc4Ih-Rf3CRTJJ7_eyg';
     const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const tables = [
-      'network','station','location','channel','data','image','cdwp_image','cdwp_location'
-    ];
+    const tables = ['network','station','location','channel','data','image','cdwp_image','cdwp_location'];
     const pageSize = 50;
 
     async function fetchTable(tableName, page = 0) {
       const start = page * pageSize;
       const end = start + pageSize - 1;
-      const { data, error } = await client.from(tableName).select('*').range(start, end);
-      return { data: data || [], error };
+      return await client.from(tableName).select('*').range(start, end);
     }
 
     async function renderTable(tableName, page = 0) {
       const container = document.getElementById(`table-${tableName}`);
       container.innerHTML = '';
       const { data, error } = await fetchTable(tableName, page);
+
       if (error) {
-        const err = document.createElement('p');
-        err.style.color = 'red';
-        err.textContent = `Error loading ${tableName}: ${error.message}`;
-        container.appendChild(err);
+        container.innerHTML = `<p style="color:red;">Error loading ${tableName}: ${error.message}</p>`;
         return;
       }
 
@@ -101,13 +96,15 @@
       container.innerHTML = '';
       for (const tableName of tables) {
         const section = document.createElement('div');
-        section.style.marginBottom = '40px';
         const title = document.createElement('h2');
         title.textContent = `Table: ${tableName}`;
         section.appendChild(title);
+
         const inner = document.createElement('div');
         inner.id = `table-${tableName}`;
+        inner.textContent = 'Loading...';
         section.appendChild(inner);
+
         container.appendChild(section);
         renderTable(tableName, 0);
       }
