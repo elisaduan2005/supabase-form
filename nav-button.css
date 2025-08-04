@@ -1,10 +1,21 @@
 
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  min-height: 100vh;
+  margin: 0;
+  background: #fff; 
+}
+
+
 h1 {
   font-family: 'Times New Roman', Times, serif;
-  text-align: center;
   font-size: 2rem;
   color: #222;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 
@@ -12,19 +23,13 @@ h1 {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;             
-  justify-content: center;   
-  gap: 15px;         
-}
-
-
-.button-row li {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 
 .nav-button {
-  display: inline-block;
   min-width: 220px;
   text-align: center;
   padding: 10px 20px;
