@@ -38,11 +38,3 @@ Our system consists of:
 Access the deployed site here:  
 [https://elisaduan2005.github.io/supabase-form/](https://elisaduan2005.github.io/supabase-form/)
 
-
-Enter metadata into the submission form and click Submit
-
-(Planned) Manage records through the view/edit interface
-
-(Plann
-
-
